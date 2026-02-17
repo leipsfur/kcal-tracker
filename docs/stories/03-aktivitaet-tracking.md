@@ -36,7 +36,7 @@ Als Nutzer möchte ich eine Aktivität über eine Vorlage erfassen, damit ich h�
 - Nutzer wählt eine Vorlage aus einer Liste
 - Vorlagen sind nach Kategorie gruppiert und durchsuchbar
 - kcal-Wert ist vorausgefüllt, aber anpassbar
-- Eintrag wird dem heutigen Tag zugeordnet
+- Eintrag wird dem aktuell im Dashboard gewählten Tag zugeordnet (Standard: heute)
 - Kategorie wird von der Vorlage übernommen
 
 ## US-0305: Aktivität manuell erfassen
@@ -45,8 +45,18 @@ Als Nutzer möchte ich eine Aktivität auch ohne Vorlage manuell erfassen, damit
 
 **Akzeptanzkriterien:**
 - Name, kcal und Kategorie sind Pflichtfelder
-- Eintrag wird dem heutigen Tag zugeordnet
+- Eintrag wird dem aktuell im Dashboard gewählten Tag zugeordnet (Standard: heute)
 - Validierung: Name nicht leer, kcal > 0
+
+## US-0308: Aktivitäts-Eintrag bearbeiten
+
+Als Nutzer möchte ich einen bestehenden Aktivitäts-Eintrag bearbeiten, damit ich Fehleingaben korrigieren kann, ohne den Eintrag löschen und neu erstellen zu müssen.
+
+**Akzeptanzkriterien:**
+- Alle Felder des Eintrags können bearbeitet werden (Name, kcal, Kategorie)
+- Das Datum des Eintrags kann nicht geändert werden
+- Tagesbilanz wird sofort aktualisiert
+- Validierung wie bei der Erstellung (Name nicht leer, kcal > 0)
 
 ## US-0306: Aktivitäts-Eintrag löschen
 

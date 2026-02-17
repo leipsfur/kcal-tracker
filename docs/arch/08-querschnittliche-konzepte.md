@@ -39,8 +39,11 @@
 - **Tageswechsel um 00:00 Uhr** (Mitternacht, Systemzeitzone)
 - `LocalDate` als Datumstyp für Einträge
 - Room TypeConverter für `LocalDate` ↔ `Long` (Epoch Day)
-- Queries filtern nach `date = :today` mit `LocalDate.now()`
-- Kein manuelles Datum-Setzen durch den Nutzer (Einträge werden immer "heute" zugeordnet)
+- Dashboard hat ein **selektiertes Datum** (Standard: `LocalDate.now()`)
+- Queries filtern nach `date = :selectedDate`
+- Nutzer kann über Datumspfeile zu vergangenen Tagen navigieren
+- Einträge für vergangene Tage können nachträglich hinzugefügt, bearbeitet und gelöscht werden
+- **Keine Einträge für zukünftige Tage** erlaubt (Validierung im ViewModel)
 
 ## Portionsberechnung
 
@@ -48,3 +51,26 @@
 - Bei Erfassung wird die Menge als Multiplikator verwendet
 - Berechnung: `kcal_eintrag = vorlage.kcal * (menge / vorlage.portionSize)`
 - Gleiches Prinzip für Makros (Protein, Kohlenhydrate, Fett)
+
+## Portionseinheiten
+
+- Vordefinierte Liste gängiger Einheiten: **g**, **ml**, **Stück**, **Scheibe**, **Portion**, **EL** (Esslöffel), **TL** (Teelöffel)
+- Wird in `FoodTemplate.portionUnit` als String gespeichert
+- Auswahl über Dropdown bei Vorlagenerstellung (kein Freitext)
+- Liste ist im Code als Konstante definiert (nicht in DB), Erweiterung durch App-Update
+
+## Negativer Kalorienstand
+
+- Wenn `Übrig < 0` (Aufnahme übersteigt TDEE), wird der Wert **rot** dargestellt
+- Zusätzlich zum Farbwechsel wird ein **Minus-Zeichen** angezeigt (Barrierefreiheit: Farbe allein reicht nicht)
+- Kein Blocking oder Warndialog – der Nutzer wird informiert, nicht bevormundet
+- Im Widget wird bei negativem Stand ebenfalls der Minus-Wert angezeigt
+
+## Barrierefreiheit
+
+- Alle Icons und interaktiven Elemente erhalten eine `contentDescription`
+- Mindest-Touch-Target: 48dp (Material 3 Standard)
+- Farbkontraste nach WCAG AA (4.5:1 für normalen Text, 3:1 für großen Text)
+- Informationen werden nie ausschließlich über Farbe vermittelt
+- Eingabefelder verwenden sichtbare Labels (nicht nur Placeholder/Hint)
+- TalkBack-kompatible Navigation durch semantische Compose-Modifier

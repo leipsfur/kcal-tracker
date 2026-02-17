@@ -39,7 +39,7 @@ Als Nutzer möchte ich Essen über eine Vorlage erfassen, damit ich häufig gege
 - Vorlagen sind nach Kategorie gruppiert und durchsuchbar
 - Portionsmenge ist vorausgefüllt (Standard: 1 Portion), aber anpassbar
 - kcal und Makros werden proportional zur Menge berechnet
-- Eintrag wird dem heutigen Tag zugeordnet
+- Eintrag wird dem aktuell im Dashboard gewählten Tag zugeordnet (Standard: heute)
 - Kategorie wird von der Vorlage übernommen
 
 ## US-0205: Essen manuell erfassen
@@ -49,8 +49,18 @@ Als Nutzer möchte ich Essen auch ohne Vorlage manuell erfassen, damit ich auch 
 **Akzeptanzkriterien:**
 - Name, kcal und Kategorie sind Pflichtfelder
 - Makros (Protein, Kohlenhydrate, Fett) sind optional
-- Eintrag wird dem heutigen Tag zugeordnet
+- Eintrag wird dem aktuell im Dashboard gewählten Tag zugeordnet (Standard: heute)
 - Validierung: Name nicht leer, kcal > 0
+
+## US-0208: Essen-Eintrag bearbeiten
+
+Als Nutzer möchte ich einen bestehenden Essen-Eintrag bearbeiten, damit ich Fehleingaben korrigieren kann, ohne den Eintrag löschen und neu erstellen zu müssen.
+
+**Akzeptanzkriterien:**
+- Alle Felder des Eintrags können bearbeitet werden (Name, kcal, Menge, Kategorie, Makros)
+- Das Datum des Eintrags kann nicht geändert werden
+- Tagesbilanz wird sofort aktualisiert
+- Validierung wie bei der Erstellung (Name nicht leer, kcal > 0)
 
 ## US-0206: Essen-Eintrag löschen
 

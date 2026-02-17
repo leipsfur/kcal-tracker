@@ -4,12 +4,19 @@ Kalorienzähler-App für Android. Offline-first, kein Backend.
 
 ## Build & Run
 
+**WSL-Umgebung** (JAVA_HOME und ANDROID_HOME müssen gesetzt werden):
+
 ```bash
+export JAVA_HOME=/usr/lib/jvm/java-25
+export ANDROID_HOME=/mnt/c/Users/darky/AppData/Local/Android/Sdk
+
 ./gradlew assembleDebug          # Debug-APK bauen
 ./gradlew test                   # Unit Tests
 ./gradlew connectedAndroidTest   # Instrumented Tests
 ./gradlew lint                   # Lint-Prüfung
 ```
+
+**Hinweis**: Der Gradle-Build unter WSL funktioniert nur eingeschränkt, da die Android SDK Build-Tools Windows-Binaries sind. Für vollständige Builds Android Studio oder PowerShell verwenden.
 
 ## Tech Stack
 

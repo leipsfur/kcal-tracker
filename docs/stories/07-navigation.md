@@ -21,3 +21,27 @@ Als Nutzer möchte ich, dass die App dem Material You Design-System folgt und si
 - Typografie folgt Material 3 Type Scale
 - Komponenten nutzen Material 3 Compose-Komponenten (TopAppBar, FAB, Cards, etc.)
 - Dark Mode wird unterstützt (System-Einstellung)
+
+## US-0703: Screen-interne Navigation
+
+Als Nutzer möchte ich, dass Dialoge und Unterseiten innerhalb der Screens konsistent und vorhersehbar funktionieren, damit die Bedienung intuitiv bleibt.
+
+**Akzeptanzkriterien:**
+- Vorlage erstellen/bearbeiten: Dialog oder Bottom Sheet (kein eigener Screen)
+- Essen/Aktivität erfassen über Vorlage: Bottom Sheet mit Vorlagenauswahl und Mengenanpassung
+- Essen/Aktivität manuell erfassen: Dialog mit Eingabeformular
+- Eintrag bearbeiten: Gleicher Dialog wie beim Erstellen, vorausgefüllt mit bestehenden Werten
+- Kategorie verwalten: Eigener Unter-Screen (erreichbar über Essen-/Aktivitäts-Screen)
+- Bestätigungsdialoge: AlertDialog für destruktive Aktionen (Löschen)
+- System-Back-Button schließt Dialoge/Sheets, navigiert nicht zwischen Tabs
+
+## US-0704: Barrierefreiheit
+
+Als Nutzer möchte ich, dass die App grundlegende Barrierefreiheitsstandards einhält, damit sie auch mit Einschränkungen bedienbar ist.
+
+**Akzeptanzkriterien:**
+- Alle interaktiven Elemente haben eine Content Description (für Screen Reader / TalkBack)
+- Mindest-Touch-Target von 48dp für alle tippbaren Elemente
+- Farbkontraste erfüllen WCAG AA (Mindestkontrast 4.5:1 für Text)
+- Informationen werden nicht ausschließlich über Farbe vermittelt (z. B. "Übrig" negativ: zusätzlich Minus-Zeichen, nicht nur Rot)
+- Eingabefelder haben sichtbare Labels (nicht nur Placeholder-Text)

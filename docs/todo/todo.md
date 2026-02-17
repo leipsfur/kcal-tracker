@@ -1,30 +1,30 @@
 # Implementierungs-Todos
-mayb
+
 ## Phase 1: Projektstruktur
 
-- [ ] Room-Dependency in `libs.versions.toml` und `build.gradle.kts` hinzufügen
-- [ ] KSP-Plugin für Room hinzufügen
-- [ ] Navigation Compose Dependency hinzufügen
-- [ ] Glance (Widget) Dependency hinzufügen
-- [ ] Paketstruktur anlegen (`data/db`, `data/repository`, `ui/*`, `widget`)
-- [ ] `KcalTrackApplication`-Klasse erstellen und in `AndroidManifest.xml` registrieren
-- [ ] Theme-Setup prüfen (Dynamic Colors, Dark Mode Fallback)
+- [x] Room-Dependency in `libs.versions.toml` und `build.gradle.kts` hinzufügen
+- [x] KSP-Plugin für Room hinzufügen
+- [x] Navigation Compose Dependency hinzufügen
+- [x] Glance (Widget) Dependency hinzufügen
+- [x] Paketstruktur anlegen (`data/db`, `data/repository`, `ui/*`, `widget`)
+- [x] `KcalTrackApplication`-Klasse erstellen und in `AndroidManifest.xml` registrieren
+- [x] Theme-Setup prüfen (Dynamic Colors, Dark Mode Fallback)
 
 ## Phase 2: Datenschicht
 
-- [ ] Room Entities erstellen: `FoodTemplate`, `FoodEntry`, `ActivityTemplate`, `ActivityEntry`, `WeightEntry`, `FoodCategory`, `ActivityCategory`, `UserSettings`
-- [ ] DAOs erstellen: `FoodTemplateDao`, `FoodEntryDao`, `ActivityTemplateDao`, `ActivityEntryDao`, `WeightEntryDao`, `FoodCategoryDao`, `ActivityCategoryDao`, `UserSettingsDao`
-- [ ] `KcalTrackDatabase` erstellen (RoomDatabase)
-- [ ] Initiale Kategorien per `RoomDatabase.Callback` einfügen (Essen: Frühstück, Mittagessen, Abendessen, Snack, Alkohol; Aktivität: Cardio, Krafttraining, Alltag)
-- [ ] Repositories erstellen: `FoodRepository`, `ActivityRepository`, `WeightRepository`, `SettingsRepository`
-- [ ] Manuelle DI: Database- und Repository-Instanzen in `KcalTrackApplication` bereitstellen
+- [x] Room Entities erstellen: `FoodTemplate`, `FoodEntry`, `ActivityTemplate`, `ActivityEntry`, `WeightEntry`, `FoodCategory`, `ActivityCategory`, `UserSettings` <!-- verified by ai-factory, iteration 2 -->
+- [x] DAOs erstellen: `FoodTemplateDao`, `FoodEntryDao`, `ActivityTemplateDao`, `ActivityEntryDao`, `WeightEntryDao`, `FoodCategoryDao`, `ActivityCategoryDao`, `UserSettingsDao` <!-- verified by ai-factory, iteration 2 -->
+- [x] `KcalTrackDatabase` erstellen (RoomDatabase) <!-- verified by ai-factory, iteration 2 -->
+- [x] Initiale Kategorien per `RoomDatabase.Callback` einfügen (Essen: Frühstück, Mittagessen, Abendessen, Snack, Alkohol; Aktivität: Cardio, Krafttraining, Alltag) <!-- verified by ai-factory, iteration 2 -->
+- [x] Repositories erstellen: `FoodRepository`, `ActivityRepository`, `WeightRepository`, `SettingsRepository` <!-- verified by ai-factory, iteration 2 -->
+- [x] Manuelle DI: Database- und Repository-Instanzen in `KcalTrackApplication` bereitstellen <!-- verified by ai-factory, iteration 2 -->
 
 ## Phase 3: Navigation
 
-- [ ] Bottom Navigation Bar implementieren (5 Tabs: Dashboard, Essen, Aktivität, Gewicht, Einstellungen)
-- [ ] `NavHost` mit Routes für alle Screens einrichten
-- [ ] Placeholder-Screens für alle 5 Tabs erstellen
-- [ ] Icons und Labels für Navigation Tabs definieren
+- [x] Bottom Navigation Bar implementieren (5 Tabs: Dashboard, Essen, Aktivität, Gewicht, Einstellungen) <!-- verified by ai-factory, iteration 1 -->
+- [x] `NavHost` mit Routes für alle Screens einrichten <!-- verified by ai-factory, iteration 1 -->
+- [x] Placeholder-Screens für alle 5 Tabs erstellen <!-- verified by ai-factory, iteration 1 -->
+- [x] Icons und Labels für Navigation Tabs definieren <!-- verified by ai-factory, iteration 1 -->
 
 ## Phase 4: Einstellungen (US-0501, US-0502)
 

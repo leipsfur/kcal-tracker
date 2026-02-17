@@ -20,3 +20,6 @@
 | **DAO** | Data Access Object – Interface das die SQL-Queries für eine Entity definiert. |
 | **Flow** | Kotlin Coroutines Flow – asynchroner Datenstrom, der bei Änderungen automatisch neue Werte emittiert. |
 | **StateFlow** | Spezieller Flow der immer einen aktuellen Wert hat. Wird für UI-State in ViewModels verwendet. |
+| **Portionseinheit** | Vordefinierte Einheit für Portionsgrößen: g, ml, Stück, Scheibe, Portion, EL (Esslöffel), TL (Teelöffel). |
+| **Selektiertes Datum** | Das aktuell im Dashboard gewählte Datum. Standard ist heute, kann aber auf vergangene Tage gewechselt werden. Bestimmt, welchem Tag neue Einträge zugeordnet werden. |
+| **Barrierefreiheit** | Maßnahmen zur Bedienbarkeit der App für Menschen mit Einschränkungen (Screen Reader, Farbkontraste, Touch-Targets). |
