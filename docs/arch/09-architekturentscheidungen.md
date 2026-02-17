@@ -80,3 +80,22 @@
 - Paketstruktur bietet genug Separation
 
 **Konsequenz:** Bei signifikantem Wachstum könnte eine Aufspaltung in `:data`, `:domain`, `:ui`-Module sinnvoll werden.
+
+## ADR-06: Grundumsatz als periodische Zeitreihe
+
+**Status:** Akzeptiert
+
+**Kontext:** Ein globaler Grundumsatz-Wert führt bei Änderungen zu rückwirkend veränderten historischen kcal-Differenzen.
+
+**Entscheidung:** Grundumsatz wird als `BmrPeriod(startDate, bmr)` modelliert. Für Berechnungen gilt `bmrForDate(d)` als Periode mit größtem `startDate <= d`. Liegt `d` vor der ersten Periode, gilt die früheste Periode rückwirkend.
+
+**Begründung:**
+- Historische Auswertungen bleiben stabil und nachvollziehbar
+- Dashboard, Widget und Auswertungen nutzen eine einheitliche Regel
+- Startdatums-basierte Pflege ist für Nutzer verständlich und ausreichend flexibel
+
+**Alternativen verworfen:**
+- Globaler Singleton-BMR: Einfach, aber historisch inkonsistent
+- Start-/Enddatum pro Periode: explizit, aber höherer UI- und Validierungsaufwand
+
+**Konsequenz:** Datenmodell, DAO-Queries und Tests müssen datumsspezifische BMR-Auflösung abbilden.

@@ -3,9 +3,10 @@
 ## Persistenz
 
 - **Room** als einzige Persistenzschicht
-- Alle Entities mit `@Entity`-Annotation, auto-generierte IDs (`@PrimaryKey(autoGenerate = true)`)
+- Alle Datenobjekte sind als Room-Entities modelliert; je nach Fall mit auto-generierter ID oder fachlichem Schlüssel (z. B. `BmrPeriod.startDate`)
 - DAOs liefern `Flow<T>` für reaktive Aktualisierung
-- `UserSettings` als Singleton-Entity (feste ID = 1)
+- Grundumsatz wird als Zeitreihe in `BmrPeriod(startDate, bmr)` gespeichert
+- `UserSettings` bleibt Singleton-Entity (feste ID = 1) für sonstige Einstellungen
 - Schema-Migrationen bei Änderungen definieren (keine `fallbackToDestructiveMigration`)
 - Initiale Kategorien werden über `RoomDatabase.Callback.onCreate()` eingefügt
 
@@ -44,6 +45,14 @@
 - Nutzer kann über Datumspfeile zu vergangenen Tagen navigieren
 - Einträge für vergangene Tage können nachträglich hinzugefügt, bearbeitet und gelöscht werden
 - **Keine Einträge für zukünftige Tage** erlaubt (Validierung im ViewModel)
+
+## Grundumsatz-Periodenlogik
+
+- Grundumsatz wird als offene Intervalle modelliert: gültig ab `startDate` bis zur nächsten Periode
+- Berechnungsregel: `bmrForDate(d) = bmr` der Periode mit größtem `startDate <= d`
+- Fallback für frühe Tage: wenn `d` vor der ersten Periode liegt, gilt die früheste bekannte Periode rückwirkend
+- Alle Bilanzberechnungen (Dashboard, Widget, Auswertungen) verwenden dieselbe Regel
+- Eine spätere Änderung erzeugt eine neue Periode und verändert vergangene Tagesbilanzen nicht rückwirkend
 
 ## Portionsberechnung
 

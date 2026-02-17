@@ -48,6 +48,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -55,6 +56,7 @@ import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.FoodCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodTemplate
 import de.leipsfur.kcal_track.domain.model.PortionUnit
+import de.leipsfur.kcal_track.ui.UiTestTags
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -218,7 +220,9 @@ fun FoodEntryDialog(
                     onValueChange = onNameChanged,
                     label = { Text(stringResource(R.string.food_entry_name)) },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(UiTestTags.FOOD_ENTRY_NAME_INPUT)
                 )
 
                 OutlinedTextField(
@@ -227,7 +231,9 @@ fun FoodEntryDialog(
                     label = { Text(stringResource(R.string.food_entry_kcal)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(UiTestTags.FOOD_ENTRY_KCAL_INPUT)
                 )
 
                 OutlinedTextField(
@@ -290,7 +296,10 @@ fun FoodEntryDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onSave) {
+            TextButton(
+                onClick = onSave,
+                modifier = Modifier.testTag(UiTestTags.FOOD_ENTRY_SAVE_BUTTON)
+            ) {
                 Text(stringResource(R.string.save))
             }
         },

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
 import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
-import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.repository.ActivityRepository

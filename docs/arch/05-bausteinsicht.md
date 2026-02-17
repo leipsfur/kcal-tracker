@@ -35,7 +35,7 @@
 | `FoodScreen` | `ui/food/` | Essen erfassen, Vorlagen verwalten |
 | `ActivityScreen` | `ui/activity/` | Aktivitäten erfassen, Vorlagen verwalten |
 | `WeightScreen` | `ui/weight/` | Gewicht erfassen, Diagramm, Liste |
-| `SettingsScreen` | `ui/settings/` | Grundumsatz eingeben |
+| `SettingsScreen` | `ui/settings/` | Grundumsatz-Perioden erfassen und ändern |
 
 ### ViewModel Layer
 
@@ -45,7 +45,7 @@
 | `FoodViewModel` | Vorlagen-CRUD, Einträge erfassen/bearbeiten/löschen, Kategorien verwalten |
 | `ActivityViewModel` | Vorlagen-CRUD, Einträge erfassen/bearbeiten/löschen, Kategorien verwalten |
 | `WeightViewModel` | Gewicht erfassen/löschen, Verlaufsdaten laden |
-| `SettingsViewModel` | Grundumsatz laden/speichern |
+| `SettingsViewModel` | Grundumsatz-Perioden laden/speichern, Startdatum-Validierung |
 
 ### Data Layer – Entities
 
@@ -58,7 +58,8 @@
 | `WeightEntry` | Gewichtseintrag (Datum, Gewicht in kg) |
 | `FoodCategory` | Essen-Kategorie (Name, Sortierreihenfolge) |
 | `ActivityCategory` | Aktivitäts-Kategorie (Name, Sortierreihenfolge) |
-| `UserSettings` | Benutzereinstellungen (Grundumsatz) |
+| `BmrPeriod` | Grundumsatz-Periode (`startDate`, `bmr`) |
+| `UserSettings` | Benutzereinstellungen (app-weite Defaults, ohne BMR-Historie) |
 
 ### Data Layer – DAOs
 
@@ -71,7 +72,8 @@
 | `WeightEntryDao` | CRUD, alle Einträge sortiert nach Datum, Eintrag nach Datum |
 | `FoodCategoryDao` | CRUD, sortiert nach sortOrder |
 | `ActivityCategoryDao` | CRUD, sortiert nach sortOrder |
-| `UserSettingsDao` | Get/Update Singleton |
+| `BmrPeriodDao` | Upsert Periode nach `startDate`, gültige Periode für Datum (`startDate <= :date`), früheste Periode |
+| `UserSettingsDao` | Get/Update Singleton für sonstige Einstellungen |
 
 ### Data Layer – Repositories
 
@@ -80,4 +82,4 @@
 | `FoodRepository` | Vorlagen + Einträge + Kategorien für Essen |
 | `ActivityRepository` | Vorlagen + Einträge + Kategorien für Aktivitäten |
 | `WeightRepository` | Gewichtseinträge |
-| `SettingsRepository` | Benutzereinstellungen (Grundumsatz) |
+| `SettingsRepository` | Benutzereinstellungen + BMR-Perioden (`upsertBmrPeriod`, `getBmrForDate`) |

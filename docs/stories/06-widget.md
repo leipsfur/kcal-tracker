@@ -5,9 +5,9 @@
 Als Nutzer möchte ich ein Homescreen-Widget sehen, das mir die verbleibenden Kalorien für heute anzeigt, damit ich ohne App-Öffnung meinen Status kenne.
 
 **Akzeptanzkriterien:**
-- Widget zeigt verbleibende kcal an: `Übrig = Grundumsatz + Σ Aktivität - Σ Aufnahme`
+- Widget zeigt verbleibende kcal an: `Übrig = bmrForDate(heute) + Σ Aktivität - Σ Aufnahme`
 - Widget aktualisiert sich bei Änderungen in der App
-- Widget zeigt einen Hinweis, wenn kein Grundumsatz eingestellt ist
+- Widget zeigt einen Hinweis, wenn keine Grundumsatz-Periode gespeichert ist
 - Design folgt Material You / Glance-Richtlinien
 - Widget ist resizeable
 

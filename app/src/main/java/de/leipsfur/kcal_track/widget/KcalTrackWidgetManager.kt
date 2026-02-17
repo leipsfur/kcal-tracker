@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import androidx.datastore.preferences.core.*
 import de.leipsfur.kcal_track.KcalTrackApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,9 +42,11 @@ object KcalTrackWidgetManager {
 
             glanceIds.forEach { glanceId ->
                 updateAppWidgetState(context, definition = PreferencesGlanceStateDefinition, glanceId = glanceId) { prefs ->
-                    prefs[KcalTrackWidget.remainingKcalKey] = remaining
-                    prefs[KcalTrackWidget.targetKcalKey] = tdee
-                    prefs[KcalTrackWidget.intakeKcalKey] = foodKcal
+                    prefs.toMutablePreferences().apply {
+                        this[KcalTrackWidget.remainingKcalKey] = remaining
+                        this[KcalTrackWidget.targetKcalKey] = tdee
+                        this[KcalTrackWidget.intakeKcalKey] = foodKcal
+                    }
                 }
                 KcalTrackWidget().update(context, glanceId)
             }

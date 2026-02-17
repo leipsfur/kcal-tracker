@@ -63,8 +63,8 @@ Qualität
 
 | Aspekt | Beschreibung |
 |--------|-------------|
-| Stimulus | Nutzer hat Grundumsatz (2000), Aktivität (500), Aufnahme (1800) |
-| Reaktion | TDEE = 2500, Übrig = 700 |
+| Stimulus | Nutzer hat gültige BMR-Periode (2000), Aktivität (500), Aufnahme (1800) |
+| Reaktion | TDEE = 2500, Übrig = 700 auf Basis von `bmrForDate(selektiertes Datum)` |
 | Metrik | Berechnung ist mathematisch korrekt, keine Rundungsfehler |
 
 ### QS-06: Offline-Betrieb
@@ -90,3 +90,11 @@ Qualität
 | Stimulus | Nutzer mit Seheinschränkung verwendet TalkBack |
 | Reaktion | Alle Elemente werden korrekt vorgelesen, Navigation ist möglich |
 | Metrik | Alle interaktiven Elemente haben contentDescription, Touch-Targets ≥ 48dp |
+
+### QS-09: Historische Stabilität bei BMR-Änderung
+
+| Aspekt | Beschreibung |
+|--------|-------------|
+| Stimulus | Am 2026-02-17 wird ein neuer BMR für heute gespeichert; für 2026-02-16 existiert bereits eine Tagesbilanz |
+| Reaktion | Bilanz für 2026-02-16 bleibt unverändert, Bilanz für 2026-02-17 nutzt den neuen BMR |
+| Metrik | 0 rückwirkende Änderungen auf bereits abgeschlossenen Tagen |

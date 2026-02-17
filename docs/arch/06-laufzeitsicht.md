@@ -100,5 +100,34 @@ System          DashboardViewModel    FoodRepository    ActivityRepository
 1. Datum wechselt um Mitternacht
 2. ViewModel verwendet `LocalDate.now()` als Filter
 3. Queries liefern leere Listen für den neuen Tag
-4. Dashboard zeigt TDEE = Grundumsatz (keine Aktivitäten)
+4. Dashboard zeigt TDEE = `bmrForDate(heute)` (keine Aktivitäten)
 5. Daten des Vortags bleiben in der DB erhalten
+
+## Szenario 4: Grundumsatz-Periode ändern ohne Rückwirkung
+
+```
+Nutzer        SettingsScreen     SettingsViewModel   SettingsRepository    BmrPeriodDao     DashboardViewModel
+  │                │                    │                   │                   │                   │
+  │ Neuer BMR +    │                    │                   │                   │                   │
+  │ Startdatum     │                    │                   │                   │                   │
+  │───────────────→│  savePeriod()      │                   │                   │                   │
+  │                │───────────────────→│  upsertBmrPeriod()│                   │                   │
+  │                │                    │──────────────────→│  upsertByDate()   │                   │
+  │                │                    │                   │──────────────────→│                   │
+  │                │                    │                   │                   │                   │
+  │                │                    │                   │  getBmrForDate(d) │                   │
+  │                │                    │                   │←──────────────────│                   │
+  │                │                    │                   │                   │                   │
+  │                │                    │                   │                   │  recompute(d)     │
+  │                │                    │                   │───────────────────────────────────────→│
+  │                │                    │                   │                   │                   │
+  │  Historische   │                    │                   │                   │                   │
+  │  Tage stabil   │←───────────────────│                   │                   │                   │
+```
+
+**Ablauf:**
+1. Nutzer speichert einen neuen Grundumsatz mit Startdatum
+2. Repository speichert die Periode als offenes Intervall ab `startDate`
+3. Für ein Datum `d` wird immer `bmrForDate(d)` genutzt (größtes `startDate <= d`)
+4. Für Tage vor der ersten Periode gilt die früheste bekannte Periode rückwirkend
+5. Vergangene Tagesbilanzen bleiben bei späteren Änderungen fachlich stabil

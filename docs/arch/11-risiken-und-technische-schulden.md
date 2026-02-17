@@ -52,6 +52,19 @@
 - Android Auto-Backup ist als temporäre Maßnahme aktiv (Standard-Verhalten)
 - Kein Scope für v1.0 – Fokus auf Kernfunktionalität
 
+### R-05: Inkonsistente Grundumsatz-Perioden
+
+**Risiko:** Mehrere BMR-Einträge mit demselben Startdatum oder uneindeutige Auflösung können zu nicht reproduzierbaren Tagesbilanzen führen.
+
+**Eintrittswahrscheinlichkeit:** Mittel
+
+**Auswirkung:** Dashboard, Widget und Auswertungen zeigen unterschiedliche oder falsche Werte.
+
+**Maßnahmen:**
+- Eindeutige Upsert-Regel pro `startDate` (gleiches Datum überschreibt bestehende Periode)
+- Zentrale Query-Regel `bmrForDate(d)` im Repository statt verteilter UI-Logik
+- Unit- und DAO-Tests für Grenzfälle (vor erster Periode, genau auf Startdatum, zwischen zwei Perioden)
+
 ## Technische Schulden
 
 ### TS-01: Single Module

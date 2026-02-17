@@ -47,7 +47,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -486,9 +485,7 @@ private fun TemplateDialog(
                     isError = state.nameError != null,
                     supportingText = state.nameError?.let { { Text(it) } },
                     singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(UiTestTags.ACTIVITY_ENTRY_NAME_INPUT)
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -499,9 +496,7 @@ private fun TemplateDialog(
                     supportingText = state.kcalError?.let { { Text(it) } },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(UiTestTags.ACTIVITY_ENTRY_KCAL_INPUT)
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 CategoryDropdown(
@@ -514,10 +509,7 @@ private fun TemplateDialog(
             }
         },
         confirmButton = {
-            TextButton(
-                onClick = onSave,
-                modifier = Modifier.testTag(UiTestTags.ACTIVITY_ENTRY_SAVE_BUTTON)
-            ) {
+            TextButton(onClick = onSave) {
                 Text(stringResource(R.string.activity_save))
             }
         },

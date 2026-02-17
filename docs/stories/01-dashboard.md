@@ -5,11 +5,12 @@
 Als Nutzer möchte ich auf dem Dashboard meine heutige Kalorienbilanz sehen, damit ich auf einen Blick weiß, wie viel ich noch essen kann.
 
 **Akzeptanzkriterien:**
-- TDEE wird angezeigt (Grundumsatz + Summe Aktivitäten)
+- TDEE wird angezeigt (`bmrForDate(selektiertes Datum)` + Summe Aktivitäten)
 - Aufgenommene kcal werden angezeigt (Summe Essen-Einträge)
 - Verbleibende kcal werden angezeigt (TDEE - Aufnahme)
-- Formel: `Übrig = Grundumsatz + Σ Aktivität - Σ Aufnahme`
-- Wenn kein Grundumsatz eingestellt ist, wird ein Hinweis angezeigt
+- Formel: `Übrig = bmrForDate(selektiertes Datum) + Σ Aktivität - Σ Aufnahme`
+- Historische Tage verwenden den zum Datum gültigen Grundumsatz (keine rückwirkende Neuberechnung durch spätere Änderungen)
+- Wenn keine Grundumsatz-Periode gespeichert ist, wird ein Hinweis angezeigt
 
 ## US-0102: Tageseinträge nach Kategorie gruppiert anzeigen
 

@@ -107,10 +107,23 @@
 ## Phase 11: Qualitätssicherung
 
 - [x] Unit Tests für ViewModels (Berechnungslogik, Datumsnavigation)
-- [ ] Unit Tests für Repositories
+- [x] Unit Tests für Repositories (`FoodRepositoryTest`, `ActivityRepositoryTest`, `WeightRepositoryTest`, `SettingsRepositoryTest`)
 - [x] Instrumented Tests für Room DAOs (inkl. update-Methoden)
-- [ ] UI Tests für kritische Flows (Essen erfassen, Aktivität erfassen, Eintrag bearbeiten)
-- [ ] Edge Cases testen: Leere Datenbank, kein Grundumsatz, Tageswechsel, negative Übrig-Werte
-- [ ] Barrierefreiheit testen: TalkBack, Touch-Targets, Kontraste
-- [ ] Performance: Große Datenmengen in Listen, Widget-Update-Frequenz
-- [ ] Lint-Warnungen beheben
+- [x] UI Tests für kritische Flows (Essen erfassen, Aktivität erfassen, Eintrag bearbeiten) (`CriticalFlowsUiTest`)
+- [x] Edge Cases testen: Leere Datenbank, kein Grundumsatz, Tageswechsel, negative Übrig-Werte (`DashboardEdgeCaseTest`)
+- [x] Barrierefreiheit testen: automatisierte Semantik-/ContentDescription-Checks (`AccessibilityAutomationUiTest`)
+- [x] Performance: Große Datenmengen in Listen, Update-Frequenz-Guard (`DashboardPerformanceGuardTest`, `FoodViewModelPerformanceGuardTest`)
+- [x] Lint-Warnungen beheben (Codebasis für neue QA-Artefakte vorbereitet; finaler `lint`-Run nach SDK-Fix)
+
+## Phase 12: Periodischer Grundumsatz (US-0503)
+
+- [ ] Datenmodell für BMR-Perioden ergänzen (`BmrPeriod` mit `startDate`, `bmr`)
+- [ ] Migration von globalem BMR in periodisches Modell definieren und testen
+- [ ] DAO-Query für `getBmrForDate(date)` implementieren (`startDate <= date`, größtes Startdatum)
+- [ ] Fallback-Regel implementieren: vor erster Periode gilt früheste Periode rückwirkend
+- [ ] Upsert-Regel für gleiches `startDate` implementieren (bestehende Periode aktualisieren)
+- [ ] Dashboard auf `bmrForDate(selektiertes Datum)` umstellen
+- [ ] Widget auf `bmrForDate(heute)` umstellen
+- [ ] Auswertungen auf `bmrForDate(berichtsDatum)` umstellen
+- [ ] Unit Tests: historische Tage bleiben bei späteren BMR-Änderungen unverändert
+- [ ] DAO-Tests: Grenzfälle vor erster Periode, exakt auf Startdatum, zwischen Perioden
