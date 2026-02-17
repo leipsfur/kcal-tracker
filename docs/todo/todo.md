@@ -106,9 +106,9 @@
 
 ## Phase 11: Qualitätssicherung
 
-- [ ] Unit Tests für ViewModels (Berechnungslogik, Datumsnavigation)
+- [x] Unit Tests für ViewModels (Berechnungslogik, Datumsnavigation)
 - [ ] Unit Tests für Repositories
-- [ ] Instrumented Tests für Room DAOs (inkl. update-Methoden)
+- [x] Instrumented Tests für Room DAOs (inkl. update-Methoden)
 - [ ] UI Tests für kritische Flows (Essen erfassen, Aktivität erfassen, Eintrag bearbeiten)
 - [ ] Edge Cases testen: Leere Datenbank, kein Grundumsatz, Tageswechsel, negative Übrig-Werte
 - [ ] Barrierefreiheit testen: TalkBack, Touch-Targets, Kontraste
