@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -26,13 +25,11 @@ object KcalTrackWidgetManager {
             // Fetch data
             val foodKcalFlow = db.foodEntryDao().getTotalKcalForDate(today)
             val activityKcalFlow = db.activityEntryDao().getTotalKcalForDate(today)
-            val userSettingsFlow = db.userSettingsDao().get()
+            val bmrFlow = app.settingsRepository.getBmrForDate(today)
 
             val foodKcal = try { foodKcalFlow.first() } catch (e: Exception) { 0 }
             val activityKcal = try { activityKcalFlow.first() } catch (e: Exception) { 0 }
-            val settings = userSettingsFlow.firstOrNull()
-
-            val bmr = settings?.bmr ?: 0
+            val bmr = try { bmrFlow.first() } catch (e: Exception) { null } ?: 0
             val tdee = bmr + activityKcal
             val remaining = tdee - foodKcal
 

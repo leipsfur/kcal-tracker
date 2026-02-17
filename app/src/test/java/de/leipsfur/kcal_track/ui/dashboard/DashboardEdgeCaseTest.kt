@@ -2,11 +2,11 @@ package de.leipsfur.kcal_track.ui.dashboard
 
 import de.leipsfur.kcal_track.MainDispatcherRule
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
-import de.leipsfur.kcal_track.data.db.entity.UserSettings
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
 import io.mockk.every
+import io.mockk.firstArg
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +54,7 @@ class DashboardEdgeCaseTest {
             )
         )
 
-        every { settingsRepository.getSettings() } returns flowOf(null)
+        every { settingsRepository.getBmrForDate(any()) } returns flowOf(null)
         every { foodRepository.getEntriesByDate(any()) } returns flowOf(foodEntries)
 
         val viewModel = DashboardViewModel(
@@ -82,7 +82,7 @@ class DashboardEdgeCaseTest {
         val yesterday = today.minusDays(1)
         val dateFlow = MutableStateFlow(today)
 
-        every { settingsRepository.getSettings() } returns flowOf(UserSettings(id = 1, bmr = 2000))
+        every { settingsRepository.getBmrForDate(any()) } returns flowOf(2000)
         every { foodRepository.getEntriesByDate(any()) } answers {
             val requested = firstArg<LocalDate>()
             if (requested == today) {

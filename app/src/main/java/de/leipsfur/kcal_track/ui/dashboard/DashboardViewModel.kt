@@ -10,7 +10,6 @@ import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -81,6 +80,9 @@ class DashboardViewModel(
     
     private val _foodCategories = foodRepository.getAllCategories()
     private val _activityCategories = activityRepository.getAllCategories()
+    private val _bmrForSelectedDate = dateFlow.flatMapLatest { date ->
+        settingsRepository.getBmrForDate(date)
+    }
 
     // Combine data flows first
     private val _dataFlow = combine(
@@ -94,12 +96,12 @@ class DashboardViewModel(
 
     val uiState: StateFlow<DashboardUiState> = combine(
         dateFlow,
-        settingsRepository.getSettings(),
+        _bmrForSelectedDate,
         _dataFlow
-    ) { date, settings, data ->
+    ) { date, bmr, data ->
         DashboardUiState(
             selectedDate = date,
-            bmr = settings?.bmr,
+            bmr = bmr,
             foodEntries = data.foodEntries,
             activityEntries = data.activityEntries,
             foodCategories = data.foodCategories,

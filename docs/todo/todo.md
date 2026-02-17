@@ -117,13 +117,23 @@
 
 ## Phase 12: Periodischer Grundumsatz (US-0503)
 
-- [ ] Datenmodell für BMR-Perioden ergänzen (`BmrPeriod` mit `startDate`, `bmr`)
-- [ ] Migration von globalem BMR in periodisches Modell definieren und testen
-- [ ] DAO-Query für `getBmrForDate(date)` implementieren (`startDate <= date`, größtes Startdatum)
-- [ ] Fallback-Regel implementieren: vor erster Periode gilt früheste Periode rückwirkend
-- [ ] Upsert-Regel für gleiches `startDate` implementieren (bestehende Periode aktualisieren)
-- [ ] Dashboard auf `bmrForDate(selektiertes Datum)` umstellen
-- [ ] Widget auf `bmrForDate(heute)` umstellen
-- [ ] Auswertungen auf `bmrForDate(berichtsDatum)` umstellen
-- [ ] Unit Tests: historische Tage bleiben bei späteren BMR-Änderungen unverändert
-- [ ] DAO-Tests: Grenzfälle vor erster Periode, exakt auf Startdatum, zwischen Perioden
+- [x] Datenmodell für BMR-Perioden ergänzen (`BmrPeriod` mit `startDate`, `bmr`)
+- [x] Migration von globalem BMR in periodisches Modell definieren und testen
+- [x] DAO-Query für `getBmrForDate(date)` implementieren (`startDate <= date`, größtes Startdatum)
+- [x] Fallback-Regel implementieren: vor erster Periode gilt früheste Periode rückwirkend
+- [x] Upsert-Regel für gleiches `startDate` implementieren (bestehende Periode aktualisieren)
+- [x] Dashboard auf `bmrForDate(selektiertes Datum)` umstellen
+- [x] Widget auf `bmrForDate(heute)` umstellen
+- [x] Auswertungen auf `bmrForDate(berichtsDatum)` umstellen
+- [x] Unit Tests: historische Tage bleiben bei späteren BMR-Änderungen unverändert
+- [x] DAO-Tests: Grenzfälle vor erster Periode, exakt auf Startdatum, zwischen Perioden
+
+## Phase 13: Wisch-Navigation zwischen Haupt-Tabs (US-0705)
+
+- [x] App-weite Wischgeste links/rechts für Haupt-Tabs implementieren
+- [x] Route-Reihenfolge für Swipe festlegen: Dashboard → Essen → Aktivität → Gewicht → Einstellungen
+- [x] Wrap-Around an den Rändern umsetzen (Dashboard ↔ Einstellungen)
+- [x] Gemeinsame Navigationsfunktion für Bottom-Tab-Klick und Swipe verwenden
+- [x] Konfliktverhalten mit Overlays und screen-internen Tabs absichern
+- [x] UI-Tests für Swipe-Navigation ergänzen
+- [x] Story- und Architektur-Dokumentation aktualisieren

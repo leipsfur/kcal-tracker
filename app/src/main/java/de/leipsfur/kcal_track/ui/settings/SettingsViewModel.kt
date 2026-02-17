@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 data class SettingsUiState(
     val bmrInput: String = "",
@@ -27,8 +28,7 @@ class SettingsViewModel(
 
     init {
         viewModelScope.launch {
-            settingsRepository.getSettings().collect { settings ->
-                val bmr = settings?.bmr
+            settingsRepository.getBmrForDate(LocalDate.now()).collect { bmr ->
                 _uiState.update { state ->
                     state.copy(
                         savedBmr = bmr,

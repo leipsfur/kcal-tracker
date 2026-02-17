@@ -3,17 +3,18 @@ package de.leipsfur.kcal_track.ui.dashboard
 import de.leipsfur.kcal_track.MainDispatcherRule
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
-import de.leipsfur.kcal_track.data.db.entity.UserSettings
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
 import io.mockk.every
+import io.mockk.firstArg
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -41,7 +42,7 @@ class DashboardViewModelTest {
     fun setup() {
         every { foodRepository.getAllCategories() } returns flowOf(emptyList())
         every { activityRepository.getAllCategories() } returns flowOf(emptyList())
-        every { settingsRepository.getSettings() } returns flowOf(UserSettings(1, 2000))
+        every { settingsRepository.getBmrForDate(any()) } returns flowOf(2000)
         
         every { foodRepository.getEntriesByDate(any()) } returns flowOf(emptyList())
         every { activityRepository.getEntriesByDate(any()) } returns flowOf(emptyList())
@@ -113,6 +114,51 @@ class DashboardViewModelTest {
         assertEquals(100, state.totalFoodKcal)
         assertEquals(300, state.totalActivityKcal)
         assertEquals(2200, state.remainingKcal)
+    }
+
+    @Test
+    fun `historical day keeps its BMR when a later period is added`() = runTest {
+        val yesterday = LocalDate.of(2026, 2, 16)
+        val today = LocalDate.of(2026, 2, 17)
+        val dateToBmr = MutableStateFlow(
+            mapOf(
+                yesterday to 2000,
+                today to 2000
+            )
+        )
+        val dateFlow = MutableStateFlow(yesterday)
+
+        every { settingsRepository.getBmrForDate(any()) } answers {
+            val requestedDate = firstArg<LocalDate>()
+            dateToBmr.map { it[requestedDate] }
+        }
+
+        viewModel = DashboardViewModel(
+            foodRepository,
+            activityRepository,
+            settingsRepository,
+            dateFlow,
+            onDateChangedCallback
+        )
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.uiState.collect()
+        }
+
+        assertEquals(2000, viewModel.uiState.value.bmr)
+
+        // New period starts today with higher BMR; yesterday should remain untouched.
+        dateToBmr.value = mapOf(
+            yesterday to 2000,
+            today to 2200
+        )
+        assertEquals(2000, viewModel.uiState.value.bmr)
+
+        dateFlow.value = today
+        assertEquals(2200, viewModel.uiState.value.bmr)
+
+        dateFlow.value = yesterday
+        assertEquals(2000, viewModel.uiState.value.bmr)
     }
 
     @Test

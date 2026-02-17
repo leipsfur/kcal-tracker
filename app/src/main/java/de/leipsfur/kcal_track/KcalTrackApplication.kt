@@ -31,6 +31,6 @@ class KcalTrackApplication : Application() {
     }
 
     val settingsRepository: SettingsRepository by lazy {
-        SettingsRepository(database.userSettingsDao())
+        SettingsRepository(database.bmrPeriodDao())
     }
 }

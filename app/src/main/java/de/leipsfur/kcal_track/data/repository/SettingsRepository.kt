@@ -1,15 +1,18 @@
 package de.leipsfur.kcal_track.data.repository
 
-import de.leipsfur.kcal_track.data.db.dao.UserSettingsDao
-import de.leipsfur.kcal_track.data.db.entity.UserSettings
+import de.leipsfur.kcal_track.data.db.dao.BmrPeriodDao
+import de.leipsfur.kcal_track.data.db.entity.BmrPeriod
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 class SettingsRepository(
-    private val userSettingsDao: UserSettingsDao
+    private val bmrPeriodDao: BmrPeriodDao
 ) {
-    fun getSettings(): Flow<UserSettings?> = userSettingsDao.get()
+    fun getAllBmrPeriods(): Flow<List<BmrPeriod>> = bmrPeriodDao.getAll()
 
-    suspend fun updateBmr(bmr: Int) {
-        userSettingsDao.insertOrUpdate(UserSettings(id = 1, bmr = bmr))
+    fun getBmrForDate(date: LocalDate): Flow<Int?> = bmrPeriodDao.getBmrForDate(date)
+
+    suspend fun updateBmr(bmr: Int, startDate: LocalDate = LocalDate.now()) {
+        bmrPeriodDao.upsert(BmrPeriod(startDate = startDate, bmr = bmr))
     }
 }

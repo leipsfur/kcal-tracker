@@ -1,7 +1,7 @@
 package de.leipsfur.kcal_track.data.repository
 
-import de.leipsfur.kcal_track.data.db.dao.UserSettingsDao
-import de.leipsfur.kcal_track.data.db.entity.UserSettings
+import de.leipsfur.kcal_track.data.db.dao.BmrPeriodDao
+import de.leipsfur.kcal_track.data.db.entity.BmrPeriod
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -12,33 +12,35 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDate
 
 class SettingsRepositoryTest {
 
-    private val userSettingsDao = mockk<UserSettingsDao>()
+    private val bmrPeriodDao = mockk<BmrPeriodDao>()
     private lateinit var repository: SettingsRepository
 
     @Before
     fun setup() {
-        repository = SettingsRepository(userSettingsDao)
+        repository = SettingsRepository(bmrPeriodDao)
     }
 
     @Test
-    fun getSettings_returnsDaoFlow() = runTest {
-        val settings = UserSettings(id = 1, bmr = 2100)
-        every { userSettingsDao.get() } returns flowOf(settings)
+    fun getBmrForDate_returnsDaoFlow() = runTest {
+        val date = LocalDate.of(2026, 2, 17)
+        every { bmrPeriodDao.getBmrForDate(date) } returns flowOf(2100)
 
-        assertEquals(settings, repository.getSettings().first())
+        assertEquals(2100, repository.getBmrForDate(date).first())
     }
 
     @Test
-    fun updateBmr_writesSingletonSettingsRow() = runTest {
-        coEvery { userSettingsDao.insertOrUpdate(any()) } returns Unit
+    fun updateBmr_upsertsPeriodForProvidedStartDate() = runTest {
+        val startDate = LocalDate.of(2026, 2, 17)
+        coEvery { bmrPeriodDao.upsert(any()) } returns Unit
 
-        repository.updateBmr(2200)
+        repository.updateBmr(bmr = 2200, startDate = startDate)
 
         coVerify(exactly = 1) {
-            userSettingsDao.insertOrUpdate(UserSettings(id = 1, bmr = 2200))
+            bmrPeriodDao.upsert(BmrPeriod(startDate = startDate, bmr = 2200))
         }
     }
 }
