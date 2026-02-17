@@ -43,6 +43,8 @@ class ActivityRepository(
 
     suspend fun insertEntry(entry: ActivityEntry): Long = activityEntryDao.insert(entry)
 
+    suspend fun updateEntry(entry: ActivityEntry) = activityEntryDao.update(entry)
+
     suspend fun deleteEntry(entry: ActivityEntry) = activityEntryDao.delete(entry)
 
     // Categories

@@ -41,9 +41,9 @@
 
 | ViewModel | Verantwortung |
 |-----------|--------------|
-| `DashboardViewModel` | TDEE-Berechnung, Tageseinträge laden, Kategorien gruppieren |
-| `FoodViewModel` | Vorlagen-CRUD, Einträge erfassen/löschen, Kategorien verwalten |
-| `ActivityViewModel` | Vorlagen-CRUD, Einträge erfassen/löschen, Kategorien verwalten |
+| `DashboardViewModel` | Datumsnavigation, TDEE-Berechnung, Tageseinträge laden, Kategorien gruppieren |
+| `FoodViewModel` | Vorlagen-CRUD, Einträge erfassen/bearbeiten/löschen, Kategorien verwalten |
+| `ActivityViewModel` | Vorlagen-CRUD, Einträge erfassen/bearbeiten/löschen, Kategorien verwalten |
 | `WeightViewModel` | Gewicht erfassen/löschen, Verlaufsdaten laden |
 | `SettingsViewModel` | Grundumsatz laden/speichern |
 
@@ -65,9 +65,9 @@
 | DAO | Wichtige Queries |
 |-----|-----------------|
 | `FoodTemplateDao` | CRUD, nach Kategorie gruppiert, Suche nach Name |
-| `FoodEntryDao` | Einträge nach Datum, Summe kcal nach Datum, nach Kategorie gruppiert |
+| `FoodEntryDao` | CRUD, Einträge nach Datum, Summe kcal nach Datum, nach Kategorie gruppiert |
 | `ActivityTemplateDao` | CRUD, nach Kategorie gruppiert, Suche nach Name |
-| `ActivityEntryDao` | Einträge nach Datum, Summe kcal nach Datum |
+| `ActivityEntryDao` | CRUD, Einträge nach Datum, Summe kcal nach Datum |
 | `WeightEntryDao` | CRUD, alle Einträge sortiert nach Datum, Eintrag nach Datum |
 | `FoodCategoryDao` | CRUD, sortiert nach sortOrder |
 | `ActivityCategoryDao` | CRUD, sortiert nach sortOrder |

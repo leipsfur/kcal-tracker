@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -21,6 +22,9 @@ interface FoodEntryDao {
 
     @Insert
     suspend fun insert(entry: FoodEntry): Long
+
+    @Update
+    suspend fun update(entry: FoodEntry)
 
     @Delete
     suspend fun delete(entry: FoodEntry)

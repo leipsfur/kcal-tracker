@@ -39,6 +39,8 @@ class FoodRepository(
 
     suspend fun insertEntry(entry: FoodEntry): Long = foodEntryDao.insert(entry)
 
+    suspend fun updateEntry(entry: FoodEntry) = foodEntryDao.update(entry)
+
     suspend fun deleteEntry(entry: FoodEntry) = foodEntryDao.delete(entry)
 
     // Categories

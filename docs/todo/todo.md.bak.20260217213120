@@ -36,35 +36,35 @@
 
 ## Phase 4: Einstellungen (US-0501, US-0502)
 
-- [x] `SettingsViewModel` erstellen <!-- verified by ai-factory, iteration 4 -->
-- [x] `SettingsScreen` implementieren: Grundumsatz-Eingabe mit Validierung <!-- verified by ai-factory, iteration 4 -->
-- [x] Grundumsatz in `UserSettings`-Entity speichern/laden <!-- verified by ai-factory, iteration 4 -->
+- [ ] `SettingsViewModel` erstellen
+- [ ] `SettingsScreen` implementieren: Grundumsatz-Eingabe mit Validierung
+- [ ] Grundumsatz in `UserSettings`-Entity speichern/laden
 
 ## Phase 5: Essen-Tracking (US-0201–US-0208)
 
-- [x] `FoodViewModel` erstellen <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Screen: Tab/Bereich für Vorlagen-Verwaltung <!-- verified by ai-factory, iteration 1 -->
-- [x] Lebensmittel-Vorlage erstellen (Dialog mit Portionseinheit-Dropdown und Validierung) <!-- verified by ai-factory, iteration 1 -->
-- [x] Lebensmittel-Vorlage bearbeiten <!-- verified by ai-factory, iteration 1 -->
-- [x] Lebensmittel-Vorlage löschen (mit Bestätigungsdialog) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen erfassen über Vorlage (Bottom Sheet: Vorlagenauswahl, Mengenanpassung, kcal-Berechnung) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen manuell erfassen (Dialog mit Validierung) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Eintrag bearbeiten (Dialog, vorausgefüllt mit bestehenden Werten) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Eintrag löschen (mit Bestätigungsdialog) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Kategorien verwalten (Unter-Screen: hinzufügen, umbenennen, löschen, sortieren) <!-- verified by ai-factory, iteration 1 -->
+- [ ] `FoodViewModel` erstellen
+- [ ] Essen-Screen: Tab/Bereich für Vorlagen-Verwaltung
+- [ ] Lebensmittel-Vorlage erstellen (Dialog mit Portionseinheit-Dropdown und Validierung)
+- [ ] Lebensmittel-Vorlage bearbeiten
+- [ ] Lebensmittel-Vorlage löschen (mit Bestätigungsdialog)
+- [ ] Essen erfassen über Vorlage (Bottom Sheet: Vorlagenauswahl, Mengenanpassung, kcal-Berechnung)
+- [ ] Essen manuell erfassen (Dialog mit Validierung)
+- [ ] Essen-Eintrag bearbeiten (Dialog, vorausgefüllt mit bestehenden Werten)
+- [ ] Essen-Eintrag löschen (mit Bestätigungsdialog)
+- [ ] Essen-Kategorien verwalten (Unter-Screen: hinzufügen, umbenennen, löschen, sortieren)
 
 ## Phase 6: Aktivitäts-Tracking (US-0301–US-0308)
 
-- [x] `ActivityViewModel` erstellen <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Screen: Tab/Bereich für Vorlagen-Verwaltung <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Vorlage erstellen (Dialog mit Validierung) <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Vorlage bearbeiten <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Vorlage löschen (mit Bestätigungsdialog) <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivität erfassen über Vorlage (Bottom Sheet: Vorlagenauswahl, kcal anpassbar) <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivität manuell erfassen (Dialog mit Validierung) <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Eintrag bearbeiten (Dialog, vorausgefüllt mit bestehenden Werten) <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Eintrag löschen (mit Bestätigungsdialog) <!-- verified by ai-factory, iteration 5 -->
-- [x] Aktivitäts-Kategorien verwalten (Unter-Screen: hinzufügen, umbenennen, löschen, sortieren) <!-- verified by ai-factory, iteration 5 -->
+- [ ] `ActivityViewModel` erstellen
+- [ ] Aktivitäts-Screen: Tab/Bereich für Vorlagen-Verwaltung
+- [ ] Aktivitäts-Vorlage erstellen (Dialog mit Validierung)
+- [ ] Aktivitäts-Vorlage bearbeiten
+- [ ] Aktivitäts-Vorlage löschen (mit Bestätigungsdialog)
+- [ ] Aktivität erfassen über Vorlage (Bottom Sheet: Vorlagenauswahl, kcal anpassbar)
+- [ ] Aktivität manuell erfassen (Dialog mit Validierung)
+- [ ] Aktivitäts-Eintrag bearbeiten (Dialog, vorausgefüllt mit bestehenden Werten)
+- [ ] Aktivitäts-Eintrag löschen (mit Bestätigungsdialog)
+- [ ] Aktivitäts-Kategorien verwalten (Unter-Screen: hinzufügen, umbenennen, löschen, sortieren)
 
 ## Phase 7: Dashboard (US-0101–US-0104)
 

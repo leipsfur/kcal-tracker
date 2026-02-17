@@ -48,8 +48,9 @@
 **Auswirkung:** Kompletter Datenverlust.
 
 **Maßnahmen:**
-- Backup/Export-Funktion für späteres Release geplant
+- Backup/Export-Funktion für v1.1 geplant (CSV-Export der Einträge, Vorlagen und Einstellungen)
 - Android Auto-Backup ist als temporäre Maßnahme aktiv (Standard-Verhalten)
+- Kein Scope für v1.0 – Fokus auf Kernfunktionalität
 
 ## Technische Schulden
 

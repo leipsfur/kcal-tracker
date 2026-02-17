@@ -16,7 +16,7 @@ export ANDROID_HOME=/mnt/c/Users/darky/AppData/Local/Android/Sdk
 ./gradlew lint                   # Lint-Prüfung
 ```
 
-**Hinweis**: Der Gradle-Build unter WSL funktioniert nur eingeschränkt, da die Android SDK Build-Tools Windows-Binaries sind. Für vollständige Builds Android Studio oder PowerShell verwenden.
+**Hinweis**: Der Gradle-Build unter WSL funktioniert **nicht**, da die Android SDK Build-Tools Windows-Binaries sind (`.exe`). Auch `compileDebugKotlin` schlägt fehl, weil AGP die Build-Tools bereits bei der Task-Resolution prüft. **Builds müssen in Android Studio oder PowerShell ausgeführt werden.** Die ai-factory kann unter WSL keinen Build verifizieren — stattdessen manuelle Code-Review durchführen.
 
 ## Tech Stack
 
@@ -77,16 +77,22 @@ Screen (Composable) → ViewModel → Repository → DAO → Room DB
 ## Domain-Formeln
 
 ```
-TDEE = Grundumsatz + Σ(Aktivitäten des Tages)
-Übrig = TDEE - Σ(Aufnahme des Tages)
+TDEE = Grundumsatz + Σ(Aktivitäten des selektierten Tages)
+Übrig = TDEE - Σ(Aufnahme des selektierten Tages)
 ```
 
 - **Grundumsatz**: Manuell eingegeben (in kcal)
 - **Aktivität**: Einzeleinträge mit kcal-Wert
 - **Aufnahme**: Einzeleinträge mit kcal-Wert, optional mit Makros
 - **Tageswechsel**: 00:00 Uhr (Mitternacht)
+- **Selektiertes Datum**: Dashboard zeigt Standard "heute", navigierbar zu vergangenen Tagen
+- **Negativer Stand**: `Übrig < 0` wird rot + mit Minus-Zeichen dargestellt
 
-## Geplante Room-Entities
+## Portionseinheiten
+
+Vordefinierte Liste (kein Freitext): `g`, `ml`, `Stück`, `Scheibe`, `Portion`, `EL`, `TL`
+
+## Room-Entities
 
 | Entity | Felder |
 |--------|--------|

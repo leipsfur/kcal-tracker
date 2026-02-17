@@ -7,7 +7,8 @@ Qualität
 ├── Bedienbarkeit
 │   ├── Schnelle Erfassung (< 3 Taps für Vorlage)
 │   ├── Quick-Add ohne App-Öffnung
-│   └── Übersichtliches Dashboard
+│   ├── Übersichtliches Dashboard
+│   └── Nachträgliche Korrektur vergangener Tage
 ├── Zuverlässigkeit
 │   ├── Kein Datenverlust
 │   ├── Konsistente Berechnungen
@@ -16,6 +17,10 @@ Qualität
 │   ├── Flüssiges Scrollen (60 fps)
 │   ├── Schneller App-Start (< 2s)
 │   └── Widget-Update ohne Verzögerung
+├── Barrierefreiheit
+│   ├── Screen-Reader-Kompatibilität (TalkBack)
+│   ├── Ausreichende Farbkontraste (WCAG AA)
+│   └── Mindest-Touch-Targets (48dp)
 └── Offline-Fähigkeit
     └── Vollständige Funktionalität ohne Internet
 ```
@@ -69,3 +74,19 @@ Qualität
 | Stimulus | Gerät hat kein Internet |
 | Reaktion | Alle Funktionen arbeiten uneingeschränkt |
 | Metrik | 100% Feature-Verfügbarkeit offline |
+
+### QS-07: Nachträgliche Korrektur
+
+| Aspekt | Beschreibung |
+|--------|-------------|
+| Stimulus | Nutzer hat gestern vergessen, eine Mahlzeit zu tracken |
+| Reaktion | Über Datumspfeile zum Vortag navigieren und Eintrag hinzufügen |
+| Metrik | Vergangene Tage sind vollständig bearbeitbar (hinzufügen, bearbeiten, löschen) |
+
+### QS-08: Barrierefreiheit
+
+| Aspekt | Beschreibung |
+|--------|-------------|
+| Stimulus | Nutzer mit Seheinschränkung verwendet TalkBack |
+| Reaktion | Alle Elemente werden korrekt vorgelesen, Navigation ist möglich |
+| Metrik | Alle interaktiven Elemente haben contentDescription, Touch-Targets ≥ 48dp |

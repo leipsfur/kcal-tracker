@@ -7,4 +7,100 @@
     <string name="nav_activity">Aktivität</string>
     <string name="nav_weight">Gewicht</string>
     <string name="nav_settings">Einstellungen</string>
+
+    <!-- Settings -->
+    <string name="settings_bmr_label">Grundumsatz</string>
+    <string name="settings_bmr_hint">Grundumsatz eingeben</string>
+    <string name="settings_bmr_unit">kcal</string>
+    <string name="settings_bmr_current">Aktuell gespeichert: %1$d kcal</string>
+    <string name="settings_bmr_save">Speichern</string>
+    <string name="settings_bmr_saved">Grundumsatz gespeichert</string>
+
+    <!-- Activity Tracking -->
+    <string name="activity_tab_entries">Einträge</string>
+    <string name="activity_tab_templates">Vorlagen</string>
+    <string name="activity_no_entries">Noch keine Aktivitäten für diesen Tag</string>
+    <string name="activity_no_templates">Noch keine Vorlagen vorhanden</string>
+    <string name="activity_unknown_category">Unbekannt</string>
+    <string name="activity_kcal_value">%1$d kcal</string>
+    <string name="activity_kcal_label">Kalorien (kcal)</string>
+    <string name="activity_total">Gesamt</string>
+    <string name="activity_name">Name</string>
+    <string name="activity_category">Kategorie</string>
+    <string name="activity_save">Speichern</string>
+    <string name="activity_cancel">Abbrechen</string>
+    <string name="activity_delete">Löschen</string>
+    <string name="activity_edit">Bearbeiten</string>
+    <string name="activity_back">Zurück</string>
+    <string name="activity_add">Hinzufügen</string>
+    <string name="activity_ok">OK</string>
+    <string name="activity_template_create">Vorlage erstellen</string>
+    <string name="activity_template_edit">Vorlage bearbeiten</string>
+    <string name="activity_from_template">Aus Vorlage</string>
+    <string name="activity_add_manual">Manuell erfassen</string>
+    <string name="activity_entry_create">Aktivität erfassen</string>
+    <string name="activity_entry_edit">Aktivität bearbeiten</string>
+    <string name="activity_select_template">Vorlage auswählen</string>
+    <string name="activity_delete_title">Löschen bestätigen</string>
+    <string name="activity_delete_template_confirm">Vorlage \"%1$s\" wirklich löschen? Bereits erfasste Einträge bleiben erhalten.</string>
+    <string name="activity_delete_entry_confirm">Eintrag \"%1$s\" wirklich löschen?</string>
+    <string name="activity_manage_categories">Kategorien verwalten</string>
+    <string name="activity_categories_title">Aktivitäts-Kategorien</string>
+    <string name="activity_category_add">Kategorie hinzufügen</string>
+    <string name="activity_category_rename">Kategorie umbenennen</string>
+    <string name="activity_category_move_up">Nach oben</string>
+    <string name="activity_category_move_down">Nach unten</string>
+    <string name="activity_delete_category_confirm">Kategorie \"%1$s\" wirklich löschen?</string>
+    <string name="activity_category_in_use">Kategorie \"%1$s\" wird noch von %2$d Einträgen/Vorlagen verwendet und kann nicht gelöscht werden.</string>
+
+    <!-- Common -->
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="delete">Löschen</string>
+    <string name="close">Schließen</string>
+
+    <!-- Food Tracking -->
+    <string name="food_tab_entries">Einträge</string>
+    <string name="food_tab_templates">Vorlagen</string>
+    <string name="food_no_entries">Noch keine Einträge für heute</string>
+    <string name="food_no_templates">Noch keine Vorlagen erstellt</string>
+    <string name="food_add_from_template">Aus Vorlage hinzufügen</string>
+    <string name="food_manual_entry">Manuell erfassen</string>
+    <string name="food_add_template">Vorlage erstellen</string>
+    <string name="food_create_template">Vorlage erstellen</string>
+    <string name="food_edit_template">Vorlage bearbeiten</string>
+    <string name="food_delete_template">Vorlage löschen</string>
+    <string name="food_delete_template_title">Vorlage löschen</string>
+    <string name="food_delete_template_text">Möchtest du die Vorlage \"%1$s\" wirklich löschen? Bestehende Einträge bleiben erhalten.</string>
+    <string name="food_template_name">Name</string>
+    <string name="food_template_kcal">kcal</string>
+    <string name="food_template_portion_size">Portionsgröße</string>
+    <string name="food_portion_unit">Einheit</string>
+    <string name="food_macros_optional">Makros (optional)</string>
+    <string name="food_protein_short">Protein</string>
+    <string name="food_carbs_short">Kohlenh.</string>
+    <string name="food_fat_short">Fett</string>
+    <string name="food_category">Kategorie</string>
+    <string name="food_create_entry">Essen manuell erfassen</string>
+    <string name="food_edit_entry">Eintrag bearbeiten</string>
+    <string name="food_delete_entry">Eintrag löschen</string>
+    <string name="food_delete_entry_title">Eintrag löschen</string>
+    <string name="food_delete_entry_text">Möchtest du den Eintrag \"%1$s\" wirklich löschen?</string>
+    <string name="food_entry_name">Name</string>
+    <string name="food_entry_kcal">kcal</string>
+    <string name="food_entry_amount">Menge</string>
+    <string name="food_search_template">Vorlage suchen</string>
+    <string name="food_portion_count">Anzahl Portionen</string>
+    <string name="food_calculated_kcal">Berechnet: %1$d kcal</string>
+    <string name="food_change_template">Andere Vorlage</string>
+    <string name="food_add_entry">Hinzufügen</string>
+    <string name="food_manage_categories">Kategorien verwalten</string>
+    <string name="food_add_category">Kategorie hinzufügen</string>
+    <string name="food_edit_category">Kategorie bearbeiten</string>
+    <string name="food_delete_category">Kategorie löschen</string>
+    <string name="food_delete_category_title">Kategorie löschen</string>
+    <string name="food_delete_category_text">Möchtest du die Kategorie \"%1$s\" wirklich löschen?</string>
+    <string name="food_category_name">Kategoriename</string>
+    <string name="food_move_up">Nach oben</string>
+    <string name="food_move_down">Nach unten</string>
 </resources>

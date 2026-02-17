@@ -42,16 +42,16 @@
 
 ## Phase 5: Essen-Tracking (US-0201–US-0208)
 
-- [x] `FoodViewModel` erstellen <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Screen: Tab/Bereich für Vorlagen-Verwaltung <!-- verified by ai-factory, iteration 1 -->
-- [x] Lebensmittel-Vorlage erstellen (Dialog mit Portionseinheit-Dropdown und Validierung) <!-- verified by ai-factory, iteration 1 -->
-- [x] Lebensmittel-Vorlage bearbeiten <!-- verified by ai-factory, iteration 1 -->
-- [x] Lebensmittel-Vorlage löschen (mit Bestätigungsdialog) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen erfassen über Vorlage (Bottom Sheet: Vorlagenauswahl, Mengenanpassung, kcal-Berechnung) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen manuell erfassen (Dialog mit Validierung) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Eintrag bearbeiten (Dialog, vorausgefüllt mit bestehenden Werten) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Eintrag löschen (mit Bestätigungsdialog) <!-- verified by ai-factory, iteration 1 -->
-- [x] Essen-Kategorien verwalten (Unter-Screen: hinzufügen, umbenennen, löschen, sortieren) <!-- verified by ai-factory, iteration 1 -->
+- [ ] `FoodViewModel` erstellen
+- [ ] Essen-Screen: Tab/Bereich für Vorlagen-Verwaltung
+- [ ] Lebensmittel-Vorlage erstellen (Dialog mit Portionseinheit-Dropdown und Validierung)
+- [ ] Lebensmittel-Vorlage bearbeiten
+- [ ] Lebensmittel-Vorlage löschen (mit Bestätigungsdialog)
+- [ ] Essen erfassen über Vorlage (Bottom Sheet: Vorlagenauswahl, Mengenanpassung, kcal-Berechnung)
+- [ ] Essen manuell erfassen (Dialog mit Validierung)
+- [ ] Essen-Eintrag bearbeiten (Dialog, vorausgefüllt mit bestehenden Werten)
+- [ ] Essen-Eintrag löschen (mit Bestätigungsdialog)
+- [ ] Essen-Kategorien verwalten (Unter-Screen: hinzufügen, umbenennen, löschen, sortieren)
 
 ## Phase 6: Aktivitäts-Tracking (US-0301–US-0308)
 
