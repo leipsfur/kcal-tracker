@@ -30,8 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,16 +45,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
-import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
-import de.leipsfur.kcal_track.data.db.entity.FoodCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
+import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
+import de.leipsfur.kcal_track.ui.shared.KcalTrackHeader
+import de.leipsfur.kcal_track.ui.shared.KcalTrackTopBar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
-
-import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
-import de.leipsfur.kcal_track.ui.shared.KcalTrackHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,13 +67,7 @@ fun DashboardScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(R.string.nav_dashboard)) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            )
+            KcalTrackTopBar(title = stringResource(R.string.nav_dashboard))
         },
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
@@ -87,7 +77,6 @@ fun DashboardScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Date Navigation
             DateNavigation(
                 selectedDate = uiState.selectedDate,
                 onDateChanged = viewModel::onDateChanged
@@ -95,7 +84,6 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Summary Card
             SummaryCard(
                 tdee = uiState.tdee,
                 intake = uiState.totalFoodKcal,
@@ -106,14 +94,12 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Entries List
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Food Section
                 if (uiState.foodEntries.isNotEmpty()) {
                     item {
                         KcalTrackHeader(text = stringResource(R.string.dashboard_food_title))
@@ -133,25 +119,28 @@ fun DashboardScreen(
                             )
                         }
                     }
-                } else if (uiState.activityEntries.isEmpty()) { // Show empty only if both empty
+                } else if (uiState.activityEntries.isEmpty()) {
                      item {
-                        Box(modifier = Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth().padding(32.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                              Text(
-                                 text = stringResource(R.string.dashboard_no_food_entries),
-                                 style = MaterialTheme.typography.bodyMedium,
-                                 color = MaterialTheme.colorScheme.onSurfaceVariant
+                                 text = stringResource(R.string.dashboard_no_entries),
+                                 style = MaterialTheme.typography.bodyLarge,
+                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                 textAlign = TextAlign.Center
                              )
                         }
                     }
                 }
 
-                // Activity Section
                 if (uiState.activityEntries.isNotEmpty()) {
                     item {
                         Spacer(modifier = Modifier.height(16.dp))
                         KcalTrackHeader(text = stringResource(R.string.dashboard_activity_title))
                     }
-                    
+
                     if (uiState.groupedActivityEntries.isNotEmpty()) {
                          uiState.groupedActivityEntries.entries.forEach { (category, activityList) ->
                             item {
@@ -168,7 +157,6 @@ fun DashboardScreen(
                             }
                         }
                     } else {
-                        // Fallback if grouping fails or no categories loaded yet
                          items(uiState.activityEntries) { entry ->
                             EntryItem(
                                 name = entry.name,
@@ -184,7 +172,6 @@ fun DashboardScreen(
         }
     }
 
-    // Delete Dialogs
     if (foodEntryToDelete != null) {
         AlertDialog(
             onDismissRequest = { foodEntryToDelete = null },
@@ -242,7 +229,7 @@ fun DateNavigation(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = { onDateChanged(selectedDate.minusDays(1)) }) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Previous Day")
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.dashboard_previous_day))
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -266,7 +253,7 @@ fun DateNavigation(
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "Next Day",
+                contentDescription = stringResource(R.string.dashboard_next_day),
                 tint = if (isToday) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f) else MaterialTheme.colorScheme.onSurface
             )
         }
@@ -287,12 +274,16 @@ fun SummaryCard(
         ),
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            if (bmr == null) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (bmr == null || bmr == 0) {
                 Text(
                     text = stringResource(R.string.dashboard_no_bmr),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
                         .clickable { onNavigateToSettings() }
                         .padding(bottom = 8.dp)
@@ -301,23 +292,27 @@ fun SummaryCard(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.Top
             ) {
                 SummaryItem(
                     label = stringResource(R.string.dashboard_tdee),
                     value = tdee.toString(),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f)
                 )
                 SummaryItem(
                     label = stringResource(R.string.dashboard_intake),
                     value = intake.toString(),
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.weight(1f)
                 )
                 SummaryItem(
                     label = stringResource(R.string.dashboard_remaining),
                     value = remaining.toString(),
                     color = if (remaining < 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
-                    isBig = true
+                    isBig = true,
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
@@ -329,24 +324,31 @@ fun SummaryItem(
     label: String,
     value: String,
     color: Color,
+    modifier: Modifier = Modifier,
     isBig: Boolean = false
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
         )
         Text(
             text = value,
             style = if (isBig) MaterialTheme.typography.headlineMedium else MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = color
+            color = color,
+            textAlign = TextAlign.Center
         )
         Text(
-            text = "kcal",
+            text = stringResource(R.string.kcal_unit),
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -358,7 +360,8 @@ fun CategoryHeader(categoryName: String, totalKcal: Int) {
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(horizontal = 8.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = categoryName,
@@ -367,7 +370,7 @@ fun CategoryHeader(categoryName: String, totalKcal: Int) {
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
         Text(
-            text = "$totalKcal kcal",
+            text = "$totalKcal ${stringResource(R.string.kcal_unit)}",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
@@ -417,7 +420,7 @@ fun EntryItem(
                 IconButton(onClick = onDelete, modifier = Modifier.size(24.dp)) {
                     Icon(
                         Icons.Default.Delete,
-                        contentDescription = "Delete",
+                        contentDescription = stringResource(R.string.delete),
                         tint = MaterialTheme.colorScheme.error
                     )
                 }

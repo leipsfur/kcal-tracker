@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.WeightEntry
+import de.leipsfur.kcal_track.ui.shared.KcalTrackTopBar
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -42,9 +43,7 @@ fun WeightScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.weight_title)) }
-            )
+            KcalTrackTopBar(title = stringResource(R.string.weight_title))
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddDialog = true }) {

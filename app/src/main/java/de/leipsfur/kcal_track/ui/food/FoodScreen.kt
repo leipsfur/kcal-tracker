@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -25,7 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,8 +40,10 @@ import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.FoodCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.db.entity.FoodTemplate
+import de.leipsfur.kcal_track.ui.UiTestTags
 
 import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
+import de.leipsfur.kcal_track.ui.shared.KcalTrackTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,27 +56,35 @@ fun FoodScreen(
 
     Scaffold(
         modifier = modifier,
+        topBar = {
+            KcalTrackTopBar(title = stringResource(R.string.nav_food))
+        },
         floatingActionButton = {
             Column(horizontalAlignment = Alignment.End) {
                 if (!uiState.showTemplatesTab) {
-                    SmallFloatingActionButton(
-                        onClick = { viewModel.showManualEntryDialog() }
-                    ) {
-                        Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.food_manual_entry))
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
                     FloatingActionButton(
-                        onClick = { viewModel.showAddFromTemplateSheet() }
+                        onClick = { viewModel.showAddFromTemplateSheet() },
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ) {
-                        Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.food_add_from_template))
+                        Icon(
+                            Icons.AutoMirrored.Filled.List,
+                            contentDescription = stringResource(R.string.food_add_from_template)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    FloatingActionButton(
+                        onClick = { viewModel.showManualEntryDialog() },
+                        modifier = Modifier.testTag(UiTestTags.FOOD_MANUAL_ENTRY_FAB)
+                    ) {
+                        Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.food_manual_entry))
                     }
                 } else {
-                    SmallFloatingActionButton(
+                    FloatingActionButton(
                         onClick = { viewModel.showCategoryManagement() }
                     ) {
                         Icon(Icons.Filled.Category, contentDescription = stringResource(R.string.food_manage_categories))
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     FloatingActionButton(
                         onClick = { viewModel.showCreateTemplateDialog() }
                     ) {

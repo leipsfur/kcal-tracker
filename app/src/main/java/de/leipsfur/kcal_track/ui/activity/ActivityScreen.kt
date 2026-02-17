@@ -1,6 +1,6 @@
 package de.leipsfur.kcal_track.ui.activity
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,16 +53,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
 import de.leipsfur.kcal_track.data.db.entity.ActivityTemplate
-
+import de.leipsfur.kcal_track.ui.UiTestTags
 import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
-import de.leipsfur.kcal_track.ui.shared.KcalTrackHeader
+import de.leipsfur.kcal_track.ui.shared.KcalTrackTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,6 +105,9 @@ fun ActivityScreen(
 
     Scaffold(
         modifier = modifier,
+        topBar = {
+            KcalTrackTopBar(title = stringResource(R.string.nav_activity))
+        },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = {
             when (uiState.selectedTab) {
@@ -119,7 +124,8 @@ fun ActivityScreen(
                         }
                         Spacer(modifier = Modifier.height(12.dp))
                         FloatingActionButton(
-                            onClick = { viewModel.showCreateEntryDialog() }
+                            onClick = { viewModel.showCreateEntryDialog() },
+                            modifier = Modifier.testTag(UiTestTags.ACTIVITY_MANUAL_ENTRY_FAB)
                         ) {
                             Icon(
                                 Icons.Default.Add,
@@ -146,12 +152,6 @@ fun ActivityScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            Text(
-                text = stringResource(R.string.nav_activity),
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(16.dp)
-            )
-
             TabRow(
                 selectedTabIndex = if (uiState.selectedTab == ActivityTab.ENTRIES) 0 else 1
             ) {
@@ -269,15 +269,11 @@ private fun EntryList(
                 val categoryTotal = categoryEntries.sumOf { it.kcal }
 
                 item(key = "header_$categoryId") {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        KcalTrackHeader(text = categoryName ?: stringResource(R.string.activity_unknown_category))
-                        KcalTrackHeader(text = stringResource(R.string.activity_kcal_value, categoryTotal))
-                    }
+                    ActivityCategoryHeader(
+                        title = categoryName ?: stringResource(R.string.activity_unknown_category),
+                        trailingText = stringResource(R.string.activity_kcal_value, categoryTotal),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
                 }
 
                 items(categoryEntries, key = { it.id }) { entry ->
@@ -330,7 +326,10 @@ private fun EntryCard(
                 )
             }
             Row {
-                IconButton(onClick = { onEdit(entry) }) {
+                IconButton(
+                    onClick = { onEdit(entry) },
+                    modifier = Modifier.testTag(UiTestTags.ACTIVITY_ENTRY_EDIT_BUTTON)
+                ) {
                     Icon(
                         Icons.Default.Edit,
                         contentDescription = stringResource(R.string.activity_edit)
@@ -397,7 +396,10 @@ private fun TemplateList(
                 val categoryName = categoryMap[categoryId]?.name
 
                 item(key = "template_header_$categoryId") {
-                    KcalTrackHeader(text = categoryName ?: stringResource(R.string.activity_unknown_category))
+                    ActivityCategoryHeader(
+                        title = categoryName ?: stringResource(R.string.activity_unknown_category),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
                 }
 
                 items(categoryTemplates, key = { "template_${it.id}" }) { template ->
@@ -484,7 +486,9 @@ private fun TemplateDialog(
                     isError = state.nameError != null,
                     supportingText = state.nameError?.let { { Text(it) } },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(UiTestTags.ACTIVITY_ENTRY_NAME_INPUT)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -495,7 +499,9 @@ private fun TemplateDialog(
                     supportingText = state.kcalError?.let { { Text(it) } },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(UiTestTags.ACTIVITY_ENTRY_KCAL_INPUT)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 CategoryDropdown(
@@ -508,7 +514,10 @@ private fun TemplateDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onSave) {
+            TextButton(
+                onClick = onSave,
+                modifier = Modifier.testTag(UiTestTags.ACTIVITY_ENTRY_SAVE_BUTTON)
+            ) {
                 Text(stringResource(R.string.activity_save))
             }
         },
@@ -550,7 +559,9 @@ private fun EntryDialog(
                     isError = state.nameError != null,
                     supportingText = state.nameError?.let { { Text(it) } },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(UiTestTags.ACTIVITY_ENTRY_NAME_INPUT)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -561,7 +572,9 @@ private fun EntryDialog(
                     supportingText = state.kcalError?.let { { Text(it) } },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(UiTestTags.ACTIVITY_ENTRY_KCAL_INPUT)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 CategoryDropdown(
@@ -574,7 +587,10 @@ private fun EntryDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onSave) {
+            TextButton(
+                onClick = onSave,
+                modifier = Modifier.testTag(UiTestTags.ACTIVITY_ENTRY_SAVE_BUTTON)
+            ) {
                 Text(stringResource(R.string.activity_save))
             }
         },
@@ -691,7 +707,7 @@ private fun TemplateSelectionBottomSheet(
         ) {
             Text(
                 text = stringResource(R.string.activity_select_template),
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -754,7 +770,10 @@ private fun TemplateSelectionBottomSheet(
                         val categoryName = categoryMap[categoryId]?.name ?: ""
 
                         item(key = "sheet_header_$categoryId") {
-                            KcalTrackHeader(text = categoryName)
+                            ActivityCategoryHeader(
+                                title = categoryName,
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
                         }
 
                         items(categoryTemplates, key = { "sheet_${it.id}" }) { template ->
@@ -823,7 +842,7 @@ private fun CategoryManagementScreen(
             }
             Text(
                 text = stringResource(R.string.activity_categories_title),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.headlineMedium
             )
             IconButton(onClick = onAdd) {
                 Icon(
@@ -963,5 +982,37 @@ private fun CategoryManagementScreen(
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun ActivityCategoryHeader(
+    title: String,
+    modifier: Modifier = Modifier,
+    trailingText: String? = null
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            modifier = Modifier.weight(1f, fill = false)
+        )
+
+        trailingText?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
     }
 }
