@@ -1,0 +1,94 @@
+# Implementierungs-Todos
+mayb
+## Phase 1: Projektstruktur
+
+- [ ] Room-Dependency in `libs.versions.toml` und `build.gradle.kts` hinzufügen
+- [ ] KSP-Plugin für Room hinzufügen
+- [ ] Navigation Compose Dependency hinzufügen
+- [ ] Glance (Widget) Dependency hinzufügen
+- [ ] Paketstruktur anlegen (`data/db`, `data/repository`, `ui/*`, `widget`)
+- [ ] `KcalTrackApplication`-Klasse erstellen und in `AndroidManifest.xml` registrieren
+- [ ] Theme-Setup prüfen (Dynamic Colors, Dark Mode Fallback)
+
+## Phase 2: Datenschicht
+
+- [ ] Room Entities erstellen: `FoodTemplate`, `FoodEntry`, `ActivityTemplate`, `ActivityEntry`, `WeightEntry`, `FoodCategory`, `ActivityCategory`, `UserSettings`
+- [ ] DAOs erstellen: `FoodTemplateDao`, `FoodEntryDao`, `ActivityTemplateDao`, `ActivityEntryDao`, `WeightEntryDao`, `FoodCategoryDao`, `ActivityCategoryDao`, `UserSettingsDao`
+- [ ] `KcalTrackDatabase` erstellen (RoomDatabase)
+- [ ] Initiale Kategorien per `RoomDatabase.Callback` einfügen (Essen: Frühstück, Mittagessen, Abendessen, Snack, Alkohol; Aktivität: Cardio, Krafttraining, Alltag)
+- [ ] Repositories erstellen: `FoodRepository`, `ActivityRepository`, `WeightRepository`, `SettingsRepository`
+- [ ] Manuelle DI: Database- und Repository-Instanzen in `KcalTrackApplication` bereitstellen
+
+## Phase 3: Navigation
+
+- [ ] Bottom Navigation Bar implementieren (5 Tabs: Dashboard, Essen, Aktivität, Gewicht, Einstellungen)
+- [ ] `NavHost` mit Routes für alle Screens einrichten
+- [ ] Placeholder-Screens für alle 5 Tabs erstellen
+- [ ] Icons und Labels für Navigation Tabs definieren
+
+## Phase 4: Einstellungen (US-0501, US-0502)
+
+- [ ] `SettingsViewModel` erstellen
+- [ ] `SettingsScreen` implementieren: Grundumsatz-Eingabe mit Validierung
+- [ ] Grundumsatz in `UserSettings`-Entity speichern/laden
+
+## Phase 5: Essen-Tracking (US-0201–US-0207)
+
+- [ ] `FoodViewModel` erstellen
+- [ ] Essen-Screen: Tab/Bereich für Vorlagen-Verwaltung
+- [ ] Lebensmittel-Vorlage erstellen (Dialog/Screen mit Validierung)
+- [ ] Lebensmittel-Vorlage bearbeiten
+- [ ] Lebensmittel-Vorlage löschen (mit Bestätigungsdialog)
+- [ ] Essen erfassen über Vorlage (Vorlagenauswahl, Mengenanpassung, kcal-Berechnung)
+- [ ] Essen manuell erfassen (Formular mit Validierung)
+- [ ] Essen-Eintrag löschen (mit Bestätigungsdialog)
+- [ ] Essen-Kategorien verwalten (hinzufügen, umbenennen, löschen, sortieren)
+
+## Phase 6: Aktivitäts-Tracking (US-0301–US-0307)
+
+- [ ] `ActivityViewModel` erstellen
+- [ ] Aktivitäts-Screen: Tab/Bereich für Vorlagen-Verwaltung
+- [ ] Aktivitäts-Vorlage erstellen (Dialog/Screen mit Validierung)
+- [ ] Aktivitäts-Vorlage bearbeiten
+- [ ] Aktivitäts-Vorlage löschen (mit Bestätigungsdialog)
+- [ ] Aktivität erfassen über Vorlage (Vorlagenauswahl, kcal anpassbar)
+- [ ] Aktivität manuell erfassen (Formular mit Validierung)
+- [ ] Aktivitäts-Eintrag löschen (mit Bestätigungsdialog)
+- [ ] Aktivitäts-Kategorien verwalten (hinzufügen, umbenennen, löschen, sortieren)
+
+## Phase 7: Dashboard (US-0101–US-0103)
+
+- [ ] `DashboardViewModel` erstellen
+- [ ] TDEE-Berechnung: Grundumsatz + Σ Aktivitäten des Tages
+- [ ] Verbleibende kcal berechnen: TDEE - Σ Aufnahme des Tages
+- [ ] Dashboard-Screen: TDEE, Aufnahme und Übrig anzeigen
+- [ ] Tageseinträge nach Kategorie gruppiert anzeigen (mit Zwischensummen)
+- [ ] Hinweis anzeigen wenn kein Grundumsatz eingestellt
+- [ ] Tageswechsel: Dashboard zeigt immer aktuellen Tag
+
+## Phase 8: Gewichts-Tracking (US-0401–US-0404)
+
+- [ ] `WeightViewModel` erstellen
+- [ ] Gewicht-erfassen-Formular (kg, eine Dezimalstelle, Validierung)
+- [ ] Ein Eintrag pro Tag (überschreiben bei erneutem Eintrag)
+- [ ] Chronologische Liste mit Differenz zum vorherigen Eintrag
+- [ ] Liniendiagramm (Compose Canvas oder Bibliothek evaluieren)
+- [ ] Gewichts-Eintrag löschen (mit Bestätigungsdialog)
+
+## Phase 9: Widget (US-0601, US-0602)
+
+- [ ] Glance Widget erstellen: Verbleibende kcal anzeigen
+- [ ] Widget-Update bei Datenänderungen triggern
+- [ ] Quick-Add Overlay: Activity/Dialog mit Vorlagen-Liste
+- [ ] Quick-Add: Portionsmenge abfragen und Eintrag erstellen
+- [ ] Widget-Design nach Material You / Glance-Richtlinien
+
+## Phase 10: Qualitätssicherung
+
+- [ ] Unit Tests für ViewModels (Berechnungslogik)
+- [ ] Unit Tests für Repositories
+- [ ] Instrumented Tests für Room DAOs
+- [ ] UI Tests für kritische Flows (Essen erfassen, Aktivität erfassen)
+- [ ] Edge Cases testen: Leere Datenbank, kein Grundumsatz, Tageswechsel
+- [ ] Performance: Große Datenmengen in Listen, Widget-Update-Frequenz
+- [ ] Lint-Warnungen beheben
