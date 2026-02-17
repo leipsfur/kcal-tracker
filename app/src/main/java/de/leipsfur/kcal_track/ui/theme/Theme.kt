@@ -32,6 +32,8 @@ private val DarkColorScheme = darkColorScheme(
     onError = OnErrorColorDark,
     errorContainer = ErrorContainerDark,
     onErrorContainer = OnErrorContainerDark,
+    background = NeutralBackgroundDark,
+    onBackground = NeutralOnBackgroundDark,
     surface = NeutralSurfaceDark,
     onSurface = NeutralOnSurfaceDark,
     surfaceVariant = NeutralSurfaceVariantDark,
@@ -56,6 +58,8 @@ private val LightColorScheme = lightColorScheme(
     onError = OnErrorColor,
     errorContainer = ErrorContainer,
     onErrorContainer = OnErrorContainer,
+    background = NeutralBackground,
+    onBackground = NeutralOnBackground,
     surface = NeutralSurface,
     onSurface = NeutralOnSurface,
     surfaceVariant = NeutralSurfaceVariant,
@@ -83,8 +87,8 @@ fun KcaltrackTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = colorScheme.surface.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
