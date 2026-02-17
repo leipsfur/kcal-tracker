@@ -41,6 +41,8 @@ import de.leipsfur.kcal_track.data.db.entity.FoodCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.db.entity.FoodTemplate
 
+import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodScreen(
@@ -252,11 +254,11 @@ private fun FoodEntryCard(
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth().clickable { onEdit() }
+    KcalTrackCard(
+        onClick = onEdit
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
@@ -332,11 +334,11 @@ private fun FoodTemplateCard(
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth().clickable { onEdit() }
+    KcalTrackCard(
+        onClick = onEdit
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {

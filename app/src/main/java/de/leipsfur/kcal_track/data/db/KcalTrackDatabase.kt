@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
         WeightEntry::class,
         UserSettings::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -68,6 +68,7 @@ abstract class KcalTrackDatabase : RoomDatabase() {
                 "kcal_track.db"
             )
                 .addCallback(SeedDatabaseCallback())
+                .fallbackToDestructiveMigration()
                 .build()
         }
     }

@@ -55,6 +55,9 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 
+import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
+import de.leipsfur.kcal_track.ui.shared.KcalTrackHeader
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
@@ -113,12 +116,7 @@ fun DashboardScreen(
                 // Food Section
                 if (uiState.foodEntries.isNotEmpty()) {
                     item {
-                        Text(
-                            text = stringResource(R.string.dashboard_food_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        )
+                        KcalTrackHeader(text = stringResource(R.string.dashboard_food_title))
                     }
 
                     uiState.groupedFoodEntries.forEach { (category, entries) ->
@@ -129,7 +127,8 @@ fun DashboardScreen(
                             EntryItem(
                                 name = entry.name,
                                 kcal = entry.kcal,
-                                amount = entry.amount, // Using amount as specific info for food
+                                amount = entry.amount,
+                                unit = entry.portionUnit,
                                 onDelete = { foodEntryToDelete = entry }
                             )
                         }
@@ -150,12 +149,7 @@ fun DashboardScreen(
                 if (uiState.activityEntries.isNotEmpty()) {
                     item {
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = stringResource(R.string.dashboard_activity_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        )
+                        KcalTrackHeader(text = stringResource(R.string.dashboard_activity_title))
                     }
                     
                     if (uiState.groupedActivityEntries.isNotEmpty()) {
@@ -168,6 +162,7 @@ fun DashboardScreen(
                                     name = entry.name,
                                     kcal = entry.kcal,
                                     amount = null,
+                                    unit = null,
                                     onDelete = { activityEntryToDelete = entry }
                                 )
                             }
@@ -179,6 +174,7 @@ fun DashboardScreen(
                                 name = entry.name,
                                 kcal = entry.kcal,
                                 amount = null,
+                                unit = null,
                                 onDelete = { activityEntryToDelete = entry }
                             )
                         }
@@ -238,7 +234,7 @@ fun DateNavigation(
     onDateChanged: (LocalDate) -> Unit
 ) {
     val isToday = selectedDate == LocalDate.now()
-    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.GERMANY)
+    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault())
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -319,7 +315,7 @@ fun SummaryCard(
                 )
                 SummaryItem(
                     label = stringResource(R.string.dashboard_remaining),
-                    value = if (remaining < 0) remaining.toString() else remaining.toString(),
+                    value = remaining.toString(),
                     color = if (remaining < 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                     isBig = true
                 )
@@ -360,7 +356,7 @@ fun CategoryHeader(categoryName: String, totalKcal: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(horizontal = 8.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -368,12 +364,12 @@ fun CategoryHeader(categoryName: String, totalKcal: Int) {
             text = categoryName,
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSecondaryContainer
         )
         Text(
             text = "$totalKcal kcal",
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
 }
@@ -383,19 +379,12 @@ fun EntryItem(
     name: String,
     kcal: Int,
     amount: Double?,
+    unit: String?,
     onDelete: () -> Unit
 ) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    KcalTrackCard {
         Row(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -405,13 +394,13 @@ fun EntryItem(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 if (amount != null) {
+                   val amountText = if (amount == amount.toInt().toDouble()) {
+                       amount.toInt().toString()
+                   } else {
+                       "%.1f".format(Locale.getDefault(), amount)
+                   }
                    Text(
-                        text = "Menge: $amount", // Format if needed, maybe "1.5 Portionen" or so. But amount is raw Double multiplier? No, wait.
-                        // In FoodEntry, amount is the multiplier. But we don't store unit name there easily unless we fetch template.
-                        // Actually FoodEntry stores `amount`.
-                        // For simplicity, just showing nothing for now or just "x $amount" if useful.
-                        // The user story says: "Jeder Eintrag zeigt Name, Menge und kcal".
-                        // So I should show Menge.
+                        text = "Menge: $amountText ${unit ?: ""}".trim(),
                        style = MaterialTheme.typography.bodySmall,
                        color = MaterialTheme.colorScheme.onSurfaceVariant
                    )

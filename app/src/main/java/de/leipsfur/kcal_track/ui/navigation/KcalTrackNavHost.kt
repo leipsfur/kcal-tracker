@@ -1,6 +1,9 @@
 package de.leipsfur.kcal_track.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,23 +20,31 @@ import de.leipsfur.kcal_track.ui.food.FoodViewModel
 import de.leipsfur.kcal_track.ui.settings.SettingsScreen
 import de.leipsfur.kcal_track.ui.settings.SettingsViewModel
 import de.leipsfur.kcal_track.ui.weight.WeightScreen
-
+import de.leipsfur.kcal_track.ui.weight.WeightViewModel
+import de.leipsfur.kcal_track.widget.KcalTrackWidgetManager
 import de.leipsfur.kcal_track.ui.shared.DateViewModel
-import de.leipsfur.kcal_track.ui.weight.WeightViewModel // Import if needed or remove if unused yet
 
 @Composable
 fun KcalTrackNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openQuickAdd: Boolean = false
 ) {
     val application = LocalContext.current.applicationContext as KcalTrackApplication
     
     // Shared DateViewModel scoped to the activity/navhost parent
     val dateViewModel: DateViewModel = viewModel()
+    
+    val onDataChanged: () -> Unit = {
+        KcalTrackWidgetManager.updateWidget(application)
+    }
+
+    val quickAddState = rememberSaveable { mutableStateOf(openQuickAdd) }
+    val startDestination = if (openQuickAdd) NavigationRoute.Food.route else NavigationRoute.Dashboard.route
 
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Dashboard.route,
+        startDestination = startDestination,
         modifier = modifier
     ) {
         composable(NavigationRoute.Dashboard.route) {
@@ -64,9 +75,18 @@ fun KcalTrackNavHost(
                 factory = FoodViewModel.Factory(
                     application.foodRepository,
                     dateViewModel.selectedDate,
-                    dateViewModel::onDateChanged
+                    dateViewModel::onDateChanged,
+                    onDataChanged
                 )
             )
+
+            LaunchedEffect(Unit) {
+                if (quickAddState.value) {
+                    foodViewModel.showAddFromTemplateSheet()
+                    quickAddState.value = false
+                }
+            }
+
             FoodScreen(viewModel = foodViewModel)
         }
         composable(NavigationRoute.Activity.route) {
@@ -74,7 +94,8 @@ fun KcalTrackNavHost(
                 factory = ActivityViewModel.Factory(
                     application.activityRepository,
                     dateViewModel.selectedDate,
-                    dateViewModel::onDateChanged
+                    dateViewModel::onDateChanged,
+                    onDataChanged
                 )
             )
             ActivityScreen(viewModel = activityViewModel)
@@ -87,7 +108,10 @@ fun KcalTrackNavHost(
         }
         composable(NavigationRoute.Settings.route) {
             val settingsViewModel: SettingsViewModel = viewModel(
-                factory = SettingsViewModel.Factory(application.settingsRepository)
+                factory = SettingsViewModel.Factory(
+                    application.settingsRepository,
+                    onDataChanged
+                )
             )
             SettingsScreen(viewModel = settingsViewModel)
         }

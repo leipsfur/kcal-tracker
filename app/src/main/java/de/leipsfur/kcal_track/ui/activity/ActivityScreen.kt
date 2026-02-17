@@ -61,6 +61,9 @@ import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
 import de.leipsfur.kcal_track.data.db.entity.ActivityTemplate
 
+import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
+import de.leipsfur.kcal_track.ui.shared.KcalTrackHeader
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityScreen(
@@ -272,16 +275,8 @@ private fun EntryList(
                             .padding(vertical = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
-                            text = categoryName ?: stringResource(R.string.activity_unknown_category),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = stringResource(R.string.activity_kcal_value, categoryTotal),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
+                        KcalTrackHeader(text = categoryName ?: stringResource(R.string.activity_unknown_category))
+                        KcalTrackHeader(text = stringResource(R.string.activity_kcal_value, categoryTotal))
                     }
                 }
 
@@ -316,13 +311,10 @@ private fun EntryCard(
     onEdit: (ActivityEntry) -> Unit,
     onDelete: (ActivityEntry) -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    KcalTrackCard {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -405,12 +397,7 @@ private fun TemplateList(
                 val categoryName = categoryMap[categoryId]?.name
 
                 item(key = "template_header_$categoryId") {
-                    Text(
-                        text = categoryName ?: stringResource(R.string.activity_unknown_category),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(vertical = 4.dp)
-                    )
+                    KcalTrackHeader(text = categoryName ?: stringResource(R.string.activity_unknown_category))
                 }
 
                 items(categoryTemplates, key = { "template_${it.id}" }) { template ->
@@ -431,13 +418,10 @@ private fun TemplateCard(
     onEdit: (ActivityTemplate) -> Unit,
     onDelete: (ActivityTemplate) -> Unit
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    KcalTrackCard {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -770,27 +754,19 @@ private fun TemplateSelectionBottomSheet(
                         val categoryName = categoryMap[categoryId]?.name ?: ""
 
                         item(key = "sheet_header_$categoryId") {
-                            Text(
-                                text = categoryName,
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(vertical = 4.dp)
-                            )
+                            KcalTrackHeader(text = categoryName)
                         }
 
                         items(categoryTemplates, key = { "sheet_${it.id}" }) { template ->
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        selectedTemplate = template
-                                        kcalOverride = ""
-                                    }
+                            KcalTrackCard(
+                                onClick = {
+                                    selectedTemplate = template
+                                    kcalOverride = ""
+                                }
                             ) {
                                 Row(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(12.dp),
+                                        .fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {

@@ -76,7 +76,8 @@ data class DeleteCategoryConfirmationState(
 class ActivityViewModel(
     private val activityRepository: ActivityRepository,
     private val dateFlow: StateFlow<LocalDate>,
-    private val onDateChangedCallback: (LocalDate) -> Unit
+    private val onDateChangedCallback: (LocalDate) -> Unit,
+    private val onDataChanged: () -> Unit
 ) : ViewModel() {
 
     private val _uiExtras = MutableStateFlow(UiExtras())
@@ -224,6 +225,7 @@ class ActivityViewModel(
             } else {
                 activityRepository.insertTemplate(template)
             }
+            onDataChanged()
             _uiExtras.update { it.copy(templateDialog = null) }
         }
     }
@@ -256,6 +258,7 @@ class ActivityViewModel(
                     activityRepository.deleteEntry(confirmation.entry)
                 }
             }
+            onDataChanged()
             _uiExtras.update { it.copy(deleteConfirmation = null) }
         }
     }
@@ -279,6 +282,7 @@ class ActivityViewModel(
                 categoryId = template.categoryId
             )
             activityRepository.insertEntry(entry)
+            onDataChanged()
             _uiExtras.update { it.copy(templateSelectionSheet = false) }
         }
     }
@@ -383,6 +387,7 @@ class ActivityViewModel(
             } else {
                 activityRepository.insertEntry(entry)
             }
+            onDataChanged()
             _uiExtras.update { it.copy(entryDialog = null) }
         }
     }
@@ -449,6 +454,7 @@ class ActivityViewModel(
                     ActivityCategory(name = name, sortOrder = maxSortOrder + 1)
                 )
             }
+            onDataChanged()
             _uiExtras.update { it.copy(categoryDialog = null) }
         }
     }
@@ -484,6 +490,7 @@ class ActivityViewModel(
         }
         viewModelScope.launch {
             activityRepository.deleteCategory(confirmation.category)
+            onDataChanged()
             _uiExtras.update { it.copy(deleteCategoryConfirmation = null) }
         }
     }
@@ -496,6 +503,7 @@ class ActivityViewModel(
         viewModelScope.launch {
             activityRepository.updateCategory(category.copy(sortOrder = other.sortOrder))
             activityRepository.updateCategory(other.copy(sortOrder = category.sortOrder))
+            onDataChanged()
         }
     }
 
@@ -507,6 +515,7 @@ class ActivityViewModel(
         viewModelScope.launch {
             activityRepository.updateCategory(category.copy(sortOrder = other.sortOrder))
             activityRepository.updateCategory(other.copy(sortOrder = category.sortOrder))
+            onDataChanged()
         }
     }
 
@@ -517,11 +526,12 @@ class ActivityViewModel(
     class Factory(
         private val activityRepository: ActivityRepository,
         private val dateFlow: StateFlow<LocalDate>,
-        private val onDateChangedCallback: (LocalDate) -> Unit
+        private val onDateChangedCallback: (LocalDate) -> Unit,
+        private val onDataChanged: () -> Unit
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ActivityViewModel(activityRepository, dateFlow, onDateChangedCallback) as T
+            return ActivityViewModel(activityRepository, dateFlow, onDateChangedCallback, onDataChanged) as T
         }
     }
 }

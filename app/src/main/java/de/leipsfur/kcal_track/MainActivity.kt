@@ -26,16 +26,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        var quickAdd = intent?.getBooleanExtra("quick_add", false) ?: false
+        if (quickAdd) {
+            intent?.removeExtra("quick_add")
+        }
+
         setContent {
             KcaltrackTheme {
-                KcalTrackApp()
+                KcalTrackApp(openQuickAdd = quickAdd)
             }
         }
     }
 }
 
 @Composable
-fun KcalTrackApp() {
+fun KcalTrackApp(openQuickAdd: Boolean = false) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -70,7 +76,8 @@ fun KcalTrackApp() {
     ) { innerPadding ->
         KcalTrackNavHost(
             navController = navController,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            openQuickAdd = openQuickAdd
         )
     }
 }

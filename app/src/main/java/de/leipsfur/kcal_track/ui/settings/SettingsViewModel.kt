@@ -18,7 +18,8 @@ data class SettingsUiState(
 )
 
 class SettingsViewModel(
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val onDataChanged: () -> Unit
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -69,6 +70,7 @@ class SettingsViewModel(
             else -> {
                 viewModelScope.launch {
                     settingsRepository.updateBmr(value)
+                    onDataChanged()
                     _uiState.update {
                         it.copy(
                             validationError = null,
@@ -85,11 +87,12 @@ class SettingsViewModel(
     }
 
     class Factory(
-        private val settingsRepository: SettingsRepository
+        private val settingsRepository: SettingsRepository,
+        private val onDataChanged: () -> Unit
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SettingsViewModel(settingsRepository) as T
+            return SettingsViewModel(settingsRepository, onDataChanged) as T
         }
     }
 }

@@ -71,7 +71,8 @@ data class FoodUiState(
 class FoodViewModel(
     private val foodRepository: FoodRepository,
     private val dateFlow: StateFlow<LocalDate>,
-    private val onDateChangedCallback: (LocalDate) -> Unit
+    private val onDateChangedCallback: (LocalDate) -> Unit,
+    private val onDataChanged: () -> Unit
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FoodUiState())
@@ -251,6 +252,7 @@ class FoodViewModel(
                     )
                 )
             }
+            onDataChanged()
             _uiState.update { it.copy(showTemplateDialog = false) }
         }
     }
@@ -269,6 +271,7 @@ class FoodViewModel(
         val template = _uiState.value.deletingTemplate ?: return
         viewModelScope.launch {
             foodRepository.deleteTemplate(template)
+            onDataChanged()
             _uiState.update { it.copy(showDeleteTemplateDialog = false, deletingTemplate = null) }
         }
     }
@@ -327,9 +330,11 @@ class FoodViewModel(
                     carbs = carbs,
                     fat = fat,
                     amount = amount * template.portionSize,
+                    portionUnit = template.portionUnit,
                     categoryId = template.categoryId
                 )
             )
+            onDataChanged()
             _uiState.update { it.copy(showAddFromTemplateSheet = false) }
         }
     }
@@ -425,7 +430,7 @@ class FoodViewModel(
 
         val protein = state.entryProtein.trim().toDoubleOrNull()
         val carbs = state.entryCarbs.trim().toDoubleOrNull()
-        val fat = state.entryFat.trim().toDoubleOrNull()
+        val fat = state.templateFat.trim().toDoubleOrNull()
 
         viewModelScope.launch {
             val editing = state.editingEntry
@@ -455,6 +460,7 @@ class FoodViewModel(
                     )
                 )
             }
+            onDataChanged()
             _uiState.update { it.copy(showManualEntryDialog = false) }
         }
     }
@@ -473,6 +479,7 @@ class FoodViewModel(
         val entry = _uiState.value.deletingEntry ?: return
         viewModelScope.launch {
             foodRepository.deleteEntry(entry)
+            onDataChanged()
             _uiState.update { it.copy(showDeleteEntryDialog = false, deletingEntry = null) }
         }
     }
@@ -536,6 +543,7 @@ class FoodViewModel(
                     FoodCategory(name = name, sortOrder = maxOrder + 1)
                 )
             }
+            onDataChanged()
             _uiState.update { it.copy(showAddCategoryDialog = false) }
         }
     }
@@ -566,6 +574,7 @@ class FoodViewModel(
                 }
             } else {
                 foodRepository.deleteCategory(category)
+                onDataChanged()
                 _uiState.update {
                     it.copy(showDeleteCategoryDialog = false, deletingCategory = null)
                 }
@@ -582,6 +591,7 @@ class FoodViewModel(
         viewModelScope.launch {
             foodRepository.updateCategory(category.copy(sortOrder = other.sortOrder))
             foodRepository.updateCategory(other.copy(sortOrder = category.sortOrder))
+            onDataChanged()
         }
     }
 
@@ -594,17 +604,19 @@ class FoodViewModel(
         viewModelScope.launch {
             foodRepository.updateCategory(category.copy(sortOrder = other.sortOrder))
             foodRepository.updateCategory(other.copy(sortOrder = category.sortOrder))
+            onDataChanged()
         }
     }
 
     class Factory(
         private val foodRepository: FoodRepository,
         private val dateFlow: StateFlow<LocalDate>,
-        private val onDateChangedCallback: (LocalDate) -> Unit
+        private val onDateChangedCallback: (LocalDate) -> Unit,
+        private val onDataChanged: () -> Unit
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FoodViewModel(foodRepository, dateFlow, onDateChangedCallback) as T
+            return FoodViewModel(foodRepository, dateFlow, onDateChangedCallback, onDataChanged) as T
         }
     }
 }

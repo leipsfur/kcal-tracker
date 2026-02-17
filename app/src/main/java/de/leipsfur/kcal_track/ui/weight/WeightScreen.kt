@@ -26,6 +26,8 @@ import de.leipsfur.kcal_track.data.db.entity.WeightEntry
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeightScreen(
@@ -86,17 +88,15 @@ fun WeightScreen(
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(uiState.entries) { entryWithDiff ->
                         WeightEntryItem(
                             entryWithDiff = entryWithDiff,
                             onDelete = { entryToDelete = it.entry }
-                        )
-                        HorizontalDivider(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            thickness = 0.5.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant
                         )
                     }
                 }
@@ -149,47 +149,47 @@ fun WeightEntryItem(
 ) {
     val dateFormatter = remember { DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMAN) }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = entryWithDiff.entry.date.format(dateFormatter),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = "${entryWithDiff.entry.weightKg} ${stringResource(R.string.weight_unit)}",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        entryWithDiff.diff?.let { diff ->
-            val color = if (diff > 0) MaterialTheme.colorScheme.error else if (diff < 0) Color(0xFF4CAF50) else MaterialTheme.colorScheme.onSurfaceVariant
-            val text = if (diff > 0) {
-                stringResource(R.string.weight_diff_positive, diff)
-            } else {
-                stringResource(R.string.weight_diff_negative, diff)
+    KcalTrackCard {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = entryWithDiff.entry.date.format(dateFormatter),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "${entryWithDiff.entry.weightKg} ${stringResource(R.string.weight_unit)}",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
             }
-            Text(
-                text = text,
-                color = color,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-        }
 
-        IconButton(onClick = { onDelete(entryWithDiff) }) {
-            Icon(
-                Icons.Default.Delete,
-                contentDescription = stringResource(R.string.delete),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            entryWithDiff.diff?.let { diff ->
+                val color = if (diff > 0) MaterialTheme.colorScheme.error else if (diff < 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                val text = if (diff > 0) {
+                    stringResource(R.string.weight_diff_positive, diff)
+                } else {
+                    stringResource(R.string.weight_diff_negative, diff)
+                }
+                Text(
+                    text = text,
+                    color = color,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
+
+            IconButton(onClick = { onDelete(entryWithDiff) }) {
+                Icon(
+                    Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.delete),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }

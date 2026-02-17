@@ -35,5 +35,6 @@ data class FoodEntry(
     val carbs: Double? = null,
     val fat: Double? = null,
     val amount: Double,
+    @ColumnInfo(name = "portion_unit") val portionUnit: String? = null,
     @ColumnInfo(name = "category_id") val categoryId: Long
 )

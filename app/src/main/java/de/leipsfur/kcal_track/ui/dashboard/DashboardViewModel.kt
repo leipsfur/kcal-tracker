@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
 import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
+import de.leipsfur.kcal_track.data.db.entity.ActivityCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodCategory
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
@@ -62,6 +63,14 @@ class DashboardViewModel(
     private val onDateChangedCallback: (LocalDate) -> Unit
 ) : ViewModel() {
 
+    // Helper data class for combining multiple flows
+    private data class DashboardData(
+        val foodEntries: List<FoodEntry>,
+        val activityEntries: List<ActivityEntry>,
+        val foodCategories: List<FoodCategory>,
+        val activityCategories: List<ActivityCategory>
+    )
+
     // Derive flows based on selectedDate from dateFlow
     private val _foodEntries = dateFlow.flatMapLatest { date ->
         foodRepository.getEntriesByDate(date)
@@ -81,7 +90,7 @@ class DashboardViewModel(
         _foodCategories,
         _activityCategories
     ) { foodEntries, activityEntries, foodCategories, activityCategories ->
-        Quadruple(foodEntries, activityEntries, foodCategories, activityCategories)
+        DashboardData(foodEntries, activityEntries, foodCategories, activityCategories)
     }
 
     val uiState: StateFlow<DashboardUiState> = combine(
@@ -92,10 +101,10 @@ class DashboardViewModel(
         DashboardUiState(
             selectedDate = date,
             bmr = settings?.bmr,
-            foodEntries = data.first,
-            activityEntries = data.second,
-            foodCategories = data.third,
-            activityCategories = data.fourth
+            foodEntries = data.foodEntries,
+            activityEntries = data.activityEntries,
+            foodCategories = data.foodCategories,
+            activityCategories = data.activityCategories
         )
     }.stateIn(
         scope = viewModelScope,
@@ -130,8 +139,6 @@ class DashboardViewModel(
             activityRepository.deleteEntry(entry)
         }
     }
-
-    data class Quadruple<A, B, C, D>(val first: A, val second: B, val third: C, val fourth: D)
 
     class Factory(
         private val foodRepository: FoodRepository,

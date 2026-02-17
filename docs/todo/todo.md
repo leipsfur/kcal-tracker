@@ -89,11 +89,11 @@
 
 ## Phase 9: Widget (US-0601, US-0602)
 
-- [ ] Glance Widget erstellen: Verbleibende kcal anzeigen
-- [ ] Widget-Update bei Datenänderungen triggern
-- [ ] Quick-Add Overlay: Activity/Dialog mit Vorlagen-Liste
-- [ ] Quick-Add: Portionsmenge abfragen und Eintrag erstellen
-- [ ] Widget-Design nach Material You / Glance-Richtlinien
+- [x] Glance Widget erstellen: Verbleibende kcal anzeigen
+- [x] Widget-Update bei Datenänderungen triggern
+- [x] Quick-Add Overlay: Activity/Dialog mit Vorlagen-Liste
+- [x] Quick-Add: Portionsmenge abfragen und Eintrag erstellen
+- [x] Widget-Design nach Material You / Glance-Richtlinien
 
 ## Phase 10: Barrierefreiheit (US-0704)
 
