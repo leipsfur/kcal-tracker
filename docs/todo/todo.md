@@ -68,24 +68,24 @@
 
 ## Phase 7: Dashboard (US-0101–US-0104)
 
-- [ ] `DashboardViewModel` erstellen (mit selektiertem Datum, Standard: heute)
-- [ ] Datumsnavigation: Pfeile vor/zurück + "Heute"-Button
-- [ ] TDEE-Berechnung: Grundumsatz + Σ Aktivitäten des selektierten Tages
-- [ ] Verbleibende kcal berechnen: TDEE - Σ Aufnahme des selektierten Tages
-- [ ] Negativer Kalorienstand: Rote Darstellung + Minus-Zeichen
-- [ ] Dashboard-Screen: TDEE, Aufnahme und Übrig anzeigen
-- [ ] Tageseinträge nach Kategorie gruppiert anzeigen (mit Zwischensummen)
-- [ ] Hinweis anzeigen wenn kein Grundumsatz eingestellt
-- [ ] Validierung: Keine Navigation in die Zukunft
+- [x] `DashboardViewModel` erstellen (mit selektiertem Datum, Standard: heute)
+- [x] Datumsnavigation: Pfeile vor/zurück + "Heute"-Button
+- [x] TDEE-Berechnung: Grundumsatz + Σ Aktivitäten des selektierten Tages
+- [x] Verbleibende kcal berechnen: TDEE - Σ Aufnahme des selektierten Tages
+- [x] Negativer Kalorienstand: Rote Darstellung + Minus-Zeichen
+- [x] Dashboard-Screen: TDEE, Aufnahme und Übrig anzeigen
+- [x] Tageseinträge nach Kategorie gruppiert anzeigen (mit Zwischensummen)
+- [x] Hinweis anzeigen wenn kein Grundumsatz eingestellt
+- [x] Validierung: Keine Navigation in die Zukunft
 
 ## Phase 8: Gewichts-Tracking (US-0401–US-0404)
 
-- [ ] `WeightViewModel` erstellen
-- [ ] Gewicht-erfassen-Formular (kg, eine Dezimalstelle, Validierung)
-- [ ] Ein Eintrag pro Tag (überschreiben bei erneutem Eintrag)
-- [ ] Chronologische Liste mit Differenz zum vorherigen Eintrag
-- [ ] Liniendiagramm (Compose Canvas oder Bibliothek evaluieren)
-- [ ] Gewichts-Eintrag löschen (mit Bestätigungsdialog)
+- [x] `WeightViewModel` erstellen
+- [x] Gewicht-erfassen-Formular (kg, eine Dezimalstelle, Validierung)
+- [x] Ein Eintrag pro Tag (überschreiben bei erneutem Eintrag)
+- [x] Chronologische Liste mit Differenz zum vorherigen Eintrag
+- [x] Liniendiagramm (Compose Canvas oder Bibliothek evaluieren)
+- [x] Gewichts-Eintrag löschen (mit Bestätigungsdialog)
 
 ## Phase 9: Widget (US-0601, US-0602)
 

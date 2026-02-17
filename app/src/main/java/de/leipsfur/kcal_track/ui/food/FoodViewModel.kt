@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -68,7 +69,9 @@ data class FoodUiState(
 )
 
 class FoodViewModel(
-    private val foodRepository: FoodRepository
+    private val foodRepository: FoodRepository,
+    private val dateFlow: StateFlow<LocalDate>,
+    private val onDateChangedCallback: (LocalDate) -> Unit
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FoodUiState())
@@ -76,8 +79,20 @@ class FoodViewModel(
 
     init {
         viewModelScope.launch {
+            // Observe dateFlow and update UI state
+            launch {
+                dateFlow.collect { date ->
+                    _uiState.update { it.copy(selectedDate = date) }
+                }
+            }
+
+            // Reactive data loading
+            val entriesFlow = dateFlow.flatMapLatest { date ->
+                foodRepository.getEntriesByDate(date)
+            }
+
             combine(
-                foodRepository.getEntriesByDate(_uiState.value.selectedDate),
+                entriesFlow,
                 foodRepository.getAllTemplates(),
                 foodRepository.getAllCategories()
             ) { entries, templates, categories ->
@@ -97,12 +112,7 @@ class FoodViewModel(
     }
 
     fun onDateChanged(date: LocalDate) {
-        _uiState.update { it.copy(selectedDate = date) }
-        viewModelScope.launch {
-            foodRepository.getEntriesByDate(date).collect { entries ->
-                _uiState.update { it.copy(entries = entries) }
-            }
-        }
+        onDateChangedCallback(date)
     }
 
     fun toggleTemplatesTab() {
@@ -588,11 +598,13 @@ class FoodViewModel(
     }
 
     class Factory(
-        private val foodRepository: FoodRepository
+        private val foodRepository: FoodRepository,
+        private val dateFlow: StateFlow<LocalDate>,
+        private val onDateChangedCallback: (LocalDate) -> Unit
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return FoodViewModel(foodRepository) as T
+            return FoodViewModel(foodRepository, dateFlow, onDateChangedCallback) as T
         }
     }
 }

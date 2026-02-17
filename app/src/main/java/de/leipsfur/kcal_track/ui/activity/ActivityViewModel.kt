@@ -11,7 +11,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
@@ -75,10 +74,11 @@ data class DeleteCategoryConfirmationState(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ActivityViewModel(
-    private val activityRepository: ActivityRepository
+    private val activityRepository: ActivityRepository,
+    private val dateFlow: StateFlow<LocalDate>,
+    private val onDateChangedCallback: (LocalDate) -> Unit
 ) : ViewModel() {
 
-    private val _selectedDate = MutableStateFlow(LocalDate.now())
     private val _uiExtras = MutableStateFlow(UiExtras())
 
     private data class UiExtras(
@@ -94,10 +94,10 @@ class ActivityViewModel(
     )
 
     val uiState: StateFlow<ActivityUiState> = combine(
-        _selectedDate.flatMapLatest { date -> activityRepository.getEntriesByDate(date) },
+        dateFlow.flatMapLatest { date -> activityRepository.getEntriesByDate(date) },
         activityRepository.getAllTemplates(),
         activityRepository.getAllCategories(),
-        _selectedDate,
+        dateFlow,
         _uiExtras
     ) { entries, templates, categories, selectedDate, extras ->
         ActivityUiState(
@@ -116,6 +116,10 @@ class ActivityViewModel(
             snackbarMessage = extras.snackbarMessage
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ActivityUiState())
+
+    fun onDateChanged(date: LocalDate) {
+        onDateChangedCallback(date)
+    }
 
     // Tab selection
     fun selectTab(tab: ActivityTab) {
@@ -268,7 +272,7 @@ class ActivityViewModel(
     fun addEntryFromTemplate(template: ActivityTemplate, kcalOverride: Int? = null) {
         viewModelScope.launch {
             val entry = ActivityEntry(
-                date = _selectedDate.value,
+                date = dateFlow.value,
                 templateId = template.id,
                 name = template.name,
                 kcal = kcalOverride ?: template.kcal,
@@ -368,7 +372,7 @@ class ActivityViewModel(
         viewModelScope.launch {
             val entry = ActivityEntry(
                 id = dialog.editingEntry?.id ?: 0,
-                date = dialog.editingEntry?.date ?: _selectedDate.value,
+                date = dialog.editingEntry?.date ?: dateFlow.value,
                 templateId = dialog.editingEntry?.templateId,
                 name = name,
                 kcal = kcalValue!!,
@@ -511,11 +515,13 @@ class ActivityViewModel(
     }
 
     class Factory(
-        private val activityRepository: ActivityRepository
+        private val activityRepository: ActivityRepository,
+        private val dateFlow: StateFlow<LocalDate>,
+        private val onDateChangedCallback: (LocalDate) -> Unit
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ActivityViewModel(activityRepository) as T
+            return ActivityViewModel(activityRepository, dateFlow, onDateChangedCallback) as T
         }
     }
 }

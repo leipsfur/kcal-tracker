@@ -103,4 +103,30 @@
     <string name="food_category_name">Kategoriename</string>
     <string name="food_move_up">Nach oben</string>
     <string name="food_move_down">Nach unten</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_tdee">TDEE</string>
+    <string name="dashboard_intake">Aufnahme</string>
+    <string name="dashboard_remaining">Übrig</string>
+    <string name="dashboard_today">Heute</string>
+    <string name="dashboard_no_bmr">Kein Grundumsatz festgelegt. Bitte in den Einstellungen eintragen.</string>
+    <string name="dashboard_food_title">Essen</string>
+    <string name="dashboard_activity_title">Aktivitäten</string>
+    <string name="dashboard_no_food_entries">Keine Essen-Einträge für diesen Tag</string>
+    <string name="dashboard_no_activity_entries">Keine Aktivitäts-Einträge für diesen Tag</string>
+    <string name="dashboard_delete_entry_confirm">Eintrag \"%1$s\" wirklich löschen?</string>
+
+    <!-- Weight Tracking -->
+    <string name="weight_title">Gewichtsverlauf</string>
+    <string name="weight_add">Gewicht erfassen</string>
+    <string name="weight_label">Gewicht (kg)</string>
+    <string name="weight_hint">z.B. 80.5</string>
+    <string name="weight_save_success">Gewicht gespeichert</string>
+    <string name="weight_delete_title">Eintrag löschen</string>
+    <string name="weight_delete_confirm">Möchtest du den Eintrag vom %1$s wirklich löschen?</string>
+    <string name="weight_no_entries">Noch keine Gewichtseinträge vorhanden.</string>
+    <string name="weight_chart_placeholder">Gewichtsdiagramm (min. 2 Einträge benötigt)</string>
+    <string name="weight_diff_positive">+%1$.1f kg</string>
+    <string name="weight_diff_negative">%1$.1f kg</string>
+    <string name="weight_unit">kg</string>
 </resources>
