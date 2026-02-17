@@ -26,6 +26,8 @@ import de.leipsfur.kcal_track.data.db.entity.WeightEntry
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -245,8 +247,10 @@ fun WeightChart(
 ) {
     val primaryColor = MaterialTheme.colorScheme.primary
     val onSurfaceColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val chartDescription = stringResource(R.string.weight_chart_desc)
 
-    Canvas(modifier = modifier) {
+    Canvas(modifier = modifier.semantics { contentDescription = chartDescription }) {
+// ...
         if (entries.size < 2) return@Canvas
 
         val minWeight = entries.minOf { it.weightKg } - 1.0

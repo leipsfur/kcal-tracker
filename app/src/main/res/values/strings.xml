@@ -126,6 +126,7 @@
     <string name="weight_delete_confirm">Möchtest du den Eintrag vom %1$s wirklich löschen?</string>
     <string name="weight_no_entries">Noch keine Gewichtseinträge vorhanden.</string>
     <string name="weight_chart_placeholder">Gewichtsdiagramm (min. 2 Einträge benötigt)</string>
+    <string name="weight_chart_desc">Gewichtsverlauf Diagramm</string>
     <string name="weight_diff_positive">+%1$.1f kg</string>
     <string name="weight_diff_negative">%1$.1f kg</string>
     <string name="weight_unit">kg</string>

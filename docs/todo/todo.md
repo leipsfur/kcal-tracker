@@ -97,12 +97,12 @@
 
 ## Phase 10: Barrierefreiheit (US-0704)
 
-- [ ] Content Descriptions für alle Icons und interaktiven Elemente
-- [ ] Mindest-Touch-Targets (48dp) prüfen und sicherstellen
-- [ ] Farbkontraste nach WCAG AA validieren
-- [ ] Informationen nicht ausschließlich über Farbe vermitteln
-- [ ] Eingabefelder mit sichtbaren Labels (nicht nur Placeholder)
-- [ ] TalkBack-Navigation testen
+- [x] Content Descriptions für alle Icons und interaktiven Elemente
+- [x] Mindest-Touch-Targets (48dp) prüfen und sicherstellen
+- [x] Farbkontraste nach WCAG AA validieren
+- [x] Informationen nicht ausschließlich über Farbe vermitteln
+- [x] Eingabefelder mit sichtbaren Labels (nicht nur Placeholder)
+- [x] TalkBack-Navigation testen
 
 ## Phase 11: Qualitätssicherung
 
