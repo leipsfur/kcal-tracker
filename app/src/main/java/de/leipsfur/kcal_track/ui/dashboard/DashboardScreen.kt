@@ -106,10 +106,10 @@ fun DashboardScreen(
                     }
 
                     uiState.groupedFoodEntries.forEach { (category, entries) ->
-                        item {
+                        item(key = "food_cat_${category.id}") {
                             CategoryHeader(categoryName = category.name, totalKcal = entries.sumOf { it.kcal })
                         }
-                        items(entries) { entry ->
+                        items(entries, key = { it.id }) { entry ->
                             EntryItem(
                                 name = entry.name,
                                 kcal = entry.kcal,
@@ -143,10 +143,10 @@ fun DashboardScreen(
 
                     if (uiState.groupedActivityEntries.isNotEmpty()) {
                          uiState.groupedActivityEntries.entries.forEach { (category, activityList) ->
-                            item {
+                            item(key = "act_cat_${category.id}") {
                                 CategoryHeader(categoryName = category.name, totalKcal = activityList.sumOf { it.kcal })
                             }
-                            items(activityList) { entry ->
+                            items(activityList, key = { it.id }) { entry ->
                                 EntryItem(
                                     name = entry.name,
                                     kcal = entry.kcal,
@@ -157,7 +157,7 @@ fun DashboardScreen(
                             }
                         }
                     } else {
-                         items(uiState.activityEntries) { entry ->
+                         items(uiState.activityEntries, key = { it.id }) { entry ->
                             EntryItem(
                                 name = entry.name,
                                 kcal = entry.kcal,

@@ -10,6 +10,7 @@ import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -24,35 +25,17 @@ data class DashboardUiState(
     val foodEntries: List<FoodEntry> = emptyList(),
     val activityEntries: List<ActivityEntry> = emptyList(),
     val foodCategories: List<FoodCategory> = emptyList(),
-    val activityCategories: List<ActivityCategory> = emptyList()
+    val activityCategories: List<ActivityCategory> = emptyList(),
+    val groupedFoodEntries: Map<FoodCategory, List<FoodEntry>> = emptyMap(),
+    val groupedActivityEntries: Map<ActivityCategory, List<ActivityEntry>> = emptyMap()
 ) {
     val totalFoodKcal: Int get() = foodEntries.sumOf { it.kcal }
     val totalActivityKcal: Int get() = activityEntries.sumOf { it.kcal }
     val tdee: Int get() = (bmr ?: 0) + totalActivityKcal
     val remainingKcal: Int get() = tdee - totalFoodKcal
-    
-    // Helper to group entries by category, sorted by category sortOrder
-    val groupedFoodEntries: Map<FoodCategory, List<FoodEntry>>
-        get() {
-            val categoryMap = foodCategories.associateBy { it.id }
-            return foodEntries
-                .groupBy { categoryMap[it.categoryId] }
-                .filterKeys { it != null }
-                .mapKeys { it.key!! }
-                .toSortedMap(compareBy { it.sortOrder })
-        }
-
-    val groupedActivityEntries: Map<ActivityCategory, List<ActivityEntry>>
-        get() {
-            val categoryMap = activityCategories.associateBy { it.id }
-            return activityEntries
-                .groupBy { categoryMap[it.categoryId] }
-                .filterKeys { it != null }
-                .mapKeys { it.key!! }
-                .toSortedMap(compareBy { it.sortOrder })
-        }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DashboardViewModel(
     private val foodRepository: FoodRepository,
     private val activityRepository: ActivityRepository,
@@ -99,13 +82,25 @@ class DashboardViewModel(
         _bmrForSelectedDate,
         _dataFlow
     ) { date, bmr, data ->
+        val foodCategoryMap = data.foodCategories.associateBy { it.id }
+        val activityCategoryMap = data.activityCategories.associateBy { it.id }
         DashboardUiState(
             selectedDate = date,
             bmr = bmr,
             foodEntries = data.foodEntries,
             activityEntries = data.activityEntries,
             foodCategories = data.foodCategories,
-            activityCategories = data.activityCategories
+            activityCategories = data.activityCategories,
+            groupedFoodEntries = data.foodEntries
+                .groupBy { foodCategoryMap[it.categoryId] }
+                .filterKeys { it != null }
+                .mapKeys { it.key!! }
+                .toSortedMap(compareBy { it.sortOrder }),
+            groupedActivityEntries = data.activityEntries
+                .groupBy { activityCategoryMap[it.categoryId] }
+                .filterKeys { it != null }
+                .mapKeys { it.key!! }
+                .toSortedMap(compareBy { it.sortOrder })
         )
     }.stateIn(
         scope = viewModelScope,
