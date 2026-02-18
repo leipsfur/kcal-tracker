@@ -121,8 +121,8 @@ Falls Android SDK-Tooling in WSL weiterhin Probleme macht: Builds aus Android St
 | User Stories | [`docs/stories/`](docs/stories/) |
 | Architektur (arc42) | [`docs/arch/`](docs/arch/) |
 | Implementierungs-Todos | [`docs/todo/`](docs/todo/) |
-| Projektrichtlinien | [`CLAUDE.md`](CLAUDE.md) |
-| Repository Guidelines | [`AGENTS.md`](AGENTS.md) |
+| Claude Code Projektkontext | [`CLAUDE.md`](CLAUDE.md) |
+| Claude Code Agentenrichtlinien | [`AGENTS.md`](AGENTS.md) |
 
 ## Lizenz
 
