@@ -1,6 +1,8 @@
 package de.leipsfur.kcal_track.ui
 
 object UiTestTags {
+    const val MAIN_TAB_SWIPE_CONTAINER = "main_tab_swipe_container"
+
     const val FOOD_MANUAL_ENTRY_FAB = "food_manual_entry_fab"
     const val FOOD_ENTRY_NAME_INPUT = "food_entry_name_input"
     const val FOOD_ENTRY_KCAL_INPUT = "food_entry_kcal_input"

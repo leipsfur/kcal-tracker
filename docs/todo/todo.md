@@ -133,6 +133,8 @@
 - [x] App-weite Wischgeste links/rechts für Haupt-Tabs implementieren
 - [x] Route-Reihenfolge für Swipe festlegen: Dashboard → Essen → Aktivität → Gewicht → Einstellungen
 - [x] Wrap-Around an den Rändern umsetzen (Dashboard ↔ Einstellungen)
+- [x] Interaktiven HorizontalPager für live Swipe-Animation (mit Finger-Tracking) einsetzen
+- [x] Swipe-Verhalten: Hin-und-herziehen zwischen Tabs + Snap-Back auf Ausgangsseite unterstützen
 - [x] Gemeinsame Navigationsfunktion für Bottom-Tab-Klick und Swipe verwenden
 - [x] Konfliktverhalten mit Overlays und screen-internen Tabs absichern
 - [x] UI-Tests für Swipe-Navigation ergänzen

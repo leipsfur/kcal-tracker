@@ -1,5 +1,12 @@
 package de.leipsfur.kcal_track.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +31,8 @@ import de.leipsfur.kcal_track.ui.weight.WeightViewModel
 import de.leipsfur.kcal_track.widget.KcalTrackWidgetManager
 import de.leipsfur.kcal_track.ui.shared.DateViewModel
 
+private const val TAB_TRANSITION_DURATION_MS = 280
+
 @Composable
 fun KcalTrackNavHost(
     navController: NavHostController,
@@ -45,7 +54,59 @@ fun KcalTrackNavHost(
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier
+        modifier = modifier,
+        enterTransition = {
+            when (resolveTabNavigationDirection(initialState.destination.route, targetState.destination.route)) {
+                1 -> slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeIn(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                -1 -> slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeIn(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                else -> EnterTransition.None
+            }
+        },
+        exitTransition = {
+            when (resolveTabNavigationDirection(initialState.destination.route, targetState.destination.route)) {
+                1 -> slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeOut(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                -1 -> slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeOut(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                else -> ExitTransition.None
+            }
+        },
+        popEnterTransition = {
+            when (resolveTabNavigationDirection(initialState.destination.route, targetState.destination.route)) {
+                1 -> slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeIn(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                -1 -> slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeIn(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                else -> EnterTransition.None
+            }
+        },
+        popExitTransition = {
+            when (resolveTabNavigationDirection(initialState.destination.route, targetState.destination.route)) {
+                1 -> slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeOut(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                -1 -> slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(TAB_TRANSITION_DURATION_MS)
+                ) + fadeOut(animationSpec = tween(TAB_TRANSITION_DURATION_MS))
+                else -> ExitTransition.None
+            }
+        }
     ) {
         composable(NavigationRoute.Dashboard.route) {
             val dashboardViewModel: DashboardViewModel = viewModel(
@@ -115,5 +176,24 @@ fun KcalTrackNavHost(
             )
             SettingsScreen(viewModel = settingsViewModel)
         }
+    }
+}
+
+private fun resolveTabNavigationDirection(initialRoute: String?, targetRoute: String?): Int {
+    val routes = NavigationRoute.entries
+    val routeCount = routes.size
+    if (routeCount <= 1) return 0
+
+    val initialIndex = routes.indexOfFirst { it.route == initialRoute }
+    val targetIndex = routes.indexOfFirst { it.route == targetRoute }
+    if (initialIndex < 0 || targetIndex < 0) return 0
+
+    val forwardDistance = (targetIndex - initialIndex + routeCount) % routeCount
+    val backwardDistance = (initialIndex - targetIndex + routeCount) % routeCount
+
+    return when {
+        forwardDistance == 0 -> 0
+        forwardDistance <= backwardDistance -> 1
+        else -> -1
     }
 }

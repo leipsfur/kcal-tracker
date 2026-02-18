@@ -4,22 +4,44 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import de.leipsfur.kcal_track.ui.navigation.KcalTrackNavHost
+import androidx.lifecycle.viewmodel.compose.viewModel
+import de.leipsfur.kcal_track.ui.UiTestTags
+import de.leipsfur.kcal_track.ui.activity.ActivityScreen
+import de.leipsfur.kcal_track.ui.activity.ActivityViewModel
+import de.leipsfur.kcal_track.ui.dashboard.DashboardScreen
+import de.leipsfur.kcal_track.ui.dashboard.DashboardViewModel
+import de.leipsfur.kcal_track.ui.food.FoodScreen
+import de.leipsfur.kcal_track.ui.food.FoodViewModel
 import de.leipsfur.kcal_track.ui.navigation.NavigationRoute
+import de.leipsfur.kcal_track.ui.settings.SettingsScreen
+import de.leipsfur.kcal_track.ui.settings.SettingsViewModel
+import de.leipsfur.kcal_track.ui.shared.DateViewModel
 import de.leipsfur.kcal_track.ui.theme.KcaltrackTheme
+import de.leipsfur.kcal_track.ui.weight.WeightScreen
+import de.leipsfur.kcal_track.ui.weight.WeightViewModel
+import de.leipsfur.kcal_track.widget.KcalTrackWidgetManager
+import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,26 +63,92 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun KcalTrackApp(openQuickAdd: Boolean = false) {
-    val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    val application = LocalContext.current.applicationContext as KcalTrackApplication
+    val dateViewModel: DateViewModel = viewModel()
+    val quickAddState = rememberSaveable { mutableStateOf(openQuickAdd) }
+    val scope = rememberCoroutineScope()
+
+    val orderedRoutes = NavigationRoute.entries
+    val tabCount = orderedRoutes.size
+    val dashboardIndex = tabIndexOrDefault(NavigationRoute.Dashboard, 0)
+    val foodIndex = tabIndexOrDefault(NavigationRoute.Food, 1)
+    val activityIndex = tabIndexOrDefault(NavigationRoute.Activity, 2)
+    val weightIndex = tabIndexOrDefault(NavigationRoute.Weight, 3)
+    val settingsIndex = tabIndexOrDefault(NavigationRoute.Settings, 4)
+
+    val onDataChanged: () -> Unit = remember(application) {
+        { KcalTrackWidgetManager.updateWidget(application) }
+    }
+
+    val dashboardViewModel: DashboardViewModel = viewModel(
+        factory = DashboardViewModel.Factory(
+            application.foodRepository,
+            application.activityRepository,
+            application.settingsRepository,
+            dateViewModel.selectedDate,
+            dateViewModel::onDateChanged
+        )
+    )
+    val foodViewModel: FoodViewModel = viewModel(
+        factory = FoodViewModel.Factory(
+            application.foodRepository,
+            dateViewModel.selectedDate,
+            dateViewModel::onDateChanged,
+            onDataChanged
+        )
+    )
+    val activityViewModel: ActivityViewModel = viewModel(
+        factory = ActivityViewModel.Factory(
+            application.activityRepository,
+            dateViewModel.selectedDate,
+            dateViewModel::onDateChanged,
+            onDataChanged
+        )
+    )
+    val weightViewModel: WeightViewModel = viewModel(
+        factory = WeightViewModel.Factory(application.weightRepository)
+    )
+    val settingsViewModel: SettingsViewModel = viewModel(
+        factory = SettingsViewModel.Factory(
+            application.settingsRepository,
+            onDataChanged
+        )
+    )
+
+    val startRealPage = if (openQuickAdd) foodIndex else dashboardIndex
+    val initialPagerPage = remember(startRealPage, tabCount) {
+        calculateInitialPagerPage(tabCount = tabCount, startRealPage = startRealPage)
+    }
+    val pagerState = rememberPagerState(initialPage = initialPagerPage) { Int.MAX_VALUE }
+    val currentRealPage = pagerState.currentPage.floorMod(tabCount)
+
+    val animateToRealPage: (Int) -> Unit = { targetRealPage ->
+        scope.launch {
+            val targetPage = calculateNearestPagerPage(
+                currentPage = pagerState.currentPage,
+                currentRealPage = currentRealPage,
+                targetRealPage = targetRealPage.floorMod(tabCount),
+                tabCount = tabCount
+            )
+            pagerState.animateScrollToPage(targetPage)
+        }
+    }
+
+    LaunchedEffect(quickAddState.value, currentRealPage) {
+        if (quickAddState.value && currentRealPage == foodIndex) {
+            foodViewModel.showAddFromTemplateSheet()
+            quickAddState.value = false
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             NavigationBar {
-                NavigationRoute.entries.forEach { route ->
+                NavigationRoute.entries.forEachIndexed { index, route ->
                     NavigationBarItem(
-                        selected = currentRoute == route.route,
-                        onClick = {
-                            navController.navigate(route.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        selected = currentRealPage == index,
+                        onClick = { animateToRealPage(index) },
                         icon = {
                             Icon(
                                 imageVector = route.icon,
@@ -72,10 +160,74 @@ fun KcalTrackApp(openQuickAdd: Boolean = false) {
             }
         }
     ) { innerPadding ->
-        KcalTrackNavHost(
-            navController = navController,
-            modifier = Modifier.padding(innerPadding),
-            openQuickAdd = openQuickAdd
-        )
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .testTag(UiTestTags.MAIN_TAB_SWIPE_CONTAINER)
+        ) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                when (page.floorMod(tabCount)) {
+                    dashboardIndex -> DashboardScreen(
+                        viewModel = dashboardViewModel,
+                        onNavigateToSettings = { animateToRealPage(settingsIndex) },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    foodIndex -> FoodScreen(
+                        viewModel = foodViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    activityIndex -> ActivityScreen(
+                        viewModel = activityViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    weightIndex -> WeightScreen(
+                        viewModel = weightViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    settingsIndex -> SettingsScreen(
+                        viewModel = settingsViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    else -> DashboardScreen(
+                        viewModel = dashboardViewModel,
+                        onNavigateToSettings = { animateToRealPage(settingsIndex) },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+        }
     }
+}
+
+private fun tabIndexOrDefault(route: NavigationRoute, fallbackIndex: Int): Int {
+    val index = NavigationRoute.entries.indexOf(route)
+    return if (index >= 0) index else fallbackIndex
+}
+
+private fun calculateInitialPagerPage(tabCount: Int, startRealPage: Int): Int {
+    if (tabCount <= 0) return 0
+    val mid = Int.MAX_VALUE / 2
+    return mid - mid.floorMod(tabCount) + startRealPage.floorMod(tabCount)
+}
+
+private fun calculateNearestPagerPage(
+    currentPage: Int,
+    currentRealPage: Int,
+    targetRealPage: Int,
+    tabCount: Int
+): Int {
+    if (tabCount <= 0) return currentPage
+    val forwardDelta = (targetRealPage - currentRealPage + tabCount) % tabCount
+    val backwardDelta = forwardDelta - tabCount
+    val shortestDelta = if (abs(forwardDelta) <= abs(backwardDelta)) forwardDelta else backwardDelta
+    return currentPage + shortestDelta
+}
+
+private fun Int.floorMod(divisor: Int): Int {
+    if (divisor == 0) return 0
+    return ((this % divisor) + divisor) % divisor
 }

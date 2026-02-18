@@ -131,3 +131,29 @@ Nutzer        SettingsScreen     SettingsViewModel   SettingsRepository    BmrPe
 3. Für ein Datum `d` wird immer `bmrForDate(d)` genutzt (größtes `startDate <= d`)
 4. Für Tage vor der ersten Periode gilt die früheste bekannte Periode rückwirkend
 5. Vergangene Tagesbilanzen bleiben bei späteren Änderungen fachlich stabil
+
+## Szenario 5: Wischgeste wechselt Haupt-Tab
+
+```
+Nutzer          KcalTrackApp        HorizontalPager      Ziel-Screen
+  │                  │                    │                    │
+  │  Swipe links     │                    │                    │
+  │─────────────────→│  Drag-Input        │                    │
+  │                  │───────────────────→│  live offset       │
+  │                  │                    │───────────────────→│
+  │  hin-/herziehen  │                    │                    │
+  │─────────────────→│───────────────────→│  ohne Route-Wechsel│
+  │                  │                    │                    │
+  │  Loslassen       │                    │                    │
+  │─────────────────→│───────────────────→│  snap / rollback   │
+  │                  │                    │                    │
+  │  Neuer/alter Tab │                    │                    │
+  │  sichtbar        │←─────────────────────────────────────────│
+```
+
+**Ablauf:**
+1. Nutzer führt auf dem Haupt-Content eine horizontale Wischgeste aus
+2. Ein `HorizontalPager` verschiebt die Seiten live in Finger-Richtung
+3. Während des Drags kann der Nutzer zwischen alter und neuer Seite hin- und herziehen
+4. Bei ausreichender Distanz/Velocity snappt der Pager auf den Ziel-Tab, sonst zurück auf den Start-Tab
+5. Die virtuelle Pager-Indexlogik erlaubt zyklisches Durchwischen (Wrap-Around) über alle Haupt-Tabs

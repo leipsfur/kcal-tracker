@@ -45,3 +45,18 @@ Als Nutzer möchte ich, dass die App grundlegende Barrierefreiheitsstandards ein
 - Farbkontraste erfüllen WCAG AA (Mindestkontrast 4.5:1 für Text)
 - Informationen werden nicht ausschließlich über Farbe vermittelt (z. B. "Übrig" negativ: zusätzlich Minus-Zeichen, nicht nur Rot)
 - Eingabefelder haben sichtbare Labels (nicht nur Placeholder-Text)
+
+## US-0705: Wisch-Navigation zwischen Hauptbereichen
+
+Als Nutzer möchte ich durch horizontales Wischen zwischen den Haupt-Tabs wechseln, damit ich schneller zwischen Dashboard, Essen, Aktivität, Gewicht und Einstellungen navigieren kann.
+
+**Akzeptanzkriterien:**
+- Wischen nach links wechselt zum nächsten Haupt-Tab
+- Wischen nach rechts wechselt zum vorherigen Haupt-Tab
+- Reihenfolge: Dashboard → Essen → Aktivität → Gewicht → Einstellungen
+- An den Rändern wird zyklisch gewrappt (von Dashboard nach rechts zu Einstellungen, von Einstellungen nach links zu Dashboard)
+- Die Slide-Animation läuft live mit der Fingerbewegung (interaktiv)
+- Während eines Swipes kann zwischen zwei Tabs hin- und hergezogen werden ("Wackeln")
+- Wird der Swipe nicht weit genug abgeschlossen oder zurückgezogen, landet der Nutzer wieder auf der Ausgangsseite
+- Bottom Navigation und Wischgesten nutzen dieselbe Navigationslogik (State-Restore bleibt erhalten)
+- Screen-interne Navigation (Dialoge, Sheets, Food-/Activity-Untertabs) bleibt funktional und konsistent
