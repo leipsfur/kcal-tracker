@@ -6,7 +6,6 @@ import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
 import io.mockk.every
-import io.mockk.firstArg
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,7 +83,7 @@ class DashboardEdgeCaseTest {
 
         every { settingsRepository.getBmrForDate(any()) } returns flowOf(2000)
         every { foodRepository.getEntriesByDate(any()) } answers {
-            val requested = firstArg<LocalDate>()
+            val requested = invocation.args[0] as LocalDate
             if (requested == today) {
                 flowOf(
                     listOf(

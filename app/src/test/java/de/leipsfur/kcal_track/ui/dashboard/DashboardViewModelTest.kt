@@ -7,7 +7,6 @@ import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
 import io.mockk.every
-import io.mockk.firstArg
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -129,7 +128,7 @@ class DashboardViewModelTest {
         val dateFlow = MutableStateFlow(yesterday)
 
         every { settingsRepository.getBmrForDate(any()) } answers {
-            val requestedDate = firstArg<LocalDate>()
+            val requestedDate = invocation.args[0] as LocalDate
             dateToBmr.map { it[requestedDate] }
         }
 
