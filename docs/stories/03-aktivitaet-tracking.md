@@ -77,3 +77,12 @@ Als Nutzer möchte ich eigene Aktivitäts-Kategorien anlegen und verwalten, dami
 - Bestehende Kategorien können umbenannt werden
 - Kategorien können gelöscht werden (nur wenn keine Einträge/Vorlagen damit verknüpft sind)
 - Sortierreihenfolge ist anpassbar
+
+## US-0309: Vorlage aus Aktivitäts-Eintrag erstellen
+
+Als Nutzer möchte ich aus einem getrackten Aktivitäts-Eintrag eine Vorlage erzeugen, damit ich eine Aktivität, die ich bereits manuell erfasst habe, künftig schneller tracken kann.
+
+**Akzeptanzkriterien:**
+- Bei jedem Aktivitäts-Eintrag (mit und ohne verknüpfte Vorlage) ist ein Button „Vorlage erstellen" sichtbar
+- Der Vorlagen-Dialog öffnet sich vorausgefüllt mit den Daten des Eintrags (Name, kcal, Kategorie)
+- Die bestehende Validierung für Vorlagen greift (Name nicht leer, kcal > 0)

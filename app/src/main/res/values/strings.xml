@@ -104,6 +104,10 @@
     <string name="food_category_name">Kategoriename</string>
     <string name="food_move_up">Nach oben</string>
     <string name="food_move_down">Nach unten</string>
+    <string name="food_create_template_from_entry">Vorlage aus Eintrag erstellen</string>
+
+    <!-- Activity create template from entry -->
+    <string name="activity_create_template_from_entry">Vorlage aus Eintrag erstellen</string>
 
     <!-- Dashboard -->
     <string name="dashboard_tdee">TDEE</string>

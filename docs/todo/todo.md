@@ -139,3 +139,11 @@
 - [x] Konfliktverhalten mit Overlays und screen-internen Tabs absichern
 - [x] UI-Tests für Swipe-Navigation ergänzen
 - [x] Story- und Architektur-Dokumentation aktualisieren
+
+## Phase 14: Vorlage aus Eintrag erstellen (US-0209, US-0309)
+
+- [x] `FoodViewModel`: Funktion zum Erstellen einer `FoodTemplate` aus einem `FoodEntry` (Name, kcal, Makros, Portionsgröße, Portionseinheit, Kategorie übernehmen)
+- [x] `FoodScreen`: Button „Vorlage erstellen" bei jedem Essen-Eintrag, öffnet vorausgefüllten Vorlagen-Dialog
+- [x] `ActivityViewModel`: Funktion zum Erstellen einer `ActivityTemplate` aus einem `ActivityEntry` (Name, kcal, Kategorie übernehmen)
+- [x] `ActivityScreen`: Button „Vorlage erstellen" bei jedem Aktivitäts-Eintrag, öffnet vorausgefüllten Vorlagen-Dialog
+- [x] `strings.xml`: Neue Strings für Button-Label und ggf. Erfolgsmeldung

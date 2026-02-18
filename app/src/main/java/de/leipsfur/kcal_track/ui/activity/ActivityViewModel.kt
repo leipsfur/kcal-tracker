@@ -145,6 +145,19 @@ class ActivityViewModel(
         }
     }
 
+    fun showCreateTemplateFromEntry(entry: ActivityEntry) {
+        _uiExtras.update {
+            it.copy(
+                templateDialog = TemplateDialogState(
+                    editingTemplate = null,
+                    name = entry.name,
+                    kcal = entry.kcal.toString(),
+                    categoryId = entry.categoryId
+                )
+            )
+        }
+    }
+
     fun dismissTemplateDialog() {
         _uiExtras.update { it.copy(templateDialog = null) }
     }

@@ -8,6 +8,7 @@ import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.db.entity.FoodTemplate
 import de.leipsfur.kcal_track.data.repository.FoodRepository
 import de.leipsfur.kcal_track.domain.model.PortionUnit
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -68,6 +69,7 @@ data class FoodUiState(
     val deleteCategoryError: String? = null
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class FoodViewModel(
     private val foodRepository: FoodRepository,
     private val dateFlow: StateFlow<LocalDate>,
@@ -153,6 +155,24 @@ class FoodViewModel(
                 templatePortionSize = template.portionSize.toString(),
                 templatePortionUnit = template.portionUnit,
                 templateCategoryId = template.categoryId,
+                templateValidationError = null
+            )
+        }
+    }
+
+    fun showCreateTemplateFromEntry(entry: FoodEntry) {
+        _uiState.update {
+            it.copy(
+                showTemplateDialog = true,
+                editingTemplate = null,
+                templateName = entry.name,
+                templateKcal = entry.kcal.toString(),
+                templateProtein = entry.protein?.toString() ?: "",
+                templateCarbs = entry.carbs?.toString() ?: "",
+                templateFat = entry.fat?.toString() ?: "",
+                templatePortionSize = entry.amount.toString(),
+                templatePortionUnit = entry.portionUnit ?: PortionUnit.GRAM,
+                templateCategoryId = entry.categoryId,
                 templateValidationError = null
             )
         }
@@ -430,7 +450,7 @@ class FoodViewModel(
 
         val protein = state.entryProtein.trim().toDoubleOrNull()
         val carbs = state.entryCarbs.trim().toDoubleOrNull()
-        val fat = state.templateFat.trim().toDoubleOrNull()
+        val fat = state.entryFat.trim().toDoubleOrNull()
 
         viewModelScope.launch {
             val editing = state.editingEntry

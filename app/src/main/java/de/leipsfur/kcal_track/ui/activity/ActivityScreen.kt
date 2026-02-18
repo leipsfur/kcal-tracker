@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Delete
@@ -172,7 +173,8 @@ fun ActivityScreen(
                         entries = uiState.entries,
                         categories = uiState.categories,
                         onEdit = { viewModel.showEditEntryDialog(it) },
-                        onDelete = { viewModel.showDeleteEntryConfirmation(it) }
+                        onDelete = { viewModel.showDeleteEntryConfirmation(it) },
+                        onCreateTemplate = { viewModel.showCreateTemplateFromEntry(it) }
                     )
                 }
                 ActivityTab.TEMPLATES -> {
@@ -241,7 +243,8 @@ private fun EntryList(
     entries: List<ActivityEntry>,
     categories: List<ActivityCategory>,
     onEdit: (ActivityEntry) -> Unit,
-    onDelete: (ActivityEntry) -> Unit
+    onDelete: (ActivityEntry) -> Unit,
+    onCreateTemplate: (ActivityEntry) -> Unit
 ) {
     if (entries.isEmpty()) {
         Box(
@@ -276,7 +279,7 @@ private fun EntryList(
                 }
 
                 items(categoryEntries, key = { it.id }) { entry ->
-                    EntryCard(entry = entry, onEdit = onEdit, onDelete = onDelete)
+                    EntryCard(entry = entry, onEdit = onEdit, onDelete = onDelete, onCreateTemplate = onCreateTemplate)
                 }
             }
 
@@ -304,7 +307,8 @@ private fun EntryList(
 private fun EntryCard(
     entry: ActivityEntry,
     onEdit: (ActivityEntry) -> Unit,
-    onDelete: (ActivityEntry) -> Unit
+    onDelete: (ActivityEntry) -> Unit,
+    onCreateTemplate: (ActivityEntry) -> Unit
 ) {
     KcalTrackCard {
         Row(
@@ -332,6 +336,12 @@ private fun EntryCard(
                     Icon(
                         Icons.Default.Edit,
                         contentDescription = stringResource(R.string.activity_edit)
+                    )
+                }
+                IconButton(onClick = { onCreateTemplate(entry) }) {
+                    Icon(
+                        Icons.Default.BookmarkAdd,
+                        contentDescription = stringResource(R.string.activity_create_template_from_entry)
                     )
                 }
                 IconButton(onClick = { onDelete(entry) }) {

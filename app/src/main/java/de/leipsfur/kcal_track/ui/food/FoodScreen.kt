@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -113,7 +114,8 @@ fun FoodScreen(
                     entries = uiState.entries,
                     categories = uiState.categories,
                     onEdit = { viewModel.showEditEntryDialog(it) },
-                    onDelete = { viewModel.showDeleteEntryConfirmation(it) }
+                    onDelete = { viewModel.showDeleteEntryConfirmation(it) },
+                    onCreateTemplate = { viewModel.showCreateTemplateFromEntry(it) }
                 )
             } else {
                 FoodTemplateList(
@@ -224,7 +226,8 @@ private fun FoodEntryList(
     entries: List<FoodEntry>,
     categories: List<FoodCategory>,
     onEdit: (FoodEntry) -> Unit,
-    onDelete: (FoodEntry) -> Unit
+    onDelete: (FoodEntry) -> Unit,
+    onCreateTemplate: (FoodEntry) -> Unit
 ) {
     if (entries.isEmpty()) {
         Column(
@@ -250,7 +253,8 @@ private fun FoodEntryList(
                     entry = entry,
                     categoryName = categoryMap[entry.categoryId]?.name ?: "",
                     onEdit = { onEdit(entry) },
-                    onDelete = { onDelete(entry) }
+                    onDelete = { onDelete(entry) },
+                    onCreateTemplate = { onCreateTemplate(entry) }
                 )
             }
         }
@@ -262,7 +266,8 @@ private fun FoodEntryCard(
     entry: FoodEntry,
     categoryName: String,
     onEdit: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onCreateTemplate: () -> Unit
 ) {
     KcalTrackCard(
         onClick = onEdit
@@ -288,6 +293,12 @@ private fun FoodEntryCard(
                 text = "${entry.kcal} kcal",
                 style = MaterialTheme.typography.titleSmall
             )
+            IconButton(onClick = onCreateTemplate) {
+                Icon(
+                    Icons.Filled.BookmarkAdd,
+                    contentDescription = stringResource(R.string.food_create_template_from_entry)
+                )
+            }
             IconButton(onClick = onDelete) {
                 Icon(
                     Icons.Filled.Delete,

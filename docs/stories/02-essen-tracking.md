@@ -81,3 +81,13 @@ Als Nutzer möchte ich eigene Essen-Kategorien anlegen und verwalten, damit ich 
 - Bestehende Kategorien können umbenannt werden
 - Kategorien können gelöscht werden (nur wenn keine Einträge/Vorlagen damit verknüpft sind)
 - Sortierreihenfolge ist anpassbar
+
+## US-0209: Vorlage aus Essen-Eintrag erstellen
+
+Als Nutzer möchte ich aus einem getrackten Essen-Eintrag eine Vorlage erzeugen, damit ich ein Lebensmittel, das ich bereits manuell erfasst habe, künftig schneller tracken kann.
+
+**Akzeptanzkriterien:**
+- Bei jedem Essen-Eintrag (mit und ohne verknüpfte Vorlage) ist ein Button „Vorlage erstellen" sichtbar
+- Der Vorlagen-Dialog öffnet sich vorausgefüllt mit den Daten des Eintrags (Name, kcal, Protein, Kohlenhydrate, Fett, Portionsgröße, Portionseinheit, Kategorie)
+- Die bestehende Validierung für Vorlagen greift (Name nicht leer, kcal > 0, Portionsgröße > 0)
+- Der bestehende Eintrag wird nicht mit der neu erstellten Vorlage verknüpft
