@@ -30,3 +30,31 @@ Als Nutzer möchte ich den Grundumsatz für eine Periode festlegen, damit vergan
 - Für Tage vor der ersten gespeicherten Periode gilt die früheste Periode rückwirkend
 - Neue Perioden ändern keine bereits abgeschlossenen Tage mit abweichendem Datum
 - Dashboard, Widget und Auswertungen nutzen dieselbe datumsabhängige BMR-Regel
+
+## US-0504: Daten in Google Drive sichern
+
+Als Nutzer möchte ich meine App-Daten in meinem verknüpften Google-Konto sichern können, damit ich meine Daten bei einem Gerätewechsel oder Datenverlust nicht verliere.
+
+**Akzeptanzkriterien:**
+- Im Einstellungen-Screen gibt es einen Bereich „Datensicherung"
+- Button „Backup erstellen" startet den Sicherungsvorgang
+- Bei erstmaliger Nutzung wird der Google-Anmeldedialog angezeigt (Google Identity Services)
+- Die komplette Room-Datenbank wird als Datei in Google Drive App Data gespeichert (für den Nutzer nicht sichtbar im Drive)
+- Während des Backups wird ein Ladeindikator angezeigt
+- Nach erfolgreichem Backup wird Datum und Uhrzeit der letzten Sicherung angezeigt
+- Fehlermeldung bei fehlender Internetverbindung oder abgebrochener Anmeldung
+- Ein bestehendes Backup wird überschrieben (immer nur das aktuellste)
+
+## US-0505: Daten aus Google Drive wiederherstellen
+
+Als Nutzer möchte ich meine gesicherten Daten aus meinem Google-Konto wiederherstellen können, damit ich nach einer Neuinstallation oder auf einem neuen Gerät weiterarbeiten kann.
+
+**Akzeptanzkriterien:**
+- Button „Backup wiederherstellen" im Bereich „Datensicherung"
+- Bei erstmaliger Nutzung wird der Google-Anmeldedialog angezeigt
+- Bestätigungsdialog vor der Wiederherstellung: „Alle aktuellen Daten werden durch das Backup ersetzt. Fortfahren?"
+- Das Datum des verfügbaren Backups wird im Bestätigungsdialog angezeigt
+- Bei erfolgreicher Wiederherstellung wird die App neu gestartet (Datenbank-Verbindungen müssen neu aufgebaut werden)
+- Fehlermeldung wenn kein Backup vorhanden ist
+- Fehlermeldung bei fehlender Internetverbindung oder abgebrochener Anmeldung
+- Ladeindikator während der Wiederherstellung
