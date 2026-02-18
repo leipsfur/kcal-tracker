@@ -2,22 +2,6 @@
 
 Kalorienzähler-App für Android. Offline-first, kein Backend.
 
-## Build & Run
-
-**WSL-Umgebung** (JAVA_HOME und ANDROID_HOME müssen gesetzt werden):
-
-```bash
-export JAVA_HOME=/usr/lib/jvm/java-25
-export ANDROID_HOME=/mnt/c/Users/darky/AppData/Local/Android/Sdk
-
-./gradlew assembleDebug          # Debug-APK bauen
-./gradlew test                   # Unit Tests
-./gradlew connectedAndroidTest   # Instrumented Tests
-./gradlew lint                   # Lint-Prüfung
-```
-
-**Hinweis**: Der Gradle-Build unter WSL funktioniert **nicht**, da die Android SDK Build-Tools Windows-Binaries sind (`.exe`). Auch `compileDebugKotlin` schlägt fehl, weil AGP die Build-Tools bereits bei der Task-Resolution prüft. **Builds müssen in Android Studio oder PowerShell ausgeführt werden.** Die ai-factory kann unter WSL keinen Build verifizieren — stattdessen manuelle Code-Review durchführen.
-
 ## Tech Stack
 
 | Komponente | Technologie |
