@@ -25,9 +25,6 @@ import de.leipsfur.kcal_track.data.db.entity.FoodEntry
 import de.leipsfur.kcal_track.data.db.entity.FoodTemplate
 import de.leipsfur.kcal_track.data.db.entity.UserSettings
 import de.leipsfur.kcal_track.data.db.entity.WeightEntry
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Database(
     entities = [
@@ -109,32 +106,15 @@ abstract class KcalTrackDatabase : RoomDatabase() {
     private class SeedDatabaseCallback : Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            INSTANCE?.let { database ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    seedFoodCategories(database.foodCategoryDao())
-                    seedActivityCategories(database.activityCategoryDao())
-                }
-            }
-        }
-
-        private suspend fun seedFoodCategories(dao: FoodCategoryDao) {
-            val categories = listOf(
-                FoodCategory(name = "Frühstück", sortOrder = 0),
-                FoodCategory(name = "Mittagessen", sortOrder = 1),
-                FoodCategory(name = "Abendessen", sortOrder = 2),
-                FoodCategory(name = "Snack", sortOrder = 3),
-                FoodCategory(name = "Alkohol", sortOrder = 4)
-            )
-            categories.forEach { dao.insert(it) }
-        }
-
-        private suspend fun seedActivityCategories(dao: ActivityCategoryDao) {
-            val categories = listOf(
-                ActivityCategory(name = "Cardio", sortOrder = 0),
-                ActivityCategory(name = "Krafttraining", sortOrder = 1),
-                ActivityCategory(name = "Alltag", sortOrder = 2)
-            )
-            categories.forEach { dao.insert(it) }
+            // Use direct SQL to avoid race condition with DAO access via INSTANCE
+            db.execSQL("INSERT INTO food_category (name, sortOrder) VALUES ('Frühstück', 0)")
+            db.execSQL("INSERT INTO food_category (name, sortOrder) VALUES ('Mittagessen', 1)")
+            db.execSQL("INSERT INTO food_category (name, sortOrder) VALUES ('Abendessen', 2)")
+            db.execSQL("INSERT INTO food_category (name, sortOrder) VALUES ('Snack', 3)")
+            db.execSQL("INSERT INTO food_category (name, sortOrder) VALUES ('Alkohol', 4)")
+            db.execSQL("INSERT INTO activity_category (name, sortOrder) VALUES ('Cardio', 0)")
+            db.execSQL("INSERT INTO activity_category (name, sortOrder) VALUES ('Krafttraining', 1)")
+            db.execSQL("INSERT INTO activity_category (name, sortOrder) VALUES ('Alltag', 2)")
         }
     }
 }
