@@ -7,6 +7,7 @@
     <string name="nav_activity">Aktivität</string>
     <string name="nav_weight">Gewicht</string>
     <string name="nav_settings">Einstellungen</string>
+    <string name="nav_recipe">Rezepte</string>
 
     <!-- Settings -->
     <string name="settings_bmr_label">Grundumsatz</string>
@@ -15,6 +16,7 @@
     <string name="settings_bmr_current">Aktuell gespeichert: %1$d kcal</string>
     <string name="settings_bmr_save">Speichern</string>
     <string name="settings_bmr_saved">Grundumsatz gespeichert</string>
+    <string name="settings_back">Zurück</string>
 
     <!-- Activity Tracking -->
     <string name="activity_tab_entries">Einträge</string>
@@ -60,6 +62,23 @@
     <string name="settings_restore_confirm_title">Backup wiederherstellen?</string>
     <string name="settings_restore_confirm_text">Alle aktuellen Daten werden durch das Backup ersetzt. Fortfahren?</string>
     <string name="settings_restore_confirm_button">Wiederherstellen</string>
+
+    <!-- Nährwert-Scan -->
+    <string name="settings_scan_label">Nährwert-Scan (Test)</string>
+    <string name="settings_scan_button">Nährwerttabelle scannen</string>
+    <string name="settings_scan_loading">Nährwerte werden erkannt…</string>
+    <string name="settings_scan_result_title">Erkannte Nährwerte</string>
+    <string name="settings_scan_result_kcal">Brennwert</string>
+    <string name="settings_scan_result_protein">Protein</string>
+    <string name="settings_scan_result_carbs">Kohlenhydrate</string>
+    <string name="settings_scan_result_fat">Fett</string>
+    <string name="settings_scan_not_recognized">–</string>
+    <string name="settings_scan_error_no_model">Gemini Nano ist auf diesem Gerät nicht verfügbar.</string>
+    <string name="settings_scan_error_download_failed">Modell-Download fehlgeschlagen.</string>
+    <string name="settings_scan_error_generic">Erkennung fehlgeschlagen: %1$s</string>
+    <string name="settings_scan_permission_denied">Kamera-Berechtigung wird benötigt.</string>
+    <string name="settings_scan_value_g">%1$s g</string>
+    <string name="settings_scan_value_kcal">%1$s kcal</string>
 
     <!-- Common -->
     <string name="save">Speichern</string>
@@ -151,4 +170,36 @@
     <string name="weight_diff_positive">+%1$.1f kg</string>
     <string name="weight_diff_negative">%1$.1f kg</string>
     <string name="weight_unit">kg</string>
+
+    <!-- Rezepte -->
+    <string name="recipe_title">Rezepte</string>
+    <string name="recipe_no_recipes">Noch keine Rezepte vorhanden</string>
+    <string name="recipe_create">Neues Rezept</string>
+    <string name="recipe_name">Rezeptname</string>
+    <string name="recipe_status_in_progress">In Bearbeitung</string>
+    <string name="recipe_status_completed">Abgeschlossen</string>
+    <string name="recipe_kcal_per_portion">%1$d kcal/Portion</string>
+    <string name="recipe_total_kcal">Gesamt: %1$d kcal</string>
+    <string name="recipe_portions">Portionen</string>
+    <string name="recipe_add_ingredient">Zutat hinzufügen</string>
+    <string name="recipe_ingredient_name">Zutatenname</string>
+    <string name="recipe_ingredient_kcal">kcal pro 100</string>
+    <string name="recipe_ingredient_amount">Menge</string>
+    <string name="recipe_ingredient_unit">Einheit</string>
+    <string name="recipe_ingredient_unit_g">g</string>
+    <string name="recipe_ingredient_unit_ml">ml</string>
+    <string name="recipe_finish">Als Mahlzeit eintragen</string>
+    <string name="recipe_portions_cooked">Gekochte Portionen</string>
+    <string name="recipe_portions_eaten">Gegessene Portionen</string>
+    <string name="recipe_select_category">Kategorie wählen</string>
+    <string name="recipe_delete">Rezept löschen</string>
+    <string name="recipe_delete_title">Rezept löschen</string>
+    <string name="recipe_delete_confirm">Möchtest du das Rezept \"%1$s\" wirklich löschen? Bereits erstellte Essen-Einträge bleiben erhalten.</string>
+    <string name="recipe_copy">Als Basis kopieren</string>
+    <string name="recipe_add_portions">Portionen eintragen</string>
+    <string name="recipe_edit">Rezept bearbeiten</string>
+    <string name="recipe_ingredient_delete_title">Zutat löschen</string>
+    <string name="recipe_ingredient_delete_confirm">Zutat \"%1$s\" wirklich löschen?</string>
+    <string name="recipe_no_ingredients">Noch keine Zutaten hinzugefügt</string>
+    <string name="recipe_created_on">Erstellt am %1$s</string>
 </resources>

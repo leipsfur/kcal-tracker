@@ -53,3 +53,26 @@ Als Nutzer möchte ich meine gesicherten Daten aus einer Backup-Datei wiederhers
 - Bei erfolgreicher Wiederherstellung wird die App neu gestartet (Datenbank-Verbindungen müssen neu aufgebaut werden)
 - Fehlermeldung bei ungültiger Backup-Datei
 - Ladeindikator während der Wiederherstellung
+
+## US-0506: Nährwerttabelle scannen (Test-Button)
+
+Als Nutzer möchte ich über einen Test-Button in den Einstellungen ein Foto einer Nährwerttabelle aufnehmen können, damit die On-Device-KI (Gemini Nano) die Nährwerte erkennen kann.
+
+**Akzeptanzkriterien:**
+- In den Einstellungen gibt es einen Button „Nährwerttabelle scannen"
+- Nach Tippen öffnet sich die Kamera (via CameraX oder `ACTION_IMAGE_CAPTURE`)
+- Das aufgenommene Bild wird an Gemini Nano (Google AI Edge SDK) zur Analyse übergeben
+- Die Verarbeitung erfolgt vollständig on-device (kein Netzwerkzugriff nötig)
+- Während der Erkennung wird ein Ladeindikator angezeigt
+- Bei fehlendem Gemini-Nano-Modell wird eine verständliche Fehlermeldung angezeigt
+
+## US-0507: Scan-Ergebnis anzeigen
+
+Als Nutzer möchte ich nach dem Scannen die erkannten Nährwerte in einer Ergebnisansicht sehen, damit ich die Qualität der Erkennung überprüfen kann.
+
+**Akzeptanzkriterien:**
+- Nach erfolgreicher Erkennung wird eine Ergebnisansicht angezeigt
+- Folgende Werte werden angezeigt (soweit erkannt): Brennwert (kcal), Protein (g), Kohlenhydrate (g), Fett (g)
+- Nicht erkannte Werte werden als „–" dargestellt
+- Die Ergebnisansicht enthält einen „Schließen"-Button
+- Bei Erkennungsfehlern wird eine Fehlermeldung statt der Werte angezeigt

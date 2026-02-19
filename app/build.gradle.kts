@@ -63,6 +63,9 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+    // ML Kit GenAI (Gemini Nano on-device)
+    implementation(libs.mlkit.genai.prompt)
+
     // Glance (Widget)
     implementation(libs.androidx.glance)
     implementation(libs.androidx.glance.appwidget)
