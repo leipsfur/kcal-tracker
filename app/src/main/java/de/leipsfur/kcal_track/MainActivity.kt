@@ -111,6 +111,7 @@ fun KcalTrackApp(openQuickAdd: Boolean = false) {
     val settingsViewModel: SettingsViewModel = viewModel(
         factory = SettingsViewModel.Factory(
             application.settingsRepository,
+            application.backupManager,
             onDataChanged
         )
     )

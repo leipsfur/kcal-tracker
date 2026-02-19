@@ -1,19 +1,12 @@
-# Google Drive Backup & Restore (US-0504, US-0505)
+# Backup/Restore via Share-Dialog & SAF (US-0504, US-0505)
 
 Dokumentation: [docs/stories/05-einstellungen.md](../stories/05-einstellungen.md)
 
-- [ ] Google Identity Services Dependency hinzufügen (`libs.versions.toml`, `build.gradle.kts`)
-- [ ] Google Drive API Dependency hinzufügen (`libs.versions.toml`, `build.gradle.kts`)
-- [ ] Google Cloud Projekt konfigurieren (OAuth Client ID, Drive API aktivieren)
-- [ ] `GoogleAuthManager` erstellen: Sign-In Flow, Token-Verwaltung
-- [ ] `DriveBackupRepository` erstellen: Upload/Download der Datenbank-Datei in App Data Folder
-- [ ] Room-Datenbank-Checkpoint (`wal_checkpoint(TRUNCATE)`) vor Backup durchführen
-- [ ] `BackupManager` erstellen: Datenbank schließen, Datei kopieren, Upload orchestrieren
-- [ ] `RestoreManager` erstellen: Download, Datenbank schließen, Datei ersetzen, App-Neustart auslösen
-- [ ] `SettingsViewModel` erweitern: Backup/Restore-Aktionen, Ladezustand, Fehlermeldungen
-- [ ] `SettingsScreen` erweitern: Bereich „Datensicherung" mit Backup/Restore-Buttons und Status-Anzeige
-- [ ] Letztes Backup-Datum persistent speichern (z. B. in `SharedPreferences` oder `UserSettings`)
-- [ ] Fehlerbehandlung: Kein Internet, Anmeldung abgebrochen, kein Backup vorhanden
-- [ ] Bestätigungsdialog vor Wiederherstellung implementieren
-- [ ] `strings.xml`: Neue Strings für Datensicherungs-UI und Fehlermeldungen
-- [ ] Manuelle Tests: Backup erstellen, Restore auf gleichem/anderem Gerät, Fehlerszenarien
+- [x] `FileProvider` einrichten (`file_provider_paths.xml`, `AndroidManifest.xml`)
+- [x] `BackupManager` erstellen: WAL-Checkpoint, DB kopieren, FileProvider-URI, Share-Intent, Validierung, Restore
+- [x] DI erweitern: `BackupManager` in `KcalTrackApplication`
+- [x] `SettingsViewModel` erweitern: Backup/Restore-Aktionen, Ladezustand, Fehlermeldungen
+- [x] `SettingsScreen` erweitern: Bereich „Datensicherung" mit Backup/Restore-Buttons, Share-Launcher, SAF-Filepicker, Bestätigungsdialog
+- [x] `MainActivity` anpassen: `BackupManager` an `SettingsViewModel.Factory` übergeben
+- [x] `strings.xml`: Neue Strings für Datensicherungs-UI
+- [ ] Manuelle Tests: Backup erstellen + teilen, Restore aus Datei, Fehlerszenarien (ungültige Datei)

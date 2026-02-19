@@ -53,6 +53,14 @@
     <string name="activity_delete_category_confirm">Kategorie \"%1$s\" wirklich löschen?</string>
     <string name="activity_category_in_use">Kategorie \"%1$s\" wird noch von %2$d Einträgen/Vorlagen verwendet und kann nicht gelöscht werden.</string>
 
+    <!-- Backup/Restore -->
+    <string name="settings_backup_label">Datensicherung</string>
+    <string name="settings_backup_create">Backup erstellen</string>
+    <string name="settings_backup_restore">Backup wiederherstellen</string>
+    <string name="settings_restore_confirm_title">Backup wiederherstellen?</string>
+    <string name="settings_restore_confirm_text">Alle aktuellen Daten werden durch das Backup ersetzt. Fortfahren?</string>
+    <string name="settings_restore_confirm_button">Wiederherstellen</string>
+
     <!-- Common -->
     <string name="save">Speichern</string>
     <string name="cancel">Abbrechen</string>

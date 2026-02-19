@@ -1,6 +1,7 @@
 package de.leipsfur.kcal_track
 
 import android.app.Application
+import de.leipsfur.kcal_track.data.BackupManager
 import de.leipsfur.kcal_track.data.db.KcalTrackDatabase
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
@@ -33,4 +34,6 @@ class KcalTrackApplication : Application() {
     val settingsRepository: SettingsRepository by lazy {
         SettingsRepository(database.bmrPeriodDao())
     }
+
+    val backupManager: BackupManager by lazy { BackupManager(this) }
 }
