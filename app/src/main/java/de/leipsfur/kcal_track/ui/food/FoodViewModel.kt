@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 data class FoodUiState(
     val selectedDate: LocalDate = LocalDate.now(),
@@ -53,6 +55,7 @@ data class FoodUiState(
     val entryProtein: String = "",
     val entryCarbs: String = "",
     val entryFat: String = "",
+    val entryTime: String = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")),
     val entryCategoryId: Long? = null,
     val entryValidationError: String? = null,
     // Delete entry confirmation
@@ -351,7 +354,8 @@ class FoodViewModel(
                     fat = fat,
                     amount = amount * template.portionSize,
                     portionUnit = template.portionUnit,
-                    categoryId = template.categoryId
+                    categoryId = template.categoryId,
+                    time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
                 )
             )
             onDataChanged()
@@ -372,6 +376,7 @@ class FoodViewModel(
                 entryProtein = "",
                 entryCarbs = "",
                 entryFat = "",
+                entryTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")),
                 entryCategoryId = it.categories.firstOrNull()?.id,
                 entryValidationError = null
             )
@@ -389,6 +394,7 @@ class FoodViewModel(
                 entryProtein = entry.protein?.toString() ?: "",
                 entryCarbs = entry.carbs?.toString() ?: "",
                 entryFat = entry.fat?.toString() ?: "",
+                entryTime = entry.time,
                 entryCategoryId = entry.categoryId,
                 entryValidationError = null
             )
@@ -421,6 +427,10 @@ class FoodViewModel(
 
     fun onEntryFatChanged(value: String) {
         _uiState.update { it.copy(entryFat = value) }
+    }
+
+    fun onEntryTimeChanged(value: String) {
+        _uiState.update { it.copy(entryTime = value) }
     }
 
     fun onEntryCategoryChanged(categoryId: Long) {
@@ -463,6 +473,7 @@ class FoodViewModel(
                         protein = protein,
                         carbs = carbs,
                         fat = fat,
+                        time = state.entryTime,
                         categoryId = state.entryCategoryId!!
                     )
                 )
@@ -476,6 +487,7 @@ class FoodViewModel(
                         protein = protein,
                         carbs = carbs,
                         fat = fat,
+                        time = state.entryTime,
                         categoryId = state.entryCategoryId!!
                     )
                 )

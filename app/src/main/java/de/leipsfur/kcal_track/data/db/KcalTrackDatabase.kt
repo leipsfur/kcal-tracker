@@ -38,7 +38,7 @@ import de.leipsfur.kcal_track.data.db.entity.WeightEntry
         UserSettings::class,
         BmrPeriod::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -85,6 +85,14 @@ abstract class KcalTrackDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_3_4: Migration = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE food_entry ADD COLUMN time TEXT NOT NULL DEFAULT '12:00'"
+                )
+            }
+        }
+
         fun getInstance(context: Context): KcalTrackDatabase {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
@@ -97,7 +105,7 @@ abstract class KcalTrackDatabase : RoomDatabase() {
                 KcalTrackDatabase::class.java,
                 "kcal_track.db"
             )
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                 .addCallback(SeedDatabaseCallback())
                 .build()
         }

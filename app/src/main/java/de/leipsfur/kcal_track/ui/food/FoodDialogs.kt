@@ -2,6 +2,7 @@ package de.leipsfur.kcal_track.ui.food
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
@@ -40,7 +42,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -187,6 +191,7 @@ fun FoodTemplateDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodEntryDialog(
     uiState: FoodUiState,
@@ -196,6 +201,7 @@ fun FoodEntryDialog(
     onProteinChanged: (String) -> Unit,
     onCarbsChanged: (String) -> Unit,
     onFatChanged: (String) -> Unit,
+    onTimeChanged: (String) -> Unit,
     onCategoryChanged: (Long) -> Unit,
     onSave: () -> Unit,
     onDismiss: () -> Unit
@@ -206,6 +212,13 @@ fun FoodEntryDialog(
     } else {
         stringResource(R.string.food_create_entry)
     }
+
+    var showTimePicker by remember { mutableStateOf(false) }
+
+    // Parse the current time from the UI state
+    val timeParts = uiState.entryTime.split(":")
+    val initialHour = timeParts.getOrNull(0)?.toIntOrNull() ?: 12
+    val initialMinute = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -225,16 +238,40 @@ fun FoodEntryDialog(
                         .testTag(UiTestTags.FOOD_ENTRY_NAME_INPUT)
                 )
 
-                OutlinedTextField(
-                    value = uiState.entryKcal,
-                    onValueChange = onKcalChanged,
-                    label = { Text(stringResource(R.string.food_entry_kcal)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(UiTestTags.FOOD_ENTRY_KCAL_INPUT)
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    OutlinedTextField(
+                        value = uiState.entryKcal,
+                        onValueChange = onKcalChanged,
+                        label = { Text(stringResource(R.string.food_entry_kcal)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag(UiTestTags.FOOD_ENTRY_KCAL_INPUT)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(modifier = Modifier.weight(1f)) {
+                        OutlinedTextField(
+                            value = uiState.entryTime,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text(stringResource(R.string.food_entry_time)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Filled.AccessTime,
+                                    contentDescription = null
+                                )
+                            },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { showTimePicker = true }
+                        )
+                    }
+                }
 
                 OutlinedTextField(
                     value = uiState.entryAmount,
@@ -300,6 +337,56 @@ fun FoodEntryDialog(
                 onClick = onSave,
                 modifier = Modifier.testTag(UiTestTags.FOOD_ENTRY_SAVE_BUTTON)
             ) {
+                Text(stringResource(R.string.save))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
+
+    if (showTimePicker) {
+        TimePickerDialog(
+            initialHour = initialHour,
+            initialMinute = initialMinute,
+            onConfirm = { hour, minute ->
+                onTimeChanged("%02d:%02d".format(hour, minute))
+                showTimePicker = false
+            },
+            onDismiss = { showTimePicker = false }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TimePickerDialog(
+    initialHour: Int,
+    initialMinute: Int,
+    onConfirm: (Int, Int) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val timePickerState = rememberTimePickerState(
+        initialHour = initialHour,
+        initialMinute = initialMinute,
+        is24Hour = true
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.food_time_picker_title)) },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TimePicker(state = timePickerState)
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(timePickerState.hour, timePickerState.minute) }) {
                 Text(stringResource(R.string.save))
             }
         },

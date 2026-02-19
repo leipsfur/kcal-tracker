@@ -19,14 +19,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,6 +44,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
@@ -58,12 +62,12 @@ import java.util.Locale
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel,
-    onNavigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var foodEntryToDelete by remember { mutableStateOf<FoodEntry?>(null) }
     var activityEntryToDelete by remember { mutableStateOf<ActivityEntry?>(null) }
+    var showBmrEditDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -89,7 +93,7 @@ fun DashboardScreen(
                 intake = uiState.totalFoodKcal,
                 remaining = uiState.remainingKcal,
                 bmr = uiState.bmr,
-                onNavigateToSettings = onNavigateToSettings
+                onEditBmr = { showBmrEditDialog = true }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -115,6 +119,7 @@ fun DashboardScreen(
                                 kcal = entry.kcal,
                                 amount = entry.amount,
                                 unit = entry.portionUnit,
+                                time = entry.time,
                                 onDelete = { foodEntryToDelete = entry }
                             )
                         }
@@ -213,6 +218,17 @@ fun DashboardScreen(
             }
         )
     }
+
+    if (showBmrEditDialog) {
+        BmrEditDialog(
+            currentBmr = uiState.bmr,
+            onSave = { newBmr ->
+                viewModel.updateBmr(newBmr)
+                showBmrEditDialog = false
+            },
+            onDismiss = { showBmrEditDialog = false }
+        )
+    }
 }
 
 @Composable
@@ -266,7 +282,7 @@ fun SummaryCard(
     intake: Int,
     remaining: Int,
     bmr: Int?,
-    onNavigateToSettings: () -> Unit
+    onEditBmr: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -285,7 +301,7 @@ fun SummaryCard(
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .clickable { onNavigateToSettings() }
+                        .clickable { onEditBmr() }
                         .padding(bottom = 8.dp)
                 )
             }
@@ -299,7 +315,9 @@ fun SummaryCard(
                     label = stringResource(R.string.dashboard_tdee),
                     value = tdee.toString(),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onEditBmr() }
                 )
                 SummaryItem(
                     label = stringResource(R.string.dashboard_intake),
@@ -383,6 +401,7 @@ fun EntryItem(
     kcal: Int,
     amount: Double?,
     unit: String?,
+    time: String? = null,
     onDelete: () -> Unit
 ) {
     KcalTrackCard {
@@ -393,7 +412,7 @@ fun EntryItem(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = name,
+                    text = if (time != null) "$time \u2014 $name" else name,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 if (amount != null) {
@@ -427,4 +446,69 @@ fun EntryItem(
             }
         }
     }
+}
+
+@Composable
+fun BmrEditDialog(
+    currentBmr: Int?,
+    onSave: (Int) -> Unit,
+    onDismiss: () -> Unit
+) {
+    var bmrInput by remember { mutableStateOf(currentBmr?.toString() ?: "") }
+    var validationError by remember { mutableStateOf<String?>(null) }
+    val errorMessage = stringResource(R.string.dashboard_edit_bmr_error)
+
+    fun validate(): Int? {
+        val value = bmrInput.trim().toIntOrNull()
+        return if (value != null && value in 500..5000) {
+            validationError = null
+            value
+        } else {
+            validationError = errorMessage
+            null
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.dashboard_edit_bmr_title)) },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = bmrInput,
+                    onValueChange = {
+                        bmrInput = it
+                        validationError = null
+                    },
+                    label = { Text(stringResource(R.string.dashboard_edit_bmr_label)) },
+                    suffix = { Text(stringResource(R.string.kcal_unit)) },
+                    isError = validationError != null,
+                    supportingText = if (validationError != null) {
+                        { Text(text = validationError!!, color = MaterialTheme.colorScheme.error) }
+                    } else {
+                        null
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { validate()?.let { onSave(it) } }
+                    ),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { validate()?.let { onSave(it) } }) {
+                Text(stringResource(R.string.save))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
 }

@@ -91,3 +91,15 @@ Als Nutzer möchte ich aus einem getrackten Essen-Eintrag eine Vorlage erzeugen,
 - Der Vorlagen-Dialog öffnet sich vorausgefüllt mit den Daten des Eintrags (Name, kcal, Protein, Kohlenhydrate, Fett, Portionsgröße, Portionseinheit, Kategorie)
 - Die bestehende Validierung für Vorlagen greift (Name nicht leer, kcal > 0, Portionsgröße > 0)
 - Der bestehende Eintrag wird nicht mit der neu erstellten Vorlage verknüpft
+
+## US-0210: Uhrzeit bei Essen-Einträgen erfassen
+
+Als Nutzer möchte ich bei Essen-Einträgen eine Uhrzeit angeben können, damit ich nachvollziehen kann, wann ich was gegessen habe.
+
+**Akzeptanzkriterien:**
+- Beim Erstellen eines Essen-Eintrags (manuell oder über Vorlage) wird ein Uhrzeitfeld angezeigt
+- Die aktuelle Uhrzeit ist vorausgewählt (Stunde und Minute, ohne Sekunden)
+- Die Uhrzeit kann manuell geändert werden (Material 3 TimePicker)
+- Die Uhrzeit wird im Eintrag als `String` im Format `"HH:mm"` gespeichert (nicht nullable)
+- Room-Migration: Bestehende Einträge erhalten den Default-Wert `"12:00"`
+- Beim Bearbeiten eines Eintrags kann die Uhrzeit geändert werden

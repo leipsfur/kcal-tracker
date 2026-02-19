@@ -174,6 +174,7 @@ fun FoodScreen(
             onProteinChanged = viewModel::onEntryProteinChanged,
             onCarbsChanged = viewModel::onEntryCarbsChanged,
             onFatChanged = viewModel::onEntryFatChanged,
+            onTimeChanged = viewModel::onEntryTimeChanged,
             onCategoryChanged = viewModel::onEntryCategoryChanged,
             onSave = viewModel::saveEntry,
             onDismiss = viewModel::dismissManualEntryDialog
@@ -278,7 +279,7 @@ private fun FoodEntryCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = entry.name,
+                    text = "${entry.time} \u2014 ${entry.name}",
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis

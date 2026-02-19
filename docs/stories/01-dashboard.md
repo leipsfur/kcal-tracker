@@ -45,3 +45,23 @@ Als Nutzer möchte ich vergangene Tage auf dem Dashboard ansehen und dort Eintr�
 - Alle Aktionen (Essen/Aktivität hinzufügen, bearbeiten, löschen) sind auch für vergangene Tage verfügbar
 - Einträge, die über einen vergangenen Tag hinzugefügt werden, erhalten das angezeigte Datum (nicht das aktuelle)
 - Es können keine Einträge für zukünftige Tage erstellt werden
+
+## US-0105: Uhrzeiten in der Tagesübersicht anzeigen
+
+Als Nutzer möchte ich die Uhrzeiten meiner Essen-Einträge in der Tagesansicht sehen, damit ich meinen Tagesablauf besser nachvollziehen kann.
+
+**Akzeptanzkriterien:**
+- Essen-Einträge zeigen die Uhrzeit neben dem Eintragsnamen an (z. B. "08:30 — Haferflocken")
+- Innerhalb einer Kategorie werden Einträge nach Uhrzeit sortiert (aufsteigend)
+
+## US-0106: Grundumsatz vom Dashboard aus anpassen
+
+Als Nutzer möchte ich den Grundumsatz direkt vom Dashboard aus anpassen können, damit ich beim Betrachten eines beliebigen Tages (auch vergangener Tage) den Grundumsatz schnell setzen oder korrigieren kann, ohne in die Einstellungen wechseln zu müssen.
+
+**Akzeptanzkriterien:**
+- Im Dashboard ist der angezeigte Grundumsatz tippbar (oder hat einen Bearbeiten-Button)
+- Tipp öffnet einen Dialog zur Grundumsatz-Eingabe
+- Der Dialog zeigt den aktuell gültigen BMR für den selektierten Tag als Vorbelegung
+- Änderungen erzeugen/aktualisieren eine BMR-Periode ab dem selektierten Datum (gleiche Logik wie US-0501/US-0502)
+- Tagesbilanz wird sofort aktualisiert
+- Validierung wie bei US-0501 (Ganzzahl, Wert > 0, realistischer Bereich)

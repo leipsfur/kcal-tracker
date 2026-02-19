@@ -174,7 +174,6 @@ fun KcalTrackApp(openQuickAdd: Boolean = false) {
                 when (page.floorMod(tabCount)) {
                     dashboardIndex -> DashboardScreen(
                         viewModel = dashboardViewModel,
-                        onNavigateToSettings = { animateToRealPage(settingsIndex) },
                         modifier = Modifier.fillMaxSize()
                     )
                     foodIndex -> FoodScreen(
@@ -195,7 +194,6 @@ fun KcalTrackApp(openQuickAdd: Boolean = false) {
                     )
                     else -> DashboardScreen(
                         viewModel = dashboardViewModel,
-                        onNavigateToSettings = { animateToRealPage(settingsIndex) },
                         modifier = Modifier.fillMaxSize()
                     )
                 }

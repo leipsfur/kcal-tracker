@@ -98,6 +98,8 @@
     <string name="food_entry_name">Name</string>
     <string name="food_entry_kcal">kcal</string>
     <string name="food_entry_amount">Menge</string>
+    <string name="food_entry_time">Uhrzeit</string>
+    <string name="food_time_picker_title">Uhrzeit wählen</string>
     <string name="food_search_template">Vorlage suchen</string>
     <string name="food_portion_count">Anzahl Portionen</string>
     <string name="food_calculated_kcal">Berechnet: %1$d kcal</string>
@@ -122,7 +124,10 @@
     <string name="dashboard_intake">Aufnahme</string>
     <string name="dashboard_remaining">Übrig</string>
     <string name="dashboard_today">Heute</string>
-    <string name="dashboard_no_bmr">Kein Grundumsatz festgelegt. Bitte in den Einstellungen eintragen.</string>
+    <string name="dashboard_no_bmr">Kein Grundumsatz festgelegt. Tippen, um einzutragen.</string>
+    <string name="dashboard_edit_bmr_title">Grundumsatz anpassen</string>
+    <string name="dashboard_edit_bmr_label">Grundumsatz (kcal)</string>
+    <string name="dashboard_edit_bmr_error">Bitte eine ganze Zahl zwischen 500 und 5000 eingeben</string>
     <string name="dashboard_food_title">Essen</string>
     <string name="dashboard_activity_title">Aktivitäten</string>
     <string name="dashboard_no_food_entries">Keine Essen-Einträge für diesen Tag</string>

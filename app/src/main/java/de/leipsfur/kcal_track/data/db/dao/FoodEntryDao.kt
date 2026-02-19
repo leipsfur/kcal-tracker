@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 @Dao
 interface FoodEntryDao {
-    @Query("SELECT * FROM food_entry WHERE date = :date ORDER BY id ASC")
+    @Query("SELECT * FROM food_entry WHERE date = :date ORDER BY time ASC, id ASC")
     fun getByDate(date: LocalDate): Flow<List<FoodEntry>>
 
     @Query("SELECT * FROM food_entry WHERE id = :id")

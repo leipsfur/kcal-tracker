@@ -136,6 +136,12 @@ class DashboardViewModel(
         }
     }
 
+    fun updateBmr(bmr: Int) {
+        viewModelScope.launch {
+            settingsRepository.updateBmr(bmr, dateFlow.value)
+        }
+    }
+
     class Factory(
         private val foodRepository: FoodRepository,
         private val activityRepository: ActivityRepository,

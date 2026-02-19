@@ -119,16 +119,7 @@ fun KcalTrackNavHost(
                 )
             )
             DashboardScreen(
-                viewModel = dashboardViewModel,
-                onNavigateToSettings = {
-                    navController.navigate(NavigationRoute.Settings.route) {
-                        launchSingleTop = true
-                        restoreState = true
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
-                    }
-                }
+                viewModel = dashboardViewModel
             )
         }
         composable(NavigationRoute.Food.route) {
