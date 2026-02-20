@@ -120,6 +120,7 @@ fun KcalTrackApp(openQuickAdd: Boolean = false) {
         factory = SettingsViewModel.Factory(
             application.settingsRepository,
             application.backupManager,
+            application.nutritionLabelScanner,
             onDataChanged
         )
     )

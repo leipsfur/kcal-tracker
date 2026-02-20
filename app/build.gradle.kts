@@ -65,6 +65,8 @@ dependencies {
 
     // ML Kit GenAI (Gemini Nano on-device)
     implementation(libs.mlkit.genai.prompt)
+    // ML Kit Text Recognition (OCR, bundled for offline use)
+    implementation(libs.mlkit.text.recognition)
 
     // Glance (Widget)
     implementation(libs.androidx.glance)
@@ -76,6 +78,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.json)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
