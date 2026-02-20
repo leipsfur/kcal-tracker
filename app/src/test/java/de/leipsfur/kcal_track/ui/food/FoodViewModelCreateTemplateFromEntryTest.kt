@@ -64,7 +64,8 @@ class FoodViewModelCreateTemplateFromEntryTest {
             fat = 0.2,
             amount = 200.0,
             portionUnit = PortionUnit.GRAM,
-            categoryId = 1
+            categoryId = 1,
+            time = "12:00"
         )
 
         viewModel.showCreateTemplateFromEntry(entry)
@@ -100,7 +101,8 @@ class FoodViewModelCreateTemplateFromEntryTest {
             fat = 0.2,
             amount = 200.0,
             portionUnit = PortionUnit.GRAM,
-            categoryId = 1
+            categoryId = 1,
+            time = "12:00"
         )
 
         viewModel.showCreateTemplateFromEntry(entry)
@@ -123,7 +125,8 @@ class FoodViewModelCreateTemplateFromEntryTest {
             kcal = 80,
             amount = 1.0,
             portionUnit = null,
-            categoryId = 1
+            categoryId = 1,
+            time = "12:00"
         )
 
         viewModel.showCreateTemplateFromEntry(entry)

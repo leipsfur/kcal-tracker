@@ -74,7 +74,8 @@ class FoodRepositoryTest {
             name = "Banane",
             kcal = 100,
             amount = 1.0,
-            categoryId = 1
+            categoryId = 1,
+            time = "12:00"
         )
         val entries = listOf(entry)
 

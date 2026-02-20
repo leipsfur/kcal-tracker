@@ -49,7 +49,8 @@ class DashboardEdgeCaseTest {
                 name = "Pizza",
                 kcal = 800,
                 amount = 1.0,
-                categoryId = 1
+                categoryId = 1,
+                time = "12:00"
             )
         )
 
@@ -93,7 +94,8 @@ class DashboardEdgeCaseTest {
                             name = "Haferflocken",
                             kcal = 350,
                             amount = 1.0,
-                            categoryId = 1
+                            categoryId = 1,
+                            time = "08:00"
                         )
                     )
                 )
@@ -106,7 +108,8 @@ class DashboardEdgeCaseTest {
                             name = "Nudeln",
                             kcal = 600,
                             amount = 1.0,
-                            categoryId = 1
+                            categoryId = 1,
+                            time = "18:00"
                         )
                     )
                 )

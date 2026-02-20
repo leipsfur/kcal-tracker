@@ -18,7 +18,8 @@ class DashboardPerformanceGuardTest {
                 name = "Food $it",
                 kcal = 5,
                 amount = 1.0,
-                categoryId = 1
+                categoryId = 1,
+                time = "12:00"
             )
         }
         val activityEntries = (1..1000).map {

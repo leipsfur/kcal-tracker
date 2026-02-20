@@ -72,7 +72,7 @@ class DashboardViewModelTest {
     fun `state updates when entries exist`() = runTest {
         val today = LocalDate.now()
         val foodEntries = listOf(
-            FoodEntry(id = 1, date = today, name = "Apple", kcal = 100, amount = 1.0, categoryId = 1)
+            FoodEntry(id = 1, date = today, name = "Apple", kcal = 100, amount = 1.0, categoryId = 1, time = "12:00")
         )
         val activityEntries = listOf(
             ActivityEntry(id = 1, date = today, name = "Run", kcal = 300, categoryId = 1)
