@@ -5,6 +5,7 @@ import de.leipsfur.kcal_track.data.BackupManager
 import de.leipsfur.kcal_track.data.db.KcalTrackDatabase
 import de.leipsfur.kcal_track.data.repository.ActivityRepository
 import de.leipsfur.kcal_track.data.repository.FoodRepository
+import de.leipsfur.kcal_track.data.repository.RecipeRepository
 import de.leipsfur.kcal_track.data.repository.SettingsRepository
 import de.leipsfur.kcal_track.data.repository.WeightRepository
 
@@ -33,6 +34,15 @@ class KcalTrackApplication : Application() {
 
     val settingsRepository: SettingsRepository by lazy {
         SettingsRepository(database.bmrPeriodDao())
+    }
+
+    val recipeRepository: RecipeRepository by lazy {
+        RecipeRepository(
+            database.recipeDao(),
+            database.recipeIngredientDao(),
+            database.ingredientDao(),
+            database.foodEntryDao()
+        )
     }
 
     val backupManager: BackupManager by lazy { BackupManager(this) }
