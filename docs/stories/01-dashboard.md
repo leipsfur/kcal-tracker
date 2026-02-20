@@ -65,3 +65,13 @@ Als Nutzer möchte ich den Grundumsatz direkt vom Dashboard aus anpassen können
 - Änderungen erzeugen/aktualisieren eine BMR-Periode ab dem selektierten Datum (gleiche Logik wie US-0501/US-0502)
 - Tagesbilanz wird sofort aktualisiert
 - Validierung wie bei US-0501 (Ganzzahl, Wert > 0, realistischer Bereich)
+
+## US-0107: Einstellungen über Zahnrad-Icon erreichbar
+
+Als Nutzer möchte ich die Einstellungen über ein Zahnrad-Icon im Dashboard erreichen, damit ich auch ohne eigenen Tab in der Bottom Navigation schnell auf die Einstellungen zugreifen kann.
+
+**Akzeptanzkriterien:**
+- Im Dashboard wird ein Zahnrad-Icon in der TopAppBar angezeigt
+- Tipp auf das Icon navigiert zum Einstellungen-Screen
+- Der Einstellungen-Screen ist kein eigener Tab mehr in der Bottom Navigation
+- Alle Funktionen des Einstellungen-Screens bleiben unverändert erhalten

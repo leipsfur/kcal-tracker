@@ -50,9 +50,11 @@ import androidx.compose.ui.unit.dp
 import de.leipsfur.kcal_track.R
 import de.leipsfur.kcal_track.data.db.entity.ActivityEntry
 import de.leipsfur.kcal_track.data.db.entity.FoodEntry
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import de.leipsfur.kcal_track.ui.shared.KcalTrackCard
 import de.leipsfur.kcal_track.ui.shared.KcalTrackHeader
-import de.leipsfur.kcal_track.ui.shared.KcalTrackTopBar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -62,6 +64,7 @@ import java.util.Locale
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel,
+    onNavigateToSettings: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -71,7 +74,26 @@ fun DashboardScreen(
 
     Scaffold(
         topBar = {
-            KcalTrackTopBar(title = stringResource(R.string.nav_dashboard))
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.nav_dashboard),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+                actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(
+                            imageVector = Icons.Outlined.Settings,
+                            contentDescription = stringResource(R.string.nav_settings)
+                        )
+                    }
+                }
+            )
         },
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->

@@ -158,15 +158,8 @@ fun KcalTrackNavHost(
             )
             WeightScreen(viewModel = weightViewModel)
         }
-        composable(NavigationRoute.Settings.route) {
-            val settingsViewModel: SettingsViewModel = viewModel(
-                factory = SettingsViewModel.Factory(
-                    application.settingsRepository,
-                    application.backupManager,
-                    onDataChanged
-                )
-            )
-            SettingsScreen(viewModel = settingsViewModel)
+        composable(NavigationRoute.Recipe.route) {
+            // Recipe screen placeholder for NavHost (not actively used - pager is used instead)
         }
     }
 }

@@ -60,3 +60,13 @@ Als Nutzer möchte ich durch horizontales Wischen zwischen den Haupt-Tabs wechse
 - Wird der Swipe nicht weit genug abgeschlossen oder zurückgezogen, landet der Nutzer wieder auf der Ausgangsseite
 - Bottom Navigation und Wischgesten nutzen dieselbe Navigationslogik (State-Restore bleibt erhalten)
 - Screen-interne Navigation (Dialoge, Sheets, Food-/Activity-Untertabs) bleibt funktional und konsistent
+
+## US-0706: Rezepte-Tab in Bottom Navigation
+
+Als Nutzer möchte ich einen Rezepte-Tab in der Bottom Navigation haben, damit ich die Rezept-Funktion direkt erreichen kann.
+
+**Akzeptanzkriterien:**
+- Der Einstellungen-Tab wird durch den Rezepte-Tab ersetzt
+- Neue Tab-Reihenfolge: Dashboard, Essen, Aktivität, Gewicht, Rezepte
+- Der Rezepte-Tab hat ein passendes Icon und das Label "Rezepte"
+- Wisch-Navigation (US-0705) wird auf die neue Reihenfolge angepasst
